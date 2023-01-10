@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-md-8 ml-auto mr-auto">
+    <form #mailingForm="ngForm" (ngSubmit)="subscribe(mailingForm)">
+      <div class="row" id="mlb2-2617169">
+        <div class="col-md-8">
+          <div class="form-group">
+            <input
+              (ngModel)="(email)"
+              name="email"
+              type="email"
+              placeholder="Eメールアドレスを入力"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <!-- <input type="hidden" name="ml-submit" value="1" /> -->
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-primary btn-block">
+            <i class="nc-icon nc-spaceship"></i> &nbsp; 登録する
+          </button>
+          <!-- <div class="separator-10"></div> -->
+        </div>
+        <!-- <input type="hidden" name="anticsrf" value="true" /> -->
+      </div>
+    </form>
+  </div>
+</div>
+<!-- <div class="space-top"></div>
+<h6 class="description text-center">
+  (※登録完了画面は英語ですが日本語配信なのでご安心ください)
+</h6> -->

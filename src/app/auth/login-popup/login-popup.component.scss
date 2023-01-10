@@ -1,0 +1,59 @@
+.modal-header {
+    padding-bottom: 0;
+}
+
+.modal-body {
+    padding: 0px 50px;
+}
+
+.modal-footer .btn-link {
+    padding: 0;
+}
+
+.social{
+    margin-bottom: 10px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.division {
+    float: none;
+    margin: 0 auto;
+    overflow: hidden;
+    margin: 20px 0;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    // color: $font-color;
+    .line {
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: 10px;
+        width: 40%;
+        &.l{
+            left: 0;
+        }
+        &.r{
+            right: 0;
+        }
+    }
+}
+
+.register-form{
+    .form-control{
+        border: 1px solid #CCC5B9 !important;
+    }
+}
+
+
+.login-popup{
+    // background-color: $white-color;
+    max-width: 360px;
+
+    input{
+        margin-bottom: 8px;
+    }
+    .btn{
+        margin-top: 20px;
+    }
+}

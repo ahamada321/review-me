@@ -1,0 +1,40 @@
+.neon_shadow {
+  text-shadow: 0px 0px 4px #00ff1a;
+}
+
+.card-subtitle {
+  margin-top: 10px;
+  margin-bottom: -10px;
+}
+
+.relative {
+  position: relative;
+}
+
+.tacoimg {
+  position: absolute;
+  width: 120px;
+  height: auto;
+  z-index: 3;
+  right: 120px;
+  bottom: -96px;
+}
+
+@media screen and (max-width: 768px) {
+  .flex_directon_reverse {
+    flex-direction: column-reverse;
+  }
+  .tacoimg {
+    width: 88px;
+    right: -10px;
+  }
+  .optionalParent {
+    width: 30%;
+    margin: 16px auto;
+  }
+}
+@media screen and (max-width: 414px) {
+  h2.title {
+    font-size: 24px;
+  }
+}
