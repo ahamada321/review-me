@@ -9,9 +9,37 @@ import { StudentEditComponent } from './student-edit/student-edit.component';
 import { StudentMypageComponent } from './student-mypage/student-mypage.component';
 
 const routes: Routes = [
-  //   { path: 'maintenance', component: MaintenanceComponent },
-  // { path: '', redirectTo: 'home', pathMatch: 'full' },
-  // { path: '**', component: Page404Component }
+  {
+    path: 'student',
+    component: StudentComponent,
+    children: [
+      {
+        path: '',
+        component: StudentMypageComponent,
+        // canActivate: [AuthGuard],
+      },
+      {
+        path: 'edit',
+        component: StudentEditComponent,
+        // canActivate: [AuthGuard],
+      },
+      // {
+      //   path: "revenues/:monthId",
+      //   component: TeacherReportListMonthlyComponent,
+      //   canActivate: [AuthGuard],
+      // },
+      {
+        path: 'password',
+        component: StudentChangePasswordComponent,
+        // canActivate: [AuthGuard],
+      },
+      // {
+      //   path: "report/create",
+      //   component: TeacherReportCreateComponent,
+      //   canActivate: [AuthGuard],
+      // },
+    ],
+  },
 ];
 
 @NgModule({

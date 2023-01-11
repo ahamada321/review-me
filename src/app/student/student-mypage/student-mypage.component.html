@@ -1,0 +1,107 @@
+<div class="text-center">
+  <h1>
+    <small>こんにちは<br />田中太郎さん</small>
+  </h1>
+</div>
+<div class="space-top"></div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="nav-tabs-navigation">
+      <div class="nav-tabs-wrapper">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="active"
+          class="nav nav-tabs justify-content-center"
+          type="pills"
+        >
+          <li class="nav-item" [ngbNavItem]="1">
+            <a class="nav-link" ngbNavLink> 履歴</a>
+            <ng-template ngbNavContent>
+              <div class="tab-pane" id="home" role="tabpanel">
+                <!-- <ng-container *ngIf="bookings && bookings.length > 0">
+                  <div class="row">
+                    <div class="col-md ml-auto mr-auto">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-shopping">
+                          <thead>
+                            <tr>
+                              <th>日時</th>
+                              <th>変更</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>{{ convertJST(booking.startAt) }}</td>
+                              <td>
+                                <button
+                                  (click)="onEdit(booking)"
+                                  class="btn btn-link btn-primary"
+                                >
+                                  変更
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="bookings && bookings.length === 0">
+                  <div class="row">
+                    <div class="col-md-4 ml-auto mr-auto">
+                      <h3>まだデータがありません</h3>
+                    </div>
+                  </div>
+                </ng-container> -->
+              </div>
+            </ng-template>
+          </li>
+          <li class="nav-item" [ngbNavItem]="2">
+            <a class="nav-link" ngbNavLink> 予定 </a>
+            <ng-template ngbNavContent>
+              <ng-container *ngIf="bookings && bookings.length > 0">
+                <div class="row">
+                  <div class="col-md ml-auto mr-auto">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-shopping">
+                        <thead>
+                          <tr>
+                            <th>日時</th>
+                            <th>変更</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let booking of bookings">
+                            <td>{{ convertJST(booking.startAt) }}</td>
+                            <td>
+                              <button
+                                (click)="onEdit(booking)"
+                                class="btn btn-link btn-primary"
+                              >
+                                変更
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- <ng-container *ngIf="bookings && bookings.length === 0">
+                <div class="row">
+                  <div class="col-md-4 ml-auto mr-auto">
+                    <h3>まだデータがありません</h3>
+                  </div>
+                </div>
+              </ng-container> -->
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+    </div>
+  </div>
+</div>

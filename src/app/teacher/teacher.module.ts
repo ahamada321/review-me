@@ -9,9 +9,37 @@ import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
 import { TeacherMypageComponent } from './teacher-mypage/teacher-mypage.component';
 
 const routes: Routes = [
-  //   { path: 'maintenance', component: MaintenanceComponent },
-  // { path: '', redirectTo: 'home', pathMatch: 'full' },
-  // { path: '**', component: Page404Component }
+  {
+    path: 'teacher',
+    component: TeacherComponent,
+    children: [
+      {
+        path: '',
+        component: TeacherMypageComponent,
+        // canActivate: [AuthGuard],
+      },
+      {
+        path: 'edit',
+        component: TeacherEditComponent,
+        // canActivate: [AuthGuard],
+      },
+      // {
+      //   path: "revenues/:monthId",
+      //   component: TeacherReportListMonthlyComponent,
+      //   canActivate: [AuthGuard],
+      // },
+      {
+        path: 'password',
+        component: TeacherChangePasswordComponent,
+        // canActivate: [AuthGuard],
+      },
+      // {
+      //   path: "report/create",
+      //   component: TeacherReportCreateComponent,
+      //   canActivate: [AuthGuard],
+      // },
+    ],
+  },
 ];
 
 @NgModule({

@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./teacher-mypage.component.scss'],
 })
 export class TeacherMypageComponent implements OnInit {
+  active = 1;
+
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {}
