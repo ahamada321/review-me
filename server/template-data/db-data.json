@@ -1,0 +1,134 @@
+{
+  "rentals": [
+    {
+      "shared": true,
+      "studentId": 1,
+      "createdAt": "2018/11/10",
+      "lastLesson": "2018/11/30",
+
+      "birthday": "1987/11/30",
+      "gender": "男性",
+      "postalcode": "160-0023",
+      "selectedPrefecture": [
+        {
+          "id": 13,
+          "itemName": "東京都"
+        }
+      ],
+      "city": "新宿区",
+      "address": "新宿1-1-1",
+
+      "rentalname": "田中太郎",
+      "tel": "080-1234-1234",
+      "email": "abc@gmail.com",
+      "instrument": "ピアノ",
+
+      "memo": "この生徒に関するメモをここに記述できます。",
+      "rating": 4
+    },
+    {
+      "shared": true,
+      "studentId": 2,
+      "createdAt": "2018/11/10",
+      "lastLesson": "2018/11/30",
+
+      "birthday": "1987/11/30",
+      "gender": "女性",
+      "postalcode": "160-0023",
+      "selectedPrefecture": [
+        {
+          "id": 13,
+          "itemName": "東京都"
+        }
+      ],
+      "city": "新宿区",
+      "address": "新宿1-1-1",
+
+      "rentalname": "鈴木花子",
+      "tel": "080-1234-1234",
+      "email": "abc@gmail.com",
+      "instrument": "エレキギター",
+
+      "memo": "この生徒に関するメモをここに記述できます。",
+      "rating": 4
+    },
+    {
+      "shared": true,
+      "studentId": 3,
+      "createdAt": "2018/11/10",
+      "lastLesson": "2018/11/30",
+
+      "birthday": "1987/11/30",
+      "gender": "男性",
+      "postalcode": "160-0023",
+      "selectedPrefecture": [
+        {
+          "id": 13,
+          "itemName": "東京都"
+        }
+      ],
+      "city": "新宿区",
+      "address": "新宿1-1-1",
+
+      "rentalname": "岡村太郎",
+      "tel": "080-1234-1234",
+      "email": "abc@gmail.com",
+      "instrument": "チェロ",
+
+      "memo": "この生徒に関するメモをここに記述できます。",
+      "rating": 4
+    },
+    {
+      "shared": true,
+      "studentId": 4,
+      "createdAt": "2018/11/10",
+      "lastLesson": "2018/11/30",
+
+      "birthday": "1987/11/30",
+      "gender": "女性",
+      "postalcode": "160-0023",
+      "selectedPrefecture": [
+        {
+          "id": 13,
+          "itemName": "東京都"
+        }
+      ],
+      "city": "新宿区",
+      "address": "新宿1-1-1",
+
+      "rentalname": "佐藤花子",
+      "tel": "080-1234-1234",
+      "email": "abc@gmail.com",
+      "instrument": "ピアノ",
+
+      "memo": "この生徒に関するメモをここに記述できます。",
+      "rating": 4
+    }
+  ],
+  "users": [
+    {
+      "patientId": 1,
+      "username": "Admin",
+      "email": "a.hamada21@gmail.com",
+      "password": "test1",
+      "isVerified": "true",
+      "userRole": "Owner"
+    },
+    {
+      "patientId": 2,
+      "username": "木村あやか",
+      "email": "test1@test.com",
+      "password": "tsubaki",
+      "isVerified": "true",
+      "gender": "女性"
+    },
+    {
+      "patientId": 3,
+      "username": "音楽太郎",
+      "email": "a.hamada.free@gmail.com",
+      "password": "tsubaki",
+      "isVerified": "true",
+      "gender": "男性"
+    }
+  ]
+}
