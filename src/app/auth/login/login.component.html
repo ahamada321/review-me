@@ -1,0 +1,99 @@
+<div class="wrapper">
+  <div
+    class="page-header section-dark"
+    style="background-image: url('./assets/img/login.jpg')"
+  >
+    <div class="filter"></div>
+    <div class="container">
+      <div class="space-100"></div>
+      <div class="row">
+        <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+          <div class="card card-register">
+            <h3 class="card-title">Login</h3>
+            <br />
+            <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+              <p *ngFor="let error of errors">{{ error.detail }}</p>
+            </div>
+            <form
+              class="register-form"
+              [formGroup]="loginForm"
+              (ngSubmit)="login()"
+            >
+              <!-- <label>Email</label> -->
+              <div class="form-group">
+                <div
+                  class="input-group"
+                  [ngClass]="{ 'input-group-focus': focus === true }"
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">tt</span>
+                  </div>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="teacherId"
+                    formControlName="teacherId"
+                    placeholder="123"
+                    (focus)="focus = true"
+                    (blur)="focus = false"
+                  />
+                </div>
+              </div>
+              <!-- <label>Password</label> -->
+              <div class="form-group">
+                <div
+                  class="input-group"
+                  [ngClass]="{ 'input-group-focus': focus1 === true }"
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="nc-icon nc-key-25"></i>
+                    </span>
+                  </div>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    formControlName="password"
+                    placeholder="パスワード"
+                    (focus)="focus1 = true"
+                    (blur)="focus1 = false"
+                  />
+                </div>
+              </div>
+              <button
+                *ngIf="!loginForm.valid"
+                disabled
+                type="submit"
+                class="btn btn-block btn-round btn-lg"
+              >
+                ログイン
+              </button>
+              <button
+                *ngIf="loginForm.valid"
+                type="submit"
+                class="btn btn-primary btn-block btn-round btn-lg"
+              >
+                ログイン
+              </button>
+            </form>
+            <div class="forgot">
+              <!-- <button
+                  [swal]="[
+                    '',
+                    '事務局までお問い合わせください<br><br>0120-763-882'
+                  ]"
+                  class="btn btn-link btn-primary"
+                >
+                  パスワードを紛失された方
+                </button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer register-footer text-center">
+      <h6>TSUBAKI MUSIC SCHOOL</h6>
+    </div>
+  </div>
+</div>

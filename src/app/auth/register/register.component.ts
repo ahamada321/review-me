@@ -3,7 +3,6 @@ import { MyOriginAuthService } from '../service/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginPopupComponent } from '../login-popup/login-popup.component';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -102,8 +101,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   modalLoginOpen() {
-    this.router.navigate(['/']);
-    this.modalService.open(LoginPopupComponent, { backdrop: 'static' });
+    this.router.navigate(['/login']);
   }
 
   termsOpen(content: any) {

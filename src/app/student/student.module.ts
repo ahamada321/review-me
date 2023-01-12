@@ -4,9 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentComponent } from './student.component';
+import { StudentBookingComponent } from './student-booking/student-booking.component';
 import { StudentChangePasswordComponent } from './student-change-password/student-change-password.component';
 import { StudentEditComponent } from './student-edit/student-edit.component';
 import { StudentMypageComponent } from './student-mypage/student-mypage.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import {
+  OwlDateTimeModule,
+  OwlNativeDateTimeModule,
+} from '@danielmoncada/angular-datetime-picker';
 
 const routes: Routes = [
   {
@@ -23,11 +29,12 @@ const routes: Routes = [
         component: StudentEditComponent,
         // canActivate: [AuthGuard],
       },
-      // {
-      //   path: "revenues/:monthId",
-      //   component: TeacherReportListMonthlyComponent,
-      //   canActivate: [AuthGuard],
-      // },
+      {
+        path: 'booking',
+        component: StudentBookingComponent,
+        // canActivate: [AuthGuard],
+      },
+
       {
         path: 'password',
         component: StudentChangePasswordComponent,
@@ -45,6 +52,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     StudentComponent,
+    StudentBookingComponent,
     StudentChangePasswordComponent,
     StudentEditComponent,
     StudentMypageComponent,
@@ -55,6 +63,9 @@ const routes: Routes = [
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    MatStepperModule,
   ],
   exports: [],
   providers: [],

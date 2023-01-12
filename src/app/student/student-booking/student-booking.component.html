@@ -1,0 +1,52 @@
+<mat-horizontal-stepper [linear]="false" #stepper>
+  <mat-step label="日時選択" [completed]="isSelectedDateTime">
+    <div class="row">
+      <div class="col-md-5 ml-auto mr-auto">
+        <div class="input-group date">
+          <input
+            [(ngModel)]="selectedDate"
+            (ngModelChange)="onDateSelect($event)"
+            name="selectedDate"
+            [readonly]="true"
+            [owlDateTime]="dt1"
+            [owlDateTimeTrigger]="dt1"
+            [min]="minDate"
+            class="form-control"
+            placeholder="希望日を選択"
+            required
+          />
+          <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+
+          <div class="input-group-append">
+            <span class="glyphicon glyphicon-calendar input-group-text">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="timeTables && timeTables.length > 0 && !isDateBlock_flg"
+      class="info"
+    >
+      <div *ngFor="let timeTable of timeTables">
+        <p>
+          <button
+            *ngIf="isValidBooking(timeTable)"
+            class="btn btn-primary"
+            (click)="selectDateTime(timeTable, stepper)"
+          >
+            {{ timeTable.format("HH:mm") }} スタート
+          </button>
+          <button
+            *ngIf="!isValidBooking(timeTable)"
+            class="btn"
+            [disabled]="true"
+          >
+            予約不可
+          </button>
+        </p>
+      </div>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
