@@ -43,9 +43,9 @@ $default-color: #66615b !default;
 $default-bg: #66615b !default;
 $default-states-color: #403d39 !default;
 
-// $primary-color:              #51cbce !default;
+$primary-color: #51cbce !default;
 // $primary-color: #ff5a5f !default; // Aeru.me color
-$primary-color: #3eae86 !default; // biritaco color
+// $primary-color: #3eae86 !default; // biritaco color
 $primary-states-color: darken($primary-color, 10%) !default;
 
 $success-color: #6bd098 !default;

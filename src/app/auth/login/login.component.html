@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div
     class="page-header section-dark"
-    style="background-image: url('./assets/img/login.jpg')"
+    style="background-image: url('./assets/img/login.webp')"
   >
     <div class="filter"></div>
     <div class="container">
@@ -26,14 +26,16 @@
                   [ngClass]="{ 'input-group-focus': focus === true }"
                 >
                   <div class="input-group-prepend">
-                    <span class="input-group-text">tt</span>
+                    <span class="input-group-text"
+                      ><i class="nc-icon nc-email-85"></i
+                    ></span>
                   </div>
                   <input
                     type="email"
                     class="form-control"
                     id="teacherId"
                     formControlName="teacherId"
-                    placeholder="123"
+                    placeholder="example@gmail.com"
                     (focus)="focus = true"
                     (blur)="focus = false"
                   />
@@ -77,16 +79,15 @@
                 ログイン
               </button>
             </form>
-            <div class="forgot">
-              <!-- <button
-                  [swal]="[
-                    '',
-                    '事務局までお問い合わせください<br><br>0120-763-882'
-                  ]"
-                  class="btn btn-link btn-primary"
-                >
-                  パスワードを紛失された方
-                </button> -->
+            <div class="forgot space-top">
+              <a
+                [routerLink]="['/login/reset']"
+                class="btn btn-link btn-primary"
+                >パスワードをお忘れですか？</a
+              >
+              <a [routerLink]="['/register']" class="btn btn-link btn-primary"
+                >新規会員登録はこちら</a
+              >
             </div>
           </div>
         </div>

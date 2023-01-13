@@ -5,8 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { LoginComponent } from './login/login.component';
-// import { LoginResetpasswordComponent } from './login-popup/login-resetpassword/login-resetpassword.component';
-// import { LoginResetpasswordSentComponent } from './login-popup/login-resetpassword/login-resetpassword-sent/login-resetpassword-sent.component';
+import { LoginResetpasswordComponent } from './login/login-resetpassword/login-resetpassword.component';
+import { LoginResetpasswordSentComponent } from './login/login-resetpassword/login-resetpassword-sent/login-resetpassword-sent.component';
 // import { LoginNewPasswordComponent } from './login-popup/login-newpassword/login-newpassword.component';
 import { RegisterComponent } from './register/register.component';
 import { RegisterVerificationComponent } from './register/register-verification/register-verification.component';
@@ -21,8 +21,8 @@ import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  // { path: 'login/reset', component: LoginResetpasswordComponent },
-  // { path: 'login/reset/sent', component: LoginResetpasswordSentComponent },
+  { path: 'login/reset', component: LoginResetpasswordComponent },
+  { path: 'login/reset/sent', component: LoginResetpasswordSentComponent },
   // {
   //   path: 'login/reset/newpassword/:verifyToken',
   //   component: LoginNewPasswordComponent,
@@ -35,8 +35,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     LoginComponent,
-    // LoginResetpasswordComponent,
-    // LoginResetpasswordSentComponent,
+    LoginResetpasswordComponent,
+    LoginResetpasswordSentComponent,
     // LoginNewPasswordComponent,
     RegisterComponent,
     RegisterSentComponent,

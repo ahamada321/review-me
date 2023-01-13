@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthGuard } from '../auth/shared/auth.guard';
+
 import { TeacherComponent } from '../teacher/teacher.component';
 import { TeacherChangePasswordComponent } from './teacher-change-password/teacher-change-password.component';
 import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
