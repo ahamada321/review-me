@@ -9,23 +9,23 @@
         <div class="col-lg-6 col-md-6 col-sm-7 col-12 ml-auto">
           <div class="info info-horizontal">
             <div class="icon">
-              <i class="fa fa-id-card"></i>
+              <i class="nc-icon nc-calendar-60"></i>
             </div>
             <div class="description">
-              <h3>顧客をオンライン管理できます</h3>
+              <h3>レッスンスケジュールをオンラインで管理</h3>
               <p>
-                登録会員はログインすることでリピート予約を簡単に行えるようになります.
+                毎月のレッスンスケジュールがいつでもどこでもオンラインで確認できます。
               </p>
             </div>
           </div>
           <div class="info info-horizontal">
             <div class="icon">
-              <i class="fa fa-handshake-o"></i>
+              <i class="nc-icon nc-tap-01"></i>
             </div>
             <div class="description">
-              <h3>Easy Booking</h3>
+              <h3>オンラインで簡単予約</h3>
               <p>
-                「人」基準に気に入ったお店のサービスをInstagram（インスタグラム）で直接連絡を取り合えます
+                レッスンの予約・変更をオンラインで素早く簡単にできてストレスフリー！
               </p>
             </div>
           </div>
@@ -73,7 +73,6 @@
                 class="form-control"
                 placeholder="Email"
                 type="email"
-                [disabled]="formData.FBuserID ? 'true' : 'false'"
                 [(ngModel)]="formData.email"
                 name="email"
                 (focus)="focus1 = true"
@@ -109,7 +108,7 @@
                     (click)="termsOpen(Notice)"
                     target="_blank"
                     class="link-info"
-                    >利用規約に同意するには右スイッチを押す</a
+                    >利用規約に同意の上チェックをする</a
                   >
                   <bSwitch
                     [(ngModel)]="isTermsAgreed"
@@ -127,7 +126,7 @@
                 type="submit"
                 class="btn btn-block btn-round btn-primary"
               >
-                メンバー登録する
+                会員登録する
               </button>
             </form>
             <div class="text-center">
@@ -142,9 +141,9 @@
         </div>
       </div>
     </div>
-    <div class="demo-footer text-center">
+    <div class="footer register-footer text-center">
       <h6>
-        &copy; {{ data | date : "yyyy" }}, made with
+        &copy; 2019 - {{ date | date : "yyyy" }}, made with
         <i class="fa fa-heart heart"></i> by Aeru.me
       </h6>
     </div>

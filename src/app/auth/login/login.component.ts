@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  date: Date = new Date();
   errors: any[] = [];
   footer: Date = new Date();
   user: any;

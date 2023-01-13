@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  data: Date = new Date();
+  date: Date = new Date();
   isTermsAgreed: boolean = false;
 
   focus: any;
