@@ -1,0 +1,73 @@
+img.icon_step {
+  max-width: 36px;
+}
+.background-img {
+  position: relative;
+}
+.background-img .filter:after {
+  top: 0;
+}
+.info-nomaxwidth {
+  max-width: 100%;
+}
+.info-nomaxwidth:first-child {
+  padding: 16px 0 0 0;
+}
+.title-white {
+  color: #fff;
+}
+.pricing-title {
+  font-size: 24px;
+}
+.card-pricing-h1 {
+  font-size: 26px;
+  padding: 8px 0;
+}
+.pricing-strong {
+  padding: 8px 0;
+  font-size: 48px;
+}
+.landing_phone_end {
+  max-width: 400px;
+}
+.landing-last-buttons {
+  justify-content: center;
+}
+@media screen and (min-width: 768px) {
+  .landing_top {
+    padding: 90px 0 0;
+  }
+  .landing_hero {
+    gap: 24px;
+  }
+  .landing_top_iphone_img {
+    width: 180px;
+  }
+  ._ngcontent-ewt-c380 {
+    gap: 16px;
+  }
+  .card_body_ne {
+    padding: 36px 24px;
+  }
+}
+@media screen and (max-width: 768px) {
+  h2,
+  .h2 {
+    font-size: 2.4em;
+  }
+  .landing_top {
+    padding: 60px 0 0;
+    display: block;
+  }
+  .landing_hero {
+    justify-content: center;
+    gap: 16px;
+  }
+  .landing_top_iphone_img {
+    display: none;
+  }
+  .landing_hero_button {
+    width: 92%;
+    padding: 11px 0;
+  }
+}

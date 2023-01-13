@@ -8,9 +8,10 @@ import { LpBiritacoComponent } from './lp-biritaco/lp-biritaco.component';
 import { LpHamadalabComponent } from './lp-hamadalab/lp-hamadalab.component';
 import { SubscriptionFormModule } from '../shared/subscription-form/subscription-form.module';
 import { MembershipComponent } from './membership/membership.component';
+import { LandingComponent } from './landing/landing.component';
 
 const routes: Routes = [
-  { path: '', component: LpBiritacoComponent },
+  { path: '', component: LandingComponent },
   { path: 'hamadalab', component: LpHamadalabComponent },
   { path: 'membership', component: MembershipComponent },
   //   { path: 'aboutus', component: AboutusComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
+    LandingComponent,
     LpBiritacoComponent,
     LpHamadalabComponent,
     MembershipComponent,

@@ -6,7 +6,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MyOriginAuthService } from '../service/auth.service';
+import { MyOriginAuthService } from '../shared/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';

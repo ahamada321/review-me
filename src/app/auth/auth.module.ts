@@ -13,9 +13,9 @@ import { RegisterVerificationComponent } from './register/register-verification/
 import { RegisterSentComponent } from './register/register-sent/register-sent.component';
 // import { environment } from "src/environments/environment";
 
-import { MyOriginAuthService } from './service/auth.service';
-import { AuthGuard } from './service/auth.guard';
-import { TokenInterceptor } from './service/token.interceptor';
+import { MyOriginAuthService } from './shared/auth.service';
+import { AuthGuard } from './shared/auth.guard';
+import { TokenInterceptor } from './shared/token.interceptor';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 // import { TermsTextModule } from "../static/terms/helpers/terms-text/terms-text.module";
 

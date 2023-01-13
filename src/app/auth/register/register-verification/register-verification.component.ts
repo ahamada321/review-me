@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MyOriginAuthService } from '../../service/auth.service';
+import { MyOriginAuthService } from '../../shared/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpErrorResponse } from '@angular/common/http';
