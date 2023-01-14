@@ -59,7 +59,7 @@
             </ng-template>
           </li>
           <li class="nav-item" [ngbNavItem]="2">
-            <a class="nav-link" ngbNavLink> 予定 </a>
+            <a class="nav-link" ngbNavLink> 予約一覧 </a>
             <ng-template ngbNavContent>
               <ng-container *ngIf="bookings && bookings.length > 0">
                 <div class="row">
@@ -68,7 +68,7 @@
                       <table class="table table-hover table-shopping">
                         <thead>
                           <tr>
-                            <th>日時</th>
+                            <th>予約日時</th>
                             <th>変更</th>
                           </tr>
                         </thead>
@@ -80,7 +80,7 @@
                                 (click)="onEdit(booking)"
                                 class="btn btn-link btn-primary"
                               >
-                                変更
+                                予定変更
                               </button>
                             </td>
                           </tr>

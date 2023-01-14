@@ -10,8 +10,8 @@ const bookingSchema = new Schema({
   // place: { type: String, required: "Place is required" },
   memo: String,
 
-  user: { type: Schema.Types.ObjectId, ref: "User" }, // Patient
-  rental: { type: Schema.Types.ObjectId, ref: "Rental" }, // Room
+  student: { type: Schema.Types.ObjectId, ref: "User" }, // Patient
+  teacher: { type: Schema.Types.ObjectId, ref: "Rental" }, // Room
   status: { type: String, default: "pending" },
   // review: { type: Schema.Types.ObjectId, ref: "Review" },
 });

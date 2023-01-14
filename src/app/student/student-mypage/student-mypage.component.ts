@@ -8,8 +8,29 @@ import * as moment from 'moment';
   styleUrls: ['./student-mypage.component.scss'],
 })
 export class StudentMypageComponent implements OnInit {
-  active = 1;
-  bookings = [{ startAt: 123 }, { startAt: 2334 }];
+  active = 2;
+  bookings = [
+    {
+      createdAt: moment(),
+      startAt: moment(),
+      oldStartAt: moment(),
+      courseTime: 60,
+      memo: 'メモを記入',
+      student: 'object_id',
+      teacher: 'object_id',
+      status: 'pending',
+    },
+    {
+      createdAt: moment(),
+      startAt: moment(),
+      oldStartAt: moment(),
+      courseTime: 60,
+      memo: 'メモを記入',
+      student: 'object_id',
+      teacher: 'object_id',
+      status: 'pending',
+    },
+  ];
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {}
@@ -17,6 +38,6 @@ export class StudentMypageComponent implements OnInit {
   onEdit(booking: any) {}
 
   convertJST(time: any) {
-    return moment(time).subtract(9, 'hour').format('YYYY/MM/DD');
+    return moment(time).subtract(9, 'hour').format('MM月 DD日 HH:mm〜');
   }
 }

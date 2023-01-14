@@ -15,6 +15,7 @@ import {
   OwlDateTimeModule,
   OwlNativeDateTimeModule,
 } from '@danielmoncada/angular-datetime-picker';
+import { BookingSelecterModule } from '../shared/booking-selecter/booking-selecter.module';
 
 const routes: Routes = [
   {
@@ -68,6 +69,7 @@ const routes: Routes = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     MatStepperModule,
+    BookingSelecterModule,
   ],
   exports: [],
   providers: [],
