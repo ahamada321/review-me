@@ -33,9 +33,10 @@
                   <input
                     type="email"
                     class="form-control"
-                    id="teacherId"
-                    formControlName="teacherId"
+                    id="email"
+                    formControlName="email"
                     placeholder="example@gmail.com"
+                    pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
                     (focus)="focus = true"
                     (blur)="focus = false"
                   />

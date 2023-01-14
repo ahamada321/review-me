@@ -39,58 +39,58 @@
       >
         <li class="nav-item clickable">
           <a class="nav-link" [routerLink]="['/']"
-            ><i class="nc-icon nc-lock-circle-open"></i> ホーム</a
+            ><i class="nc-icon nc-bank"></i> ホーム</a
           >
         </li>
         <li class="nav-item clickable">
           <a class="nav-link" (click)="modalNotification()"
-            ><i class="nc-icon nc-lock-circle-open"></i> 通知</a
+            ><i class="nc-icon nc-bell-55"></i> 通知</a
           >
         </li>
         <li class="nav-item clickable">
           <a class="nav-link" [routerLink]="['/profile']"
-            ><i class="nc-icon nc-lock-circle-open"></i> アカウント管理</a
+            ><i class="nc-icon nc-single-02"></i> アカウント管理</a
           >
         </li>
         <li class="nav-item clickable">
           <a class="nav-link" (click)="logout()"
-            ><i class="nc-icon nc-lock-circle-open"></i> Logout</a
+            ><i class="nc-icon nc-user-run"></i> Logout</a
           >
         </li>
         <li class="nav-item">
           <a class="btn btn-round btn-primary" [routerLink]="['/support']">
-            <i class="nc-icon nc-lock-circle-open"></i> お問い合わせ
+            <i class="nc-icon nc-chat-33"></i> お問い合わせ
           </a>
         </li>
       </ul>
 
       <ul
-        *ngIf="auth.isAuthenticated() && auth.getUserRole() !== 'Student'"
+        *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Student'"
         class="navbar-nav ml-auto"
       >
         <li class="nav-item clickable">
           <a class="nav-link" [routerLink]="['/']"
-            ><i class="nc-icon nc-lock-circle-open"></i> ホーム</a
+            ><i class="nc-icon nc-bank"></i> ホーム</a
           >
         </li>
         <li class="nav-item clickable">
           <a class="nav-link" (click)="modalNotification()"
-            ><i class="nc-icon nc-lock-circle-open"></i> 通知</a
+            ><i class="nc-icon nc-bell-55"></i> 通知</a
           >
         </li>
         <li class="nav-item clickable">
           <a class="nav-link" [routerLink]="['/profile']"
-            ><i class="nc-icon nc-lock-circle-open"></i> アカウント管理</a
+            ><i class="nc-icon nc-single-02"></i> アカウント管理</a
           >
         </li>
         <li class="nav-item clickable">
           <a class="nav-link" (click)="logout()"
-            ><i class="nc-icon nc-lock-circle-open"></i> Logout</a
+            ><i class="nc-icon nc-user-run"></i> Logout</a
           >
         </li>
         <li class="nav-item">
           <a class="btn btn-round btn-primary" [routerLink]="['/support']">
-            <i class="nc-icon nc-lock-circle-open"></i> お問い合わせ
+            <i class="nc-icon nc-chat-33"></i> お問い合わせ
           </a>
         </li>
       </ul>

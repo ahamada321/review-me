@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   initForm() {
     this.loginForm = this.formBuilder.group({
-      teacherId: [
+      email: [
         '',
         [
           Validators.required,
@@ -72,8 +72,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   login() {
     this.auth.login(this.loginForm.value).subscribe(
       (token) => {
-        if (this.auth.getUserRole() === 'Owner') {
-          this.router.navigate(['/admin']);
+        if (this.auth.getUserRole() === 'Student') {
+          this.router.navigate(['/student']);
         } else {
           this.router.navigate(['/teacher']);
         }

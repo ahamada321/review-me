@@ -47,12 +47,6 @@ export class MyOriginAuthService {
       .pipe(map((token) => this.saveToken(token)));
   }
 
-  public FBlogin(authResponse: any): Observable<any> {
-    return this.http
-      .post('/api/v1/users/fb-auth', authResponse)
-      .pipe(map((token) => this.saveToken(token)));
-  }
-
   public updateUser(userId: string, userData: any): Observable<any> {
     return this.http
       .patch('/api/v1/users/' + userId, userData)
