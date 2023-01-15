@@ -1,6 +1,6 @@
 <div class="text-center">
   <h1>
-    <small>こんにちは<br />田中太郎さん</small>
+    <small>こんにちは<br />{{ auth.getUsername() }}さん</small>
   </h1>
   <h3>
     <small>レッスン担当：{{ student.teacher }}</small>
@@ -81,12 +81,12 @@
                           <tr *ngFor="let booking of student.bookings">
                             <td>{{ convertJST(booking.startAt) }}</td>
                             <td>
-                              <button
-                                (click)="onEdit(booking)"
+                              <a
+                                [routerLink]="['rebooking', booking._id]"
                                 class="btn btn-link btn-primary"
                               >
                                 予定変更
-                              </button>
+                              </a>
                             </td>
                           </tr>
                         </tbody>
@@ -95,13 +95,13 @@
                   </div>
                 </div>
               </ng-container>
-              <!-- <ng-container *ngIf="bookings && bookings.length === 0">
+              <ng-container *ngIf="bookings && bookings.length === 0">
                 <div class="row">
                   <div class="col-md-4 ml-auto mr-auto">
-                    <h3>まだデータがありません</h3>
+                    <h3>来月分を予約する</h3>
                   </div>
                 </div>
-              </ng-container> -->
+              </ng-container>
             </ng-template>
           </li>
         </ul>

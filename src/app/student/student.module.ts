@@ -7,8 +7,9 @@ import { AuthGuard } from '../auth/shared/auth.guard';
 
 import { StudentComponent } from './student.component';
 import { StudentBookingComponent } from './student-booking/student-booking.component';
-import { StudentChangePasswordComponent } from './student-change-password/student-change-password.component';
+import { StudentRebookingComponent } from './student-rebooking/student-rebooking.component';
 import { StudentEditComponent } from './student-edit/student-edit.component';
+import { StudentChangePasswordComponent } from './student-change-password/student-change-password.component';
 import { StudentMypageComponent } from './student-mypage/student-mypage.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import {
@@ -16,6 +17,7 @@ import {
   OwlNativeDateTimeModule,
 } from '@danielmoncada/angular-datetime-picker';
 import { BookingSelecterModule } from '../shared/booking-selecter/booking-selecter.module';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 
 const routes: Routes = [
   {
@@ -25,23 +27,27 @@ const routes: Routes = [
       {
         path: '',
         component: StudentMypageComponent,
-        // canActivate: [AuthGuard],
-      },
-      {
-        path: 'edit',
-        component: StudentEditComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'booking',
         component: StudentBookingComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
-
+      {
+        path: 'rebooking',
+        component: StudentRebookingComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'edit',
+        component: StudentEditComponent,
+        canActivate: [AuthGuard],
+      },
       {
         path: 'password',
         component: StudentChangePasswordComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       // {
       //   path: "report/create",
@@ -56,8 +62,9 @@ const routes: Routes = [
   declarations: [
     StudentComponent,
     StudentBookingComponent,
-    StudentChangePasswordComponent,
+    StudentRebookingComponent,
     StudentEditComponent,
+    StudentChangePasswordComponent,
     StudentMypageComponent,
   ],
   imports: [
@@ -69,6 +76,7 @@ const routes: Routes = [
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     MatStepperModule,
+    JwBootstrapSwitchNg2Module,
     BookingSelecterModule,
   ],
   exports: [],

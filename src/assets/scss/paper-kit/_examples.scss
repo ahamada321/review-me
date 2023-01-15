@@ -15,6 +15,16 @@
   }
 }
 
+.link-primary {
+  // Added by Hamada.
+  color: $primary-color !important;
+  &:focus,
+  &:active,
+  &:hover {
+    color: $primary-states-color !important;
+  }
+}
+
 .landing-alert {
   margin-bottom: 0;
 }

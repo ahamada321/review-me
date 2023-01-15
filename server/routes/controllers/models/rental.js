@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const rentalSchema = new Schema({
   shared: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
-  studentId: Number,
 
   rentalname: {
     type: String,
@@ -20,7 +19,5 @@ const rentalSchema = new Schema({
   bookings: [{ type: Schema.Types.ObjectId, ref: "Booking" }], // reports for this user
   // lastLesson: { type: Date, default: Date.now },
 });
-
-rentalSchema.index({ rentalname: "text" });
 
 module.exports = mongoose.model("Rental", rentalSchema);

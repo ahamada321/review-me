@@ -22,8 +22,8 @@ mongoose
   })
   .then(() => {
     if (process.env.NODE_ENV !== "production") {
-      const fakeDb = new FakeDb();
-      // fakeDb.seeDb()
+      // const fakeDb = new FakeDb();
+      // fakeDb.seeDb();
     }
   })
   .catch((err) => console.error(err));

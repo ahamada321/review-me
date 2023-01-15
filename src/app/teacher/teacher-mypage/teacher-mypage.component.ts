@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 
 @Component({
   selector: 'app-teacher-mypage',
@@ -9,7 +10,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class TeacherMypageComponent implements OnInit {
   active = 1;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public auth: MyOriginAuthService
+  ) {}
 
   ngOnInit() {}
 }

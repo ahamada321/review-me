@@ -11,16 +11,15 @@ import { MembershipComponent } from './membership/membership.component';
 import { LandingComponent } from './landing/landing.component';
 
 const routes: Routes = [
-  { path: '', component: LandingComponent },
+  { path: 'landing', component: LandingComponent },
   { path: 'hamadalab', component: LpHamadalabComponent },
   { path: 'membership', component: MembershipComponent },
   //   { path: 'aboutus', component: AboutusComponent },
   //   { path: 'terms', component: TermsComponent },
   //   { path: 'privacy', component: PrivacyComponent },
-
   //   { path: 'maintenance', component: MaintenanceComponent },
 
-  // { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   // { path: '**', component: Page404Component }
 ];
 

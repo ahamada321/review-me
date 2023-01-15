@@ -102,21 +102,53 @@
                 required
               />
 
+              <div class="space-top"></div>
+              <div class="form-check-radio">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="userRole"
+                    id="userRole: Student"
+                    [(ngModel)]="formData.userRole"
+                    value="Student"
+                  />
+                  生徒として登録する
+                  <span class="form-check-sign"></span>
+                </label>
+              </div>
+              <div class="form-check-radio">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="userRole"
+                    id="userRole: Teacher"
+                    [(ngModel)]="formData.userRole"
+                    value="Teacher"
+                  />
+                  先生として登録する
+                  <span class="form-check-sign"></span>
+                </label>
+              </div>
+
               <ul class="notifications">
                 <li class="notification-item">
                   <a
                     (click)="termsOpen(Notice)"
                     target="_blank"
-                    class="link-info"
-                    >利用規約に同意の上チェックをする</a
-                  >
+                    class="link-primary"
+                    >利用規約</a
+                  >に同意しますか？
                   <bSwitch
                     [(ngModel)]="isTermsAgreed"
                     name="isTermsAgreed"
                     [switch-on-color]="'primary'"
                     [switch-off-color]="'primary'"
-                    [switch-on-text]="'同意'"
+                    switch-on-text="<i class='nc-icon nc-check-2'></i>"
+                    switch-off-text="<i class='nc-icon nc-simple-remove'></i>"
                   >
+                    Toggle is off >
                   </bSwitch>
                 </li>
               </ul>

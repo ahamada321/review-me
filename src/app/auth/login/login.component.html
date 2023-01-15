@@ -6,10 +6,15 @@
     <div class="filter"></div>
     <div class="container">
       <div class="space-100"></div>
+      <div class="text-center">
+        <a class="btn btn-link btn-neutral" [routerLink]="['/landing']">
+          \ レッスンカレンダーとは？ /
+        </a>
+      </div>
       <div class="row">
         <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
           <div class="card card-register">
-            <h3 class="card-title">Login</h3>
+            <h3 class="card-title">ログインはこちら</h3>
             <br />
             <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
               <p *ngFor="let error of errors">{{ error.detail }}</p>
@@ -81,13 +86,13 @@
               </button>
             </form>
             <div class="forgot space-top">
+              <a [routerLink]="['/register']" class="btn btn-link btn-primary"
+                >新規会員登録はこちら</a
+              >
               <a
                 [routerLink]="['/login/reset']"
                 class="btn btn-link btn-primary"
                 >パスワードをお忘れですか？</a
-              >
-              <a [routerLink]="['/register']" class="btn btn-link btn-primary"
-                >新規会員登録はこちら</a
               >
             </div>
           </div>

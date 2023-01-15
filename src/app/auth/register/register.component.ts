@@ -3,6 +3,7 @@ import { MyOriginAuthService } from '../shared/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
+import { User } from 'src/app/shared/model/user.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,8 +20,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   focus2: any;
   focus3: any;
 
-  // formData: User = new User();
-  formData: any; //tmp
+  formData: User = new User();
 
   errors: any[] = [];
 
@@ -58,7 +58,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   register() {
-    this.formData.userRole = 'Owner';
+    debugger;
     this.auth.register(this.formData).subscribe(
       (newUser) => {
         if (newUser.isVerified) {

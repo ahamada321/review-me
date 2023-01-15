@@ -9,6 +9,7 @@ import { TeacherComponent } from '../teacher/teacher.component';
 import { TeacherChangePasswordComponent } from './teacher-change-password/teacher-change-password.component';
 import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
 import { TeacherMypageComponent } from './teacher-mypage/teacher-mypage.component';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 
 const routes: Routes = [
   {
@@ -57,6 +58,7 @@ const routes: Routes = [
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    JwBootstrapSwitchNg2Module,
   ],
   exports: [],
   providers: [],

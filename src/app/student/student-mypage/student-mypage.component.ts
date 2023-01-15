@@ -36,7 +36,7 @@ export class StudentMypageComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private auth: MyOriginAuthService
+    public auth: MyOriginAuthService
   ) {}
 
   ngOnInit() {

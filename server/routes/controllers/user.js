@@ -156,114 +156,38 @@ exports.auth = function (req, res) {
 };
 
 exports.register = function (req, res) {
-  const {
-    username,
-    email,
-    password,
-    birthday,
-    gender,
-    phoneNumber,
-    address,
-    covid,
-    purpose,
-    purposeDetail,
-    toothExtraction,
-    whenDidYouExtractTooth,
-    BleedingDidntStop,
-    HadPainForDays,
-    HadFever,
-    HadAnemia,
-    OtherTroubleAfterToothExtraction,
-    sideEffect,
-    GetStomach,
-    GetRash,
-    GetItchy,
-    allergic,
-    HaveRashEasily,
-    HaveUrticaria,
-    HaveAsthma,
-    medicalIllness,
-    Heart,
-    Liver,
-    Kidney,
-    Hemophilia,
-    Diabetes,
-    HighBloodPressure,
-    LowBloodPressure,
-    Asthma,
-    Tuberculosis,
-    OtherMedicalIllness,
-    toothCleaningTimes,
-    request,
-    medicalInsurance,
-    condition,
-  } = req.body;
+  const { username, email, password, birthday, gender } = req.body;
 
   // Filling user infomation with ../models/user.js format
   const user = new User({
     username,
     email,
-    password: "clinic",
+    password,
     birthday,
     gender,
-    phoneNumber,
-    address,
-    covid,
-    purpose,
-    purposeDetail,
-    toothExtraction,
-    whenDidYouExtractTooth,
-    BleedingDidntStop,
-    HadPainForDays,
-    HadFever,
-    HadAnemia,
-    OtherTroubleAfterToothExtraction,
-    sideEffect,
-    GetStomach,
-    GetRash,
-    GetItchy,
-    allergic,
-    HaveRashEasily,
-    HaveUrticaria,
-    HaveAsthma,
-    medicalIllness,
-    Heart,
-    Liver,
-    Kidney,
-    Hemophilia,
-    Diabetes,
-    HighBloodPressure,
-    LowBloodPressure,
-    Asthma,
-    Tuberculosis,
-    OtherMedicalIllness,
-    toothCleaningTimes,
-    request,
-    medicalInsurance,
-    condition,
   });
 
-  // if (!email || !password) {
-  //   return res.status(422).send({
-  //     errors: [
-  //       {
-  //         title: "Data missing!",
-  //         detail: "フォームに正しく入力してください",
-  //       },
-  //     ],
-  //   });
-  // }
+  if (!email || !password) {
+    return res.status(422).send({
+      errors: [
+        {
+          title: "Data missing!",
+          detail: "フォームに正しく入力してください",
+        },
+      ],
+    });
+  }
 
-  // if (password !== passwordConfirmation) {
-  //   return res.status(422).send({
-  //     errors: [
-  //       {
-  //         title: "Invalid password!",
-  //         detail: "パスワードとパスワード確認が異なります",
-  //       },
-  //     ],
-  //   });
-  // }
+  if (password !== passwordConfirmation) {
+    return res.status(422).send({
+      errors: [
+        {
+          title: "Invalid password!",
+          detail: "パスワードとパスワード確認が異なります",
+        },
+      ],
+    });
+  }
 
   User.findOne({ email }, function (err, existingUser) {
     if (err) {
@@ -414,7 +338,7 @@ exports.setNwePassword = function (req, res) {
     }
   }
 
-  if (email != user.email) {
+  if (email !== user.email) {
     return res.status(422).send({
       errors: [
         {

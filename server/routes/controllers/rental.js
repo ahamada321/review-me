@@ -242,7 +242,6 @@ exports.createRental = function (req, res) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
-      // rental.studentId = count + 1;
 
       Rental.create(rental, function (err, newRental) {
         if (err) {

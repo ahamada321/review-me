@@ -3,11 +3,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  isVerified: { type: Boolean, default: true },
-  // shared: { type: Boolean, default: true },
-  userRole: { type: String, default: "User" }, // User, Owner, OEM_Owner
   createdAt: { type: Date, default: Date.now },
   lastLogin: Date,
+  isVerified: { type: Boolean, default: true },
+  userRole: { type: String, default: "Student" }, // Student, Teacher, Owner
 
   username: {
     type: String,
@@ -15,7 +14,11 @@ const userSchema = new Schema({
     min: [4, "Too short, min is 4 characters."],
     required: "Username is required",
   },
-  email: String,
+  email: {
+    type: String,
+    max: [128, "Too long, max is 64 characters."],
+    required: "Email is required",
+  },
   password: {
     type: String,
     max: [32, "Too long, max is 32 characters."],
@@ -24,42 +27,9 @@ const userSchema = new Schema({
   },
   birthday: Date,
   gender: String,
-  phoneNumber: String,
-  address: String,
-  covid: String,
-  purpose: String,
-  purposeDetail: String,
-  toothExtraction: String,
-  whenDidYouExtractTooth: String,
-  BleedingDidntStop: Boolean,
-  HadPainForDays: Boolean,
-  HadFever: Boolean,
-  HadAnemia: Boolean,
-  OtherTroubleAfterToothExtraction: String,
-  sideEffect: String,
-  GetStomach: Boolean,
-  GetRash: Boolean,
-  GetItchy: Boolean,
-  allergic: String,
-  HaveRashEasily: Boolean,
-  HaveUrticaria: Boolean,
-  HaveAsthma: Boolean,
-  OtherAllergic: String,
-  medicalIllness: String,
-  Heart: Boolean,
-  Liver: Boolean,
-  Kidney: Boolean,
-  Hemophilia: Boolean,
-  Diabetes: Boolean,
-  HighBloodPressure: Boolean,
-  LowBloodPressure: Boolean,
-  Asthma: Boolean,
-  Tuberculosis: Boolean,
-  OtherMedicalIllness: String,
-  toothCleaningTimes: Number,
-  request: String,
-  medicalInsurance: String,
-  condition: String,
+
+  teachers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  students: [{ type: Schema.Types.ObjectId, ref: "User" }],
 
   rentals: [{ type: Schema.Types.ObjectId, ref: "Rental" }],
   bookings: [{ type: Schema.Types.ObjectId, ref: "Booking" }],

@@ -2,7 +2,24 @@
   <div class="container">
     <div class="navbar-translate">
       <div class="navbar-header">
-        <a class="navbar-brand" [routerLink]="['/']">Lesson Calendar</a>
+        <a
+          *ngIf="!auth.isAuthenticated()"
+          class="navbar-brand"
+          [routerLink]="['/']"
+          >Lesson Calendar</a
+        >
+        <a
+          *ngIf="auth.getUserRole() === 'Teacher'"
+          class="navbar-brand"
+          [routerLink]="['/teacher']"
+          >Lesson Calendar</a
+        >
+        <a
+          *ngIf="auth.getUserRole() === 'Student'"
+          class="navbar-brand"
+          [routerLink]="['/student']"
+          >Lesson Calendar</a
+        >
       </div>
       <button
         class="navbar-toggler navbar-burger"
@@ -34,11 +51,11 @@
       </ul>
 
       <ul
-        *ngIf="auth.isAuthenticated() && auth.getUserRole() !== 'Teacher'"
+        *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Teacher'"
         class="navbar-nav ml-auto"
       >
         <li class="nav-item clickable">
-          <a class="nav-link" [routerLink]="['/']"
+          <a class="nav-link" [routerLink]="['/teacher']"
             ><i class="nc-icon nc-bank"></i> ホーム</a
           >
         </li>
@@ -48,7 +65,7 @@
           >
         </li>
         <li class="nav-item clickable">
-          <a class="nav-link" [routerLink]="['/profile']"
+          <a class="nav-link" [routerLink]="['/teacher/edit']"
             ><i class="nc-icon nc-single-02"></i> アカウント管理</a
           >
         </li>
@@ -69,7 +86,7 @@
         class="navbar-nav ml-auto"
       >
         <li class="nav-item clickable">
-          <a class="nav-link" [routerLink]="['/']"
+          <a class="nav-link" [routerLink]="['/student']"
             ><i class="nc-icon nc-bank"></i> ホーム</a
           >
         </li>
@@ -79,7 +96,7 @@
           >
         </li>
         <li class="nav-item clickable">
-          <a class="nav-link" [routerLink]="['/profile']"
+          <a class="nav-link" [routerLink]="['/student/edit']"
             ><i class="nc-icon nc-single-02"></i> アカウント管理</a
           >
         </li>
