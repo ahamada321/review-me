@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
+import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
+import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-student-booking',
@@ -18,8 +21,14 @@ export class StudentBookingComponent implements OnInit {
   isDateBlock_flg: boolean = false;
   isClicked: boolean = false;
   newBooking: any = [];
+  errors: any;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private bookingService: BookingService,
+    public auth: MyOriginAuthService
+  ) {}
 
   ngOnInit() {}
 
@@ -79,18 +88,31 @@ export class StudentBookingComponent implements OnInit {
   createBooking() {
     this.isClicked = true;
     this.newBooking.courseTime = 30;
-    // this.newBooking.clinic = this.clinic;
-    // this.bookingService.createBooking(this.newBooking).subscribe(
-    //   (newBooking) => {
-    //     this.newBooking = new Booking();
-    //     this.isClicked = false;
-    //     this.showSwalSuccess();
-    //   },
-    //   (errorResponse: HttpErrorResponse) => {
-    //     console.error(errorResponse);
-    //     this.errors = errorResponse.error.errors;
-    //     this.isClicked = false;
-    //   }
-    // );
+    this.newBooking.student = this.auth.getUserId();
+    this.bookingService.createBooking(this.newBooking).subscribe(
+      (newBooking) => {
+        this.newBooking = new Booking();
+        this.isClicked = false;
+        this.showSwalSuccess();
+      },
+      (errorResponse: HttpErrorResponse) => {
+        console.error(errorResponse);
+        this.errors = errorResponse.error.errors;
+        this.isClicked = false;
+      }
+    );
+  }
+
+  private showSwalSuccess() {
+    Swal.fire({
+      title: '予約完了しました！',
+      icon: 'success',
+      customClass: {
+        confirmButton: 'btn btn-primary btn-lg',
+      },
+      buttonsStyling: false,
+    }).then(() => {
+      this.router.navigate(['/student']);
+    });
   }
 }

@@ -7,6 +7,7 @@ import {
 } from '@danielmoncada/angular-datetime-picker';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BookingService } from './shared/booking.service';
 
 @NgModule({
   declarations: [BookingSelecterComponent],
@@ -19,6 +20,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
   ],
   exports: [BookingSelecterComponent],
-  providers: [],
+  providers: [BookingService],
 })
 export class BookingSelecterModule {}

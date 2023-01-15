@@ -30,22 +30,15 @@ function isValidBooking(requestBooking, rentalBookings) {
 exports.createBooking = function (req, res) {
   // Passed booking information from booking.component.ts
   const user = res.locals.user;
-  const {
-    startAt,
-    courseType,
-    courseTime,
-    clinic, // Room
-    status,
-  } = req.body;
+  const { startAt, perMonth, courseTime } = req.body;
 
   const booking = new Booking({
     // startAt: moment(Object.assign(startAt, lessonDate)).subtract(1, 'months'),
     startAt,
-    courseType,
-    courseTime,
-    user, // Patient
-    rental: clinic, // Room
-    status,
+    // perMonth,
+    // courseTime,
+    // student,
+    // teacher,
   });
 
   Rental.findById(clinic._id)
