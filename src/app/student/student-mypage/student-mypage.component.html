@@ -95,6 +95,18 @@
                   </div>
                 </div>
               </ng-container>
+
+              <div class="row">
+                <div class="col-md mr-auto ml-auto">
+                  <a
+                    class="btn btn-magnify btn-primary btn-round btn-lg"
+                    [routerLink]="['booking']"
+                  >
+                    <i class="nc-icon nc-calendar-60"></i> &nbsp;
+                    レッスンを予約する
+                  </a>
+                </div>
+              </div>
               <ng-container *ngIf="bookings && bookings.length === 0">
                 <div class="row">
                   <div class="col-md-4 ml-auto mr-auto">

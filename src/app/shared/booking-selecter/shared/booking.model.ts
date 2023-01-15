@@ -1,21 +1,18 @@
 // import { Rental } from "src/app/rental/service/rental.model";
 
+import { User } from '../../model/user.model';
+
 export class Booking {
   static readonly DATE_FORMAT = 'Y-MM-DD';
-  _id!: string;
-  startAt!: string;
-  endAt!: string;
-  oldStartAt!: string;
-  oldEndAt!: string;
-  comment!: string;
+  _id?: string;
+  createdAt?: Date;
+  startAt!: any;
+  oldStartAt?: any;
+  perMonth?: number;
+  courseTime?: number;
+  memo?: string;
 
-  days!: number;
-  courseTime!: number;
-  totalPrice!: number;
-  createdAt!: string;
-  user!: any;
-  paymentToken!: any;
-  status!: string;
-
-  rental: any;
+  teacher?: User;
+  student?: User;
+  status: string = 'Pending';
 }

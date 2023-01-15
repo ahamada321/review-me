@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatStepper } from '@angular/material/stepper';
+import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 
@@ -47,21 +47,19 @@ export class StudentBookingComponent implements OnInit {
     this.timeTables = mTimeTables;
   }
 
-  isValidBooking(startAt: Date) {
+  isValidBooking(startAt: any) {
     return true;
   }
 
-  selectDateTime(startAt: Date, stepper: MatStepper) {
+  selectDateTime(startAt: any) {
     this.isSelectedDateTime = true;
     this.isClicked = false;
     this.newBooking.startAt = startAt;
 
     Swal.fire({
-      html: `<h5>診療内容</h5>
-          ${this.newBooking.courseType}
-          <br><br>
+      html: `
           <h5>予約日時</h5>
-          ${moment(startAt).format('YYYY/MM/DD/HH:mm')}スタート
+          ${moment(startAt).format('MM月 DD日 HH:mm')} 〜
           <br><br>
           で予約しますか？`,
       icon: 'info',

@@ -47,6 +47,6 @@ export class StudentMypageComponent implements OnInit {
   onEdit(booking: any) {}
 
   convertJST(time: any) {
-    return moment(time).subtract(9, 'hour').format('MM月 DD日 HH:mm〜');
+    return moment(time).subtract(9, 'hour').format('MM月 DD日 HH:mm 〜');
   }
 }
