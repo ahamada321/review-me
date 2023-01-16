@@ -13,6 +13,9 @@ import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { TeacherNotificationComponent } from './teacher-notification/teacher-notification.component';
 import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
 import { TeacherManageStudentsComponent } from './teacher-manage-students/teacher-manage-students.component';
+import { TeacherSearchComponent } from './teacher-search/teacher-search.component';
+import { SearchbarModule } from '../shared/searchbar/searchbar.module';
+import { UserService } from '../shared/services/user.service';
 
 const routes: Routes = [
   {
@@ -44,6 +47,11 @@ const routes: Routes = [
         component: TeacherManageStudentsComponent,
         canActivate: [AuthGuard],
       },
+      {
+        path: 'search',
+        component: TeacherSearchComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];
@@ -56,6 +64,7 @@ const routes: Routes = [
     TeacherMypageComponent,
     TeacherNotificationComponent,
     TeacherManageStudentsComponent,
+    TeacherSearchComponent,
   ],
   imports: [
     CommonModule,
@@ -65,8 +74,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     JwBootstrapSwitchNg2Module,
     ImageUploadModule,
+    SearchbarModule,
   ],
   exports: [],
-  providers: [],
+  providers: [UserService],
 })
 export class TeacherModule {}

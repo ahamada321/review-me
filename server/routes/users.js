@@ -10,7 +10,7 @@ router.get("/reset/:id", UserCtrl.setInitialPassword);
 
 router.post("/register", UserCtrl.register);
 
-router.get("/search/:searchWords", UserCtrl.searchUsers);
+router.post("/search", UserCtrl.searchUsers);
 
 router.get("/:id", UserCtrl.authMiddleware, UserCtrl.getUserById);
 

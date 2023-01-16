@@ -1,0 +1,52 @@
+<div class="wrapper">
+  <div class="main">
+    <div class="space-top"></div>
+    <div class="section-white section-search">
+      <div class="container">
+        <app-searchbar (event)="filterByStudentName($event)"></app-searchbar>
+
+        <div class="row">
+          <div class="col-md-6 col-12 ml-auto mr-auto text-center">
+            <h6 class="text-muted">検索結果</h6>
+            <ul class="list-unstyled follows">
+              <ng-container *ngIf="students && students.length > 0">
+                <li *ngFor="let student of students">
+                  <div class="row search_card">
+                    <div class="col-md-2 col-3">
+                      <img
+                        src="./assets/img/faces/placeholder.jpg"
+                        alt="Circle Image"
+                        class="img-circle img-no-padding img-responsive"
+                      />
+                    </div>
+                    <div class="col-md-6 col-6 description">
+                      <h5>{{ student.username }}</h5>
+                    </div>
+                    <div class="col-md-2 col-2">
+                      <button
+                        class="btn btn-just-icon btn-round btn-outline-primary btn-tooltip"
+                        placement="top"
+                        ngbTooltip="追加"
+                      >
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <hr />
+                </li>
+              </ng-container>
+            </ul>
+
+            <div class="text-missing">
+              <h5 class="text-muted">
+                <small
+                  >見つからない場合は生徒名や生徒の登録状況を再度確認してください。</small
+                >
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

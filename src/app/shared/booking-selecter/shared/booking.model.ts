@@ -1,6 +1,6 @@
 // import { Rental } from "src/app/rental/service/rental.model";
 
-import { User } from '../../model/user.model';
+import { User } from '../../services/user.model';
 
 export class Booking {
   static readonly DATE_FORMAT = 'Y-MM-DD';

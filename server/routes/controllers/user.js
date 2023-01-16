@@ -43,7 +43,7 @@ exports.getUsers = function (req, res) {
 };
 
 exports.searchUsers = function (req, res) {
-  const { searchWords } = req.params;
+  const { searchWords } = req.body;
 
   User.aggregate(
     [
