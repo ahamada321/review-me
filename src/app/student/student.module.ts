@@ -18,6 +18,8 @@ import {
 } from '@danielmoncada/angular-datetime-picker';
 import { BookingSelecterModule } from '../shared/booking-selecter/booking-selecter.module';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import { StudentNotificationComponent } from './student-notification/student-notification.component';
+import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
 
 const routes: Routes = [
   {
@@ -49,11 +51,11 @@ const routes: Routes = [
         component: StudentChangePasswordComponent,
         canActivate: [AuthGuard],
       },
-      // {
-      //   path: "report/create",
-      //   component: TeacherReportCreateComponent,
-      //   canActivate: [AuthGuard],
-      // },
+      {
+        path: 'notification',
+        component: StudentNotificationComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];
@@ -66,6 +68,7 @@ const routes: Routes = [
     StudentEditComponent,
     StudentChangePasswordComponent,
     StudentMypageComponent,
+    StudentNotificationComponent,
   ],
   imports: [
     CommonModule,
@@ -77,6 +80,7 @@ const routes: Routes = [
     OwlNativeDateTimeModule,
     MatStepperModule,
     JwBootstrapSwitchNg2Module,
+    ImageUploadModule,
     BookingSelecterModule,
   ],
   exports: [],

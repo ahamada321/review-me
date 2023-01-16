@@ -10,6 +10,8 @@ import { TeacherChangePasswordComponent } from './teacher-change-password/teache
 import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
 import { TeacherMypageComponent } from './teacher-mypage/teacher-mypage.component';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import { TeacherNotificationComponent } from './teacher-notification/teacher-notification.component';
+import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
 
 const routes: Routes = [
   {
@@ -19,28 +21,23 @@ const routes: Routes = [
       {
         path: '',
         component: TeacherMypageComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'edit',
         component: TeacherEditComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
-      // {
-      //   path: "revenues/:monthId",
-      //   component: TeacherReportListMonthlyComponent,
-      //   canActivate: [AuthGuard],
-      // },
       {
         path: 'password',
         component: TeacherChangePasswordComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
-      // {
-      //   path: "report/create",
-      //   component: TeacherReportCreateComponent,
-      //   canActivate: [AuthGuard],
-      // },
+      {
+        path: 'notification',
+        component: TeacherNotificationComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];
@@ -51,6 +48,7 @@ const routes: Routes = [
     TeacherChangePasswordComponent,
     TeacherEditComponent,
     TeacherMypageComponent,
+    TeacherNotificationComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +57,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     JwBootstrapSwitchNg2Module,
+    ImageUploadModule,
   ],
   exports: [],
   providers: [],
