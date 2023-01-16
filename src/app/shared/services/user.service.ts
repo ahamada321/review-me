@@ -11,9 +11,9 @@ export class UserService {
     return this.http.post('/api/v1/users/search', searchWords);
   }
 
-  //   public deleteRental(rentalId: string): Observable<any> {
-  //     return this.http.delete('/api/v1/rentals/' + rentalId);
-  //   }
+  public sendRequest(student: any): Observable<any> {
+    return this.http.post('/api/v1/users', student); // not working yet!!
+  }
 
   //   public updateRental(rentalId: string, rentalData: Rental): Observable<any> {
   //     return this.http.patch('/api/v1/rentals/' + rentalId, rentalData);

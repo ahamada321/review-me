@@ -85,6 +85,7 @@ export class StudentBookingComponent implements OnInit {
       cancelButtonColor: '#9A9A9A',
       confirmButtonText: 'はい',
       cancelButtonText: 'いいえ',
+      reverseButtons: true,
       allowOutsideClick: false,
     }).then((result) => {
       if (!result.dismiss) {
