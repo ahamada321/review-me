@@ -5,8 +5,10 @@ const bookingSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   startAt: { type: Date, required: "Starting date is required" },
   oldStartAt: Date,
-  courseType: { type: String, required: "Course type is required" },
-  courseTime: { type: Number },
+  // courseType: { type: String, required: "Course type is required" },
+  // courseTime: { type: Number },
+  courseTime: { type: Number, required: "Course time is required" },
+  perMonth: { type: Number },
   // place: { type: String, required: "Place is required" },
   memo: String,
 

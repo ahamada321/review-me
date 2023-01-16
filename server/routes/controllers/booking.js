@@ -29,65 +29,43 @@ function isValidBooking(requestBooking, rentalBookings) {
 }
 exports.createBooking = function (req, res) {
   // Passed booking information from booking.component.ts
-  const user = res.locals.user;
-  const { startAt, perMonth, courseTime } = req.body;
+  const student = res.locals.user;
+  const { startAt, courseTime, teacher } = req.body;
 
   const booking = new Booking({
-    // startAt: moment(Object.assign(startAt, lessonDate)).subtract(1, 'months'),
     startAt,
-    // perMonth,
-    // courseTime,
-    // student,
-    // teacher,
+    courseTime,
+    teacher,
+    student,
   });
 
-  Rental.findById(clinic._id)
-    .populate("bookings")
-    .populate("user", "id")
-    .exec(function (err, foundRental) {
+  Booking.find({ teacher }).exec(function (err, foundBookings) {
+    if (err) {
+      return res.status(422).send({ errors: normalizeErrors(err.errors) });
+    }
+
+    if (!isValidBooking(booking, foundBookings)) {
+      return res.status(422).send({
+        errors: [
+          {
+            title: "予約できません",
+            detail: "他の日程で予約を取り直してください",
+          },
+        ],
+      });
+    }
+
+    booking.save(function (err) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
 
-      if (foundRental.user.id === user.id) {
-        return res.status(422).send({
-          errors: [
-            {
-              title: "Invalid user!",
-              detail: "Cannot make booking on your Rentals!",
-            },
-          ],
-        });
-      }
+      User.updateOne({ _id: teacher.id }, { $push: { bookings: booking } });
+      User.updateOne({ _id: student.id }, { $push: { bookings: booking } });
 
-      if (!isValidBooking(booking, foundRental.bookings)) {
-        return res.status(422).send({
-          errors: [
-            {
-              title: "Invalid booking!",
-              detail: "Chosed dates are already taken!",
-            },
-          ],
-        });
-      }
-
-      booking.rental = foundRental;
-      booking.save(function (err) {
-        if (err) {
-          return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
-        foundRental.bookings.push(booking); // This updates DB side.
-        foundRental.save();
-
-        User.updateOne(
-          { _id: foundRental.user.id },
-          { $push: { bookings: booking } }
-        );
-        User.updateOne({ _id: user.id }, { $push: { bookings: booking } });
-
-        return res.json({ status: "success" });
-      });
+      return res.json({ status: "success" });
     });
+  });
 };
 
 exports.getBookingById = function (req, res) {
@@ -97,8 +75,8 @@ exports.getBookingById = function (req, res) {
     if (err) {
       return res.status(422).send({
         errors: {
-          title: "No Booking found!",
-          detail: "Could not find Booking!",
+          title: "予約が見つかりません",
+          detail: "再度確認してください",
         },
       });
     }

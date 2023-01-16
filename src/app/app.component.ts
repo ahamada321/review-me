@@ -90,27 +90,27 @@ export class AppComponent implements OnInit {
       .subscribe((event) => {
         this.navbar.sidebarClose();
 
-        this.renderer.listen('window', 'scroll', (event) => {
-          const number = window.scrollY;
-          var _locationSections = this.location.path();
-          _locationSections = _locationSections.split('#')[0];
-          if (_locationSections !== '/sections') {
-            var _locationExamples = this.location.path();
-            _locationExamples = _locationExamples.split('/')[2];
-            if (number > 150 || window.pageYOffset > 150) {
-              // add logic
-              navbar.classList.remove('navbar-transparent');
-            } else if (
-              _locationExamples !== 'blogposts' &&
-              _locationExamples !== 'contactus' &&
-              _locationExamples !== 'register' &&
-              this.location.path() !== '/nucleoicons'
-            ) {
-              // remove logic
-              navbar.classList.add('navbar-transparent');
-            }
-          }
-        });
+        // this.renderer.listen('window', 'scroll', (event) => {
+        //   const number = window.scrollY;
+        //   var _locationSections = this.location.path();
+        //   _locationSections = _locationSections.split('#')[0];
+        //   if (_locationSections !== ('/teacher' || '/student')) {
+        //     var _locationExamples = this.location.path();
+        //     _locationExamples = _locationExamples.split('/')[2];
+        //     if (number > 150 || window.pageYOffset > 150) {
+        //       // add logic
+        //       navbar.classList.remove('navbar-transparent');
+        //     } else if (
+        //       _locationExamples !== 'blogposts' &&
+        //       _locationExamples !== 'contactus' &&
+        //       _locationExamples !== 'register' &&
+        //       this.location.path() !== '/nucleoicons'
+        //     ) {
+        //       // remove logic
+        //       navbar.classList.add('navbar-transparent');
+        //     }
+        //   }
+        // });
       });
 
     var ua = window.navigator.userAgent;

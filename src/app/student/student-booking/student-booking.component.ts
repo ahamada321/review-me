@@ -30,7 +30,15 @@ export class StudentBookingComponent implements OnInit {
     public auth: MyOriginAuthService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const userId = this.auth.getUserId();
+    this.auth.getUserById(userId).subscribe(
+      (foundUser) => {
+        this.newBooking.teacher = foundUser.teacher;
+      },
+      (err) => {}
+    );
+  }
 
   onDateSelect(date: Date) {
     const selectedDay = date.getDay();
@@ -88,7 +96,6 @@ export class StudentBookingComponent implements OnInit {
   createBooking() {
     this.isClicked = true;
     this.newBooking.courseTime = 30;
-    this.newBooking.student = this.auth.getUserId();
     this.bookingService.createBooking(this.newBooking).subscribe(
       (newBooking) => {
         this.newBooking = new Booking();
