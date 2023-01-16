@@ -1,0 +1,52 @@
+<div class="text-center">
+  <h1>
+    <small>生徒管理</small>
+  </h1>
+  <div class="space-top"></div>
+  <div class="row">
+    <div class="col-md mr-auto ml-auto">
+      <a
+        class="btn btn-magnify btn-primary btn-round"
+        [routerLink]="['booking']"
+      >
+        <i class="nc-icon nc-simple-add"></i> &nbsp; 生徒を追加する
+      </a>
+    </div>
+  </div>
+  <div class="space-top"></div>
+
+  <ng-container *ngIf="students && students.length > 0">
+    <div class="row">
+      <div class="col-md ml-auto mr-auto">
+        <div class="table-responsive">
+          <table class="table table-hover table-shopping">
+            <thead>
+              <tr>
+                <th>生徒名</th>
+                <th>レッスン時間</th>
+                <th>月回数</th>
+                <th>リストから削除</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of students">
+                <td>{{ student.name }}</td>
+                <td>60分</td>
+                <td>3回</td>
+
+                <td>
+                  <a
+                    [routerLink]="['rebooking', student._id]"
+                    class="btn btn-link btn-danger"
+                  >
+                    削除
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

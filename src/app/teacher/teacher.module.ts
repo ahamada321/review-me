@@ -12,6 +12,7 @@ import { TeacherMypageComponent } from './teacher-mypage/teacher-mypage.componen
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { TeacherNotificationComponent } from './teacher-notification/teacher-notification.component';
 import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
+import { TeacherManageStudentsComponent } from './teacher-manage-students/teacher-manage-students.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,11 @@ const routes: Routes = [
         component: TeacherNotificationComponent,
         canActivate: [AuthGuard],
       },
+      {
+        path: 'manage',
+        component: TeacherManageStudentsComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];
@@ -49,6 +55,7 @@ const routes: Routes = [
     TeacherEditComponent,
     TeacherMypageComponent,
     TeacherNotificationComponent,
+    TeacherManageStudentsComponent,
   ],
   imports: [
     CommonModule,
