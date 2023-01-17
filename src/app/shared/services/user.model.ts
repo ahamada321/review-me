@@ -10,6 +10,11 @@ export class User {
   password?: string;
   passwordConfirmation?: string; // Frontend only!
 
+  pendingTeachers: User[] = [];
+  pendingStudents: User[] = [];
+  teachers: User[] = [];
+  students: User[] = [];
+
   affiliateCode?: string;
   stripe?: string;
 }

@@ -12,6 +12,8 @@ router.post("/register", UserCtrl.register);
 
 router.post("/search", UserCtrl.searchUsers);
 
+router.post("/addRequest", UserCtrl.authMiddleware, UserCtrl.addUsers);
+
 router.get("/:id", UserCtrl.authMiddleware, UserCtrl.getUserById);
 
 router.patch("/:id", UserCtrl.authMiddleware, UserCtrl.updateUser);

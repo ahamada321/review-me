@@ -2,8 +2,54 @@ const User = require("./models/user");
 const Booking = require("./models/booking");
 const { normalizeErrors } = require("./helpers/mongoose");
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
 const config = require("../../config");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(config.SENDGRID_API_KEY);
+
+const REQUEST_SEND = "request_send";
+const REQUEST_RECIEVED = "request_recieved";
+
+function sendEmailTo(sendTo, sendMsg, hostname) {
+  let msg = {};
+
+  if (sendMsg === REQUEST_SEND) {
+    msg = {
+      to: sendTo,
+      from: "noreply@aeru.me",
+      subject: "[生徒登録申請完了]リクエストを送信しました！",
+      text:
+        "現時点では生徒登録は完了していません。" +
+        "生徒がリクエストを承認したタイミングで生徒登録が完了します。\n\n" +
+        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+    };
+  } else if (sendMsg === REQUEST_RECIEVED) {
+    msg = {
+      to: sendTo,
+      from: "noreply@aeru.me",
+      subject: "先生から登録承認リクエストが来ています！",
+      text:
+        "先生から登録承認リクエストが来ています。\n" +
+        "以下のURLからログインして、承認ボタンを押してください。\n\n" +
+        "URL：" +
+        "https://" +
+        hostname +
+        "/rentals/requests" +
+        "\n\n\n\n" +
+        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+    };
+  } else {
+    return res.status(422).send({
+      errors: [
+        {
+          title: "Could not send email!",
+          detail: "Please select appropriate email content!",
+        },
+      ],
+    });
+  }
+
+  sgMail.send(msg);
+}
 
 exports.getUsers = function (req, res) {
   const { page, limit } = req.query;
@@ -62,6 +108,18 @@ exports.searchUsers = function (req, res) {
       return res.json(foundUsers);
     }
   );
+};
+
+exports.addUsers = async function (req, res) {
+  const teacherId = res.locals.user.id;
+  const studentId = req.body._id;
+
+  User.updateOne({ _id: studentId }, { $push: { pendingTeachers: teacherId } });
+  User.updateOne({ _id: teacherId }, { $push: { pendingStudents: studentId } });
+
+  // sendEmailTo(student.email, REQUEST_RECIEVED, req.hostname);
+
+  return res.json({ status: "success" });
 };
 
 exports.getUserById = function (req, res) {
@@ -156,15 +214,14 @@ exports.auth = function (req, res) {
 };
 
 exports.register = function (req, res) {
-  const { username, email, password, birthday, gender } = req.body;
+  const { username, email, password, userRole } = req.body;
 
   // Filling user infomation with ../models/user.js format
   const user = new User({
     username,
     email,
     password,
-    birthday,
-    gender,
+    userRole,
   });
 
   if (!email || !password) {

@@ -11,8 +11,8 @@ export class UserService {
     return this.http.post('/api/v1/users/search', searchWords);
   }
 
-  public sendRequest(student: any): Observable<any> {
-    return this.http.post('/api/v1/users', student); // not working yet!!
+  public addRequest(student: any): Observable<any> {
+    return this.http.post('/api/v1/users/addRequest', student);
   }
 
   //   public updateRental(rentalId: string, rentalData: Rental): Observable<any> {

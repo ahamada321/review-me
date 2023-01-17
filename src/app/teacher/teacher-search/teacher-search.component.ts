@@ -56,15 +56,17 @@ export class TeacherSearchComponent implements OnInit {
       allowOutsideClick: false,
     }).then((result) => {
       if (!result.dismiss) {
-        this.userService.sendRequest(student).subscribe((success: any) => {
+        this.userService.addRequest(student).subscribe((success: any) => {
           Swal.fire({
             title: '申請しました！',
             text: '生徒が承認ボタンを押すまでお待ちください',
-            icon: 'info',
+            icon: 'success',
             customClass: {
               confirmButton: 'btn btn-primary btn-lg',
             },
             buttonsStyling: false,
+          }).then((result) => {
+            this.router.navigate(['/teacher']);
           });
         });
       }

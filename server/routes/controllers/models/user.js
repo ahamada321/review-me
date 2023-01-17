@@ -25,11 +25,11 @@ const userSchema = new Schema({
     min: [4, "Too short, min is 4 characters."],
     required: "Password is required",
   },
-  birthday: Date,
-  gender: String,
 
   teachers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   students: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  pendingTeachers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  pendingStudents: [{ type: Schema.Types.ObjectId, ref: "User" }],
 
   rentals: [{ type: Schema.Types.ObjectId, ref: "Rental" }],
   bookings: [{ type: Schema.Types.ObjectId, ref: "Booking" }],

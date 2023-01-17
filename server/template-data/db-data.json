@@ -30,7 +30,7 @@
   "users": [
     {
       "username": "田中太郎",
-      "email": "test1@gmail.com",
+      "email": "a.hamada21@gmail.com",
       "password": "test1",
       "isVerified": "true",
       "gender": "男性",
@@ -38,7 +38,7 @@
     },
     {
       "username": "木村あやか",
-      "email": "test2@gmail.com",
+      "email": "a.hamada.biz@gmail.com",
       "password": "test2",
       "isVerified": "true",
       "gender": "女性",

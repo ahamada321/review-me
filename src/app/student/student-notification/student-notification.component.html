@@ -6,16 +6,19 @@
           <div class="media-area">
             <h3 class="text-center">お知らせ</h3>
             <hr />
-            <div class="media">
+            <div
+              class="media"
+              *ngFor="let pendingTeacher of userData.pendingTeachers"
+            >
               <div class="media-body">
                 <div class="pull-right">
                   <h6 class="text-muted">2023年8月11日 11:54</h6>
                 </div>
                 <h5 class="media-heading">
-                  田中太郎先生からリクエストが届きました
+                  {{ pendingTeacher.username }}先生からリクエストが届きました
                 </h5>
                 <p>
-                  田中太郎先生からリクエストが届きました。
+                  {{ pendingTeacher.username }}先生からリクエストが届きました。
                   下記ボタンから承認を行なってください。
                 </p>
                 <div class="space-top"></div>
