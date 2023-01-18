@@ -16,34 +16,3 @@
 <div class="container">
   <full-calendar [options]="calendarOptionsPerMonth"></full-calendar>
 </div>
-<!-- <div class="row">
-  <div class="col-md-12">
-    <div class="nav-tabs-navigation">
-      <ul
-        ngbNav
-        [animation]="false"
-        #nav="ngbNav"
-        [(activeId)]="active"
-        class="nav nav-tabs justify-content-center"
-        type="pills"
-      >
-        <li class="nav-item" [ngbNavItem]="1">
-          <a class="nav-link" ngbNavLink> 本日のスケジュール</a>
-        </li>
-        <li class="nav-item" [ngbNavItem]="2">
-          <a class="nav-link" ngbNavLink> 月間スケジュール </a>
-        </li>
-      </ul>
-      <div class="container">
-        <full-calendar
-          *ngIf="active === 1"
-          [options]="calendarOptionsPerDay"
-        ></full-calendar>
-        <full-calendar
-          *ngIf="active === 2"
-          [options]="calendarOptionsPerMonth"
-        ></full-calendar>
-      </div>
-    </div>
-  </div>
-</div> -->

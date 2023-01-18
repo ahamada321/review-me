@@ -12,54 +12,6 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
   styleUrls: ['./teacher-mypage.component.scss'],
 })
 export class TeacherMypageComponent implements OnInit {
-  active = 1;
-
-  calendarOptionsPerDay: any = {
-    initialView: 'listDay',
-    plugins: [listPlugin],
-    locale: 'ja',
-    businessHours: true,
-    views: {
-      list: { buttonText: 'list' },
-    },
-    headerToolbar: {
-      left: '',
-      center: 'title',
-    },
-    events: [
-      {
-        title: 'Meeting',
-        start: '2023-01-24T14:30:00',
-        extendedProps: {
-          status: 'done',
-        },
-      },
-      {
-        title: 'Birthday Party',
-        start: '2023-01-18T22:20:00',
-        backgroundColor: 'green',
-        borderColor: 'green',
-      },
-      {
-        title: 'Birthday Party',
-        start: '2023-01-18T17:00:00',
-        backgroundColor: 'pink',
-        borderColor: 'pink',
-      },
-      {
-        title: 'Birthday Party',
-        start: '2023-01-18T17:20:00',
-        backgroundColor: 'green',
-        borderColor: 'green',
-      },
-    ],
-
-    //  　●日の"日"の部分を消したかったが日付が全て消えてしまう
-    // dayCellContent(e: any) {
-    //   e.dayNumberText = e.dayNumberText.replace('日', 'aaa');
-    // },
-  };
-
   calendarOptionsPerMonth: any = {
     initialView: 'dayGridMonth',
     plugins: [listPlugin, dayGridPlugin],
