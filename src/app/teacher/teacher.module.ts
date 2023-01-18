@@ -16,6 +16,9 @@ import { TeacherManageStudentsComponent } from './teacher-manage-students/teache
 import { TeacherSearchComponent } from './teacher-search/teacher-search.component';
 import { SearchbarModule } from '../shared/searchbar/searchbar.module';
 import { UserService } from '../shared/services/user.service';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { AdsenseModule } from 'ng2-adsense';
+// source　https://www.npmjs.com/package/ng2-adsense
 
 const routes: Routes = [
   {
@@ -25,7 +28,7 @@ const routes: Routes = [
       {
         path: '',
         component: TeacherMypageComponent,
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
       },
       {
         path: 'edit',
@@ -75,6 +78,8 @@ const routes: Routes = [
     JwBootstrapSwitchNg2Module,
     ImageUploadModule,
     SearchbarModule,
+    FullCalendarModule,
+    AdsenseModule,
   ],
   exports: [],
   providers: [UserService],

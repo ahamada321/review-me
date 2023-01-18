@@ -3,44 +3,45 @@
     <small>こんにちは<br />{{ auth.getUsername() }}先生</small>
   </h1>
 </div>
+
+<ng2-adsense
+  [adClient]="'ca-pub-xxxxxxxxxxxxxxx'"
+  [adFormat]="'auto'"
+  [display]="'block'"
+  [width]="320"
+  [height]="108"
+>
+</ng2-adsense>
 <div class="space-top"></div>
+<!-- <full-calendar [options]="calendarOptionsPerDay"></full-calendar>
+<full-calendar [options]="calendarOptionsPerMonth"></full-calendar> -->
 <div class="row">
   <div class="col-md-12">
     <div class="nav-tabs-navigation">
-      <div class="nav-tabs-wrapper">
-        <ul
-          ngbNav
-          #nav="ngbNav"
-          [(activeId)]="active"
-          class="nav nav-tabs justify-content-center"
-          type="pills"
-        >
-          <li class="nav-item" [ngbNavItem]="1">
-            <a class="nav-link" ngbNavLink> 本日のスケジュール</a>
-            <ng-template ngbNavContent>
-              <div class="tab-pane active" id="home" role="tabpanel">
-                <p>
-                  Larger, yet dramatically thinner. More powerful, but
-                  remarkably power efficient. With a smooth metal surface that
-                  seamlessly meets the new Retina HD display.
-                </p>
-              </div>
-              <div class="tab-pane" id="profile" role="tabpanel">
-                <p>Here is your profile.</p>
-              </div>
-              <div class="tab-pane" id="messages" role="tabpanel">
-                <p>Here are your messages.</p>
-              </div>
-            </ng-template>
-          </li>
-          <li class="nav-item" [ngbNavItem]="2">
-            <a class="nav-link" ngbNavLink> 月間スケジュール </a>
-            <ng-template ngbNavContent>
-              <p>Here is your profile.</p>
-            </ng-template>
-          </li>
-        </ul>
-        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      <ul
+        ngbNav
+        [animation]="false"
+        #nav="ngbNav"
+        [(activeId)]="active"
+        class="nav nav-tabs justify-content-center"
+        type="pills"
+      >
+        <li class="nav-item" [ngbNavItem]="1">
+          <a class="nav-link" ngbNavLink> 本日のスケジュール</a>
+        </li>
+        <li class="nav-item" [ngbNavItem]="2">
+          <a class="nav-link" ngbNavLink> 月間スケジュール </a>
+        </li>
+      </ul>
+      <div class="container">
+        <full-calendar
+          *ngIf="active === 1"
+          [options]="calendarOptionsPerDay"
+        ></full-calendar>
+        <full-calendar
+          *ngIf="active === 2"
+          [options]="calendarOptionsPerMonth"
+        ></full-calendar>
       </div>
     </div>
   </div>

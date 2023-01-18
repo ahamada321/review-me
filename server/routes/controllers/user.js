@@ -114,8 +114,14 @@ exports.addUsers = async function (req, res) {
   const teacherId = res.locals.user.id;
   const studentId = req.body._id;
 
-  User.updateOne({ _id: studentId }, { $push: { pendingTeachers: teacherId } });
-  User.updateOne({ _id: teacherId }, { $push: { pendingStudents: studentId } });
+  User.findOneAndUpdate(
+    { _id: studentId },
+    { $push: { pendingTeachers: teacherId } }
+  );
+  User.findOneAndUpdate(
+    { _id: teacherId },
+    { $push: { pendingStudents: studentId } }
+  );
 
   // sendEmailTo(student.email, REQUEST_RECIEVED, req.hostname);
 
