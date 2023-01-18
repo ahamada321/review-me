@@ -76,7 +76,7 @@ export class TeacherMypageComponent implements OnInit {
     headerToolbar: {
       left: 'prev,next',
       center: 'title',
-      right: 'dayGridMonth,listMonth',
+      right: 'listMonth,dayGridMonth',
     },
     events: [
       {
