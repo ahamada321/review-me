@@ -22,7 +22,7 @@ export class TeacherMypageComponent implements OnInit {
     views: {
       list: { buttonText: 'list' },
       dayGridMonth: {
-        dayMaxEventRows: 4, // adjust to 4 only for dayGridMonth
+        dayMaxEventRows: 3, // adjust to 3 only for dayGridMonth
       },
     },
     headerToolbar: {

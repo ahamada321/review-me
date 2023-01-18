@@ -1,0 +1,105 @@
+<div class="wrapper">
+  <div class="profile-content section">
+    <div class="container">
+      <div class="row">
+        <div class="profile-picture">
+          <app-image-upload
+            [image]="'./assets/img/faces/placeholder.jpg'"
+          ></app-image-upload>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+          <form class="settings-form">
+            <div class="row">
+              <div class="col-md-12 col-sm-6">
+                <div class="form-group">
+                  <label>名前</label>
+                  <input
+                    type="text"
+                    class="form-control border-input"
+                    placeholder="田中　太郎"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>所属</label>
+                  <input
+                    type="text"
+                    class="form-control border-input"
+                    placeholder="さくらレッスン教室"
+                  />
+                </div>
+                <div class="form-group">
+                  <label>メールアドレス</label>
+                  <a
+                    [routerLink]="['/student/password']"
+                    class="btn btn-link btn-primary"
+                    >メールアドレス変更はこちら</a
+                  >
+                </div>
+                <div class="form-group">
+                  <label>パスワード</label>
+                  <a
+                    [routerLink]="['/student/password']"
+                    class="btn btn-link btn-primary"
+                    >パスワード変更はこちら</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="forgot space-top"></div>
+            <div class="space-top"></div>
+            <label>メール通知</label>
+            <ul class="notifications">
+              <li class="notification-item">
+                生徒からのレッスン予約通知
+                <bSwitch
+                  [switch-on-color]="'primary'"
+                  [switch-off-color]="'primary'"
+                  [(ngModel)]="state_info_booking"
+                  name="first_switch"
+                >
+                </bSwitch>
+              </li>
+              <li class="notification-item">
+                生徒からのレッスン変更通知
+                <bSwitch
+                  [switch-on-color]="'primary'"
+                  [switch-off-color]="'primary'"
+                  [(ngModel)]="state_info_change"
+                  name="first_switch"
+                >
+                </bSwitch>
+              </li>
+              <li class="notification-item">
+                生徒からのレッスンキャンセル通知
+                <bSwitch
+                  [switch-on-color]="'primary'"
+                  [switch-off-color]="'primary'"
+                  [(ngModel)]="state_info_cancel"
+                  name="first_switch"
+                >
+                </bSwitch>
+              </li>
+              <li class="notification-item">
+                レッスンカレンダーからのお知らせ
+                <bSwitch
+                  [switch-on-color]="'primary'"
+                  [switch-off-color]="'primary'"
+                  [(ngModel)]="state_info1"
+                  name="second_switch"
+                >
+                </bSwitch>
+              </li>
+            </ul>
+            <div class="text-center">
+              <button type="submit" class="btn btn-wd btn-primary btn-round">
+                保存する
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

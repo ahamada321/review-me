@@ -13,7 +13,6 @@ export class StudentEditComponent implements OnInit {
   userData: any;
   state_info = true;
   state_info1 = true;
-
   data: Date = new Date();
 
   constructor(private auth: MyOriginAuthService, private router: Router) {}
