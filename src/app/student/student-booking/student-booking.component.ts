@@ -97,6 +97,8 @@ export class StudentBookingComponent implements OnInit {
   createBooking() {
     this.isClicked = true;
     this.newBooking.courseTime = 30;
+    this.newBooking.teacher = this.auth.getUserId();
+
     this.bookingService.createBooking(this.newBooking).subscribe(
       (newBooking) => {
         this.newBooking = new Booking();

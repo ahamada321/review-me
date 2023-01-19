@@ -11,7 +11,13 @@ import { User } from 'src/app/shared/services/user.model';
 export class StudentNotificationComponent implements OnInit {
   userData!: User;
 
+  isApproved = false;
+
   constructor(private auth: MyOriginAuthService, private router: Router) {}
+
+  approve() {
+    this.isApproved = true;
+  }
 
   ngOnInit() {
     this.getMe();
@@ -23,7 +29,7 @@ export class StudentNotificationComponent implements OnInit {
     this.auth.getUserById(userId).subscribe(
       (foundUser) => {
         this.userData = foundUser;
-        debugger;
+        // debugger;
       },
       (err) => {}
     );
