@@ -110,22 +110,63 @@ exports.searchUsers = function (req, res) {
   );
 };
 
-exports.addUsers = async function (req, res) {
+exports.addUser = async function (req, res) {
   const teacherId = res.locals.user.id;
   const studentId = req.body._id;
+  const studentEmail = req.body.email;
 
-  User.findOneAndUpdate(
-    { _id: studentId },
-    { $push: { pendingTeachers: teacherId } }
+  User.findOne(
+    {
+      _id: teacherId,
+      $or: [
+        { pendingStudents: { $in: [studentId] } },
+        { students: { $in: [studentId] } },
+      ],
+    },
+    function (err, foundTeacher) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      if (foundTeacher) {
+        return res.status(422).send({
+          errors: [
+            {
+              title: "申請済みです",
+              detail:
+                "既にこの生徒に申請済みです。生徒登録されない場合は生徒が承認ボタンを押すのをお待ちください。",
+            },
+          ],
+        });
+      } else {
+        // sendEmailTo(studentEmail, REQUEST_RECIEVED, req.hostname);
+        User.findOneAndUpdate(
+          { _id: teacherId },
+          { $push: { pendingStudents: studentId } },
+          { returnOriginal: false },
+          function (err) {
+            if (err) {
+              return res
+                .status(422)
+                .send({ errors: normalizeErrors(err.errors) });
+            }
+          }
+        );
+        User.findOneAndUpdate(
+          { _id: studentId },
+          { $push: { pendingTeachers: teacherId } },
+          { returnOriginal: false },
+          function (err) {
+            if (err) {
+              return res
+                .status(422)
+                .send({ errors: normalizeErrors(err.errors) });
+            }
+          }
+        );
+        return res.json({ status: "success" });
+      }
+    }
   );
-  User.findOneAndUpdate(
-    { _id: teacherId },
-    { $push: { pendingStudents: studentId } }
-  );
-
-  // sendEmailTo(student.email, REQUEST_RECIEVED, req.hostname);
-
-  return res.json({ status: "success" });
 };
 
 exports.getUserById = function (req, res) {
@@ -220,22 +261,26 @@ exports.auth = function (req, res) {
 };
 
 exports.register = function (req, res) {
-  const { username, email, password, userRole } = req.body;
+  const { username, email, password, passwordConfirmation, userRole } =
+    req.body;
 
-  // Filling user infomation with ../models/user.js format
-  const user = new User({
-    username,
-    email,
-    password,
-    userRole,
-  });
-
-  if (!email || !password) {
+  if (!username) {
     return res.status(422).send({
       errors: [
         {
           title: "Data missing!",
-          detail: "フォームに正しく入力してください",
+          detail: "氏名を入力してください",
+        },
+      ],
+    });
+  }
+
+  if (!email) {
+    return res.status(422).send({
+      errors: [
+        {
+          title: "Data missing!",
+          detail: "メールアドレスを入力してください",
         },
       ],
     });
@@ -251,6 +296,14 @@ exports.register = function (req, res) {
       ],
     });
   }
+
+  // Filling user infomation with ../models/user.js format
+  const user = new User({
+    username,
+    email,
+    password,
+    userRole,
+  });
 
   User.findOne({ email }, function (err, existingUser) {
     if (err) {

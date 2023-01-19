@@ -12,7 +12,7 @@ router.post("/register", UserCtrl.register);
 
 router.post("/search", UserCtrl.searchUsers);
 
-router.post("/addRequest", UserCtrl.authMiddleware, UserCtrl.addUsers);
+router.post("/addRequest", UserCtrl.authMiddleware, UserCtrl.addUser);
 
 router.get("/:id", UserCtrl.authMiddleware, UserCtrl.getUserById);
 

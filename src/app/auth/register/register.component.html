@@ -57,18 +57,18 @@
               #registerForm="ngForm"
               (ngSubmit)="register()"
             >
-              <!-- <input
+              <div class="space-top"></div>
+              <input
                 class="form-control"
-                placeholder="ユーザー名"
+                placeholder="お名前（例：鈴木太郎）"
                 type="text"
                 [(ngModel)]="formData.username"
                 name="username"
                 (focus)="focus = true"
                 (blur)="focus = false"
                 required
-              /> -->
+              />
 
-              <div class="space-top"></div>
               <input
                 class="form-control"
                 placeholder="Email"

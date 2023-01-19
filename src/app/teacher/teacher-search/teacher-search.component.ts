@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/shared/services/user.model';
 import { UserService } from 'src/app/shared/services/user.service';
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-teacher-search',
   templateUrl: './teacher-search.component.html',
@@ -56,19 +58,34 @@ export class TeacherSearchComponent implements OnInit {
       allowOutsideClick: false,
     }).then((result) => {
       if (!result.dismiss) {
-        this.userService.addRequest(student).subscribe((success: any) => {
-          Swal.fire({
-            title: '申請しました！',
-            text: '生徒が承認ボタンを押すまでお待ちください',
-            icon: 'success',
-            customClass: {
-              confirmButton: 'btn btn-primary btn-lg',
-            },
-            buttonsStyling: false,
-          }).then((result) => {
-            this.router.navigate(['/teacher']);
-          });
-        });
+        this.userService.addRequest(student).subscribe(
+          (success: any) => {
+            Swal.fire({
+              title: '申請しました！',
+              text: '生徒が承認ボタンを押すまでお待ちください',
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary btn-lg',
+              },
+              buttonsStyling: false,
+            }).then((result) => {
+              this.router.navigate(['/teacher']);
+            });
+          },
+          (errorResponse: HttpErrorResponse) => {
+            console.error(errorResponse);
+            const error = errorResponse.error.errors[0];
+            Swal.fire({
+              title: `${error.title}`,
+              text: `${error.detail}`,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-primary btn-lg',
+              },
+              buttonsStyling: false,
+            });
+          }
+        );
       }
     });
   }
