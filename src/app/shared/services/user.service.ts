@@ -11,8 +11,12 @@ export class UserService {
     return this.http.post('/api/v1/users/search', searchWords);
   }
 
-  public addRequest(student: any): Observable<any> {
-    return this.http.post('/api/v1/users/addRequest', student);
+  public addUserRequest(student: any): Observable<any> {
+    return this.http.post('/api/v1/users/adduser', student);
+  }
+
+  public acceptUserRequest(teacher: any): Observable<any> {
+    return this.http.post('/api/v1/users/accept', teacher);
   }
 
   //   public updateRental(rentalId: string, rentalData: Rental): Observable<any> {

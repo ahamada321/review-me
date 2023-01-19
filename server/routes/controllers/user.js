@@ -102,7 +102,6 @@ exports.searchUsers = function (req, res) {
           },
         },
       },
-      { $sort: { patientId: -1 } },
     ],
     function (err, foundUsers) {
       return res.json(foundUsers);
@@ -110,7 +109,7 @@ exports.searchUsers = function (req, res) {
   );
 };
 
-exports.addUser = async function (req, res) {
+exports.addUserRequest = async function (req, res) {
   const teacherId = res.locals.user.id;
   const studentId = req.body._id;
   const studentEmail = req.body.email;
@@ -169,18 +168,99 @@ exports.addUser = async function (req, res) {
   );
 };
 
+exports.acceptUserRequest = async function (req, res) {
+  const studentId = res.locals.user.id;
+  const teacherId = req.body._id;
+  const teacherEmail = req.body.email;
+
+  User.findOne(
+    {
+      _id: teacherId,
+      students: { $in: [studentId] },
+    },
+    function (err, foundTeacher) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      if (foundTeacher) {
+        return res.status(422).send({
+          errors: [
+            {
+              title: "承諾済みです",
+              detail: "既にこの先生を承諾済みです。",
+            },
+          ],
+        });
+      } else {
+        // sendEmailTo(teacherEmail, REQUEST_ACCEPTED, req.hostname);
+        User.findOneAndUpdate(
+          { _id: teacherId },
+          { $pull: { pendingStudents: studentId } },
+          { returnOriginal: false },
+          function (err) {
+            if (err) {
+              return res
+                .status(422)
+                .send({ errors: normalizeErrors(err.errors) });
+            }
+          }
+        );
+        User.findOneAndUpdate(
+          { _id: teacherId },
+          { $push: { students: studentId } },
+          { returnOriginal: false },
+          function (err) {
+            if (err) {
+              return res
+                .status(422)
+                .send({ errors: normalizeErrors(err.errors) });
+            }
+          }
+        );
+        User.findOneAndUpdate(
+          { _id: studentId },
+          { $pull: { pendingTeachers: teacherId } },
+          { returnOriginal: false },
+          function (err) {
+            if (err) {
+              return res
+                .status(422)
+                .send({ errors: normalizeErrors(err.errors) });
+            }
+          }
+        );
+        User.findOneAndUpdate(
+          { _id: studentId },
+          { $push: { teachers: teacherId } },
+          { returnOriginal: false },
+          function (err) {
+            if (err) {
+              return res
+                .status(422)
+                .send({ errors: normalizeErrors(err.errors) });
+            }
+          }
+        );
+        return res.json({ status: "success" });
+      }
+    }
+  );
+};
+
 exports.getUserById = function (req, res) {
   const reqUserId = req.params.id;
   const user = res.locals.user;
 
   if (reqUserId == user.id) {
     // Display all
-    User.findById(reqUserId, function (err, foundUser) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundUser);
-    });
+    User.findById(reqUserId)
+      .populate("pendingTeachers teachers", "-password")
+      .exec(function (err, foundUser) {
+        if (err) {
+          return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+        return res.json(foundUser);
+      });
   } else {
     // Restrict some data
     User.findById(reqUserId)

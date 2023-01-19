@@ -58,7 +58,7 @@ export class TeacherSearchComponent implements OnInit {
       allowOutsideClick: false,
     }).then((result) => {
       if (!result.dismiss) {
-        this.userService.addRequest(student).subscribe(
+        this.userService.addUserRequest(student).subscribe(
           (success: any) => {
             Swal.fire({
               title: '申請しました！',

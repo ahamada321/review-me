@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
+import { User } from 'src/app/shared/services/user.model';
 
 @Component({
   selector: 'app-student-mypage',
@@ -10,7 +11,7 @@ import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 })
 export class StudentMypageComponent implements OnInit {
   active = 2;
-  student: any;
+  userData!: User;
   bookings = [
     {
       createdAt: moment(),
@@ -40,8 +41,17 @@ export class StudentMypageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.student = this.auth.getUserById(this.auth.getUserId());
-    this.student.bookings = this.bookings;
+    this.getMe();
+  }
+
+  getMe() {
+    const userId = this.auth.getUserId();
+    this.auth.getUserById(userId).subscribe(
+      (foundUser) => {
+        this.userData = foundUser;
+      },
+      (err) => {}
+    );
   }
 
   onEdit(booking: any) {}

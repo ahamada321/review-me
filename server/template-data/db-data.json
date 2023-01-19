@@ -34,7 +34,8 @@
       "password": "test1",
       "isVerified": "true",
       "gender": "男性",
-      "userRole": "Student"
+      "userRole": "Student",
+      "bookings": []
     },
     {
       "username": "木村あやか",
@@ -42,7 +43,8 @@
       "password": "test2",
       "isVerified": "true",
       "gender": "女性",
-      "userRole": "Teacher"
+      "userRole": "Teacher",
+      "bookings": []
     },
     {
       "username": "管理者",
@@ -50,7 +52,8 @@
       "password": "test3",
       "isVerified": "true",
       "gender": "法人",
-      "userRole": "Owner"
+      "userRole": "Owner",
+      "bookings": []
     }
   ]
 }

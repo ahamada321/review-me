@@ -1,3 +1,5 @@
+import { Booking } from '../booking-selecter/shared/booking.model';
+
 export class User {
   _id?: string;
   isVerified?: boolean;
@@ -14,6 +16,8 @@ export class User {
   pendingStudents!: User[];
   teachers!: User[];
   students!: User[];
+
+  bookings!: Booking[];
 
   affiliateCode?: string;
   stripe?: string;
