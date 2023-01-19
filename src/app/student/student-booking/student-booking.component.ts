@@ -22,6 +22,7 @@ export class StudentBookingComponent implements OnInit {
   isClicked: boolean = false;
   newBooking: any = [];
   errors: any;
+  userData: any;
 
   constructor(
     private router: Router,
@@ -35,6 +36,7 @@ export class StudentBookingComponent implements OnInit {
     this.auth.getUserById(userId).subscribe(
       (foundUser) => {
         this.newBooking.teacher = foundUser.teacher;
+        this.newBooking.student = this.auth.getUserId();
       },
       (err) => {}
     );
@@ -89,7 +91,9 @@ export class StudentBookingComponent implements OnInit {
       allowOutsideClick: false,
     }).then((result) => {
       if (!result.dismiss) {
+        console.log('クリエートブッキング');
         this.createBooking();
+        this.showSwalSuccess();
       }
     });
   }
@@ -97,7 +101,6 @@ export class StudentBookingComponent implements OnInit {
   createBooking() {
     this.isClicked = true;
     this.newBooking.courseTime = 30;
-    this.newBooking.teacher = this.auth.getUserId();
 
     this.bookingService.createBooking(this.newBooking).subscribe(
       (newBooking) => {
@@ -107,10 +110,17 @@ export class StudentBookingComponent implements OnInit {
       },
       (errorResponse: HttpErrorResponse) => {
         console.error(errorResponse);
-        this.errors = errorResponse.error.errors;
+        if (errorResponse.error && errorResponse.error.errors) {
+          this.errors = errorResponse.error.errors;
+        } else {
+          this.errors = ['Unexpected error occured'];
+        }
+
         this.isClicked = false;
       }
     );
+
+    // debugger;
   }
 
   private showSwalSuccess() {
