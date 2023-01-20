@@ -27,20 +27,21 @@ export class StudentMypageComponent implements OnInit {
 
   ngOnInit() {
     this.getMe();
+    this.getUpcomingBookings();
+    this.getFinishedBookings();
   }
 
   getMe() {
     this.auth.getUserById(this.userId).subscribe(
       (foundUser) => {
         this.userData = foundUser;
-        debugger;
       },
       (err) => {}
     );
   }
 
   getUpcomingBookings() {
-    this.bookingService.getUpcomingBookings(this.userId).subscribe(
+    this.bookingService.getUpcomingBookings().subscribe(
       (foundUpcomingBookings: any) => {
         this.upcomingBookings = foundUpcomingBookings;
       },

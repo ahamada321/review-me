@@ -143,7 +143,7 @@ exports.getUpcomingBookings = function (req, res) {
     student,
     startAt: { $gt: moment().tz("Asia/Tokyo") },
   })
-    .sort({ startAt: -1 })
+    .sort({ startAt: 1 })
     .exec(function (err, foundBookings) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });

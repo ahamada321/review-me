@@ -1,29 +1,30 @@
-<div *ngIf="userData">
-  <div class="text-center">
-    <h1>
-      <small>こんにちは<br />{{ auth.getUsername() }}さん</small>
-    </h1>
-    <h3>
-      <small>レッスン担当：{{ userData.teachers[0].username }}先生</small>
-    </h3>
-  </div>
-  <div class="space-top"></div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="nav-tabs-navigation">
-        <div class="nav-tabs-wrapper">
-          <ul
-            ngbNav
-            #nav="ngbNav"
-            [(activeId)]="active"
-            class="nav nav-tabs justify-content-center"
-            type="pills"
-          >
-            <li class="nav-item" [ngbNavItem]="1">
-              <a class="nav-link" ngbNavLink> 履歴</a>
-              <ng-template ngbNavContent>
-                <div class="tab-pane" id="home" role="tabpanel">
-                  <!-- <ng-container *ngIf="bookings && bookings.length > 0">
+<div class="text-center">
+  <h1>
+    <small>こんにちは<br />{{ auth.getUsername() }}さん</small>
+  </h1>
+  <h3 *ngIf="userData">
+    <small>レッスン担当：{{ userData.teachers[0].username }}先生</small>
+  </h3>
+</div>
+<div class="space-top"></div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="nav-tabs-navigation">
+      <div class="nav-tabs-wrapper">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="active"
+          class="nav nav-tabs justify-content-center"
+          type="pills"
+        >
+          <li class="nav-item" [ngbNavItem]="1">
+            <a class="nav-link" ngbNavLink> 履歴</a>
+            <ng-template ngbNavContent>
+              <div class="tab-pane" id="home" role="tabpanel">
+                <ng-container
+                  *ngIf="finishedBookings && finishedBookings.length > 0"
+                >
                   <div class="row">
                     <div class="col-md ml-auto mr-auto">
                       <div class="table-responsive">
@@ -35,15 +36,14 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>{{ convertJST(booking.startAt) }}</td>
+                            <tr
+                              *ngFor="let finishedBooking of finishedBookings"
+                            >
                               <td>
-                                <button
-                                  (click)="onEdit(booking)"
-                                  class="btn btn-link btn-primary"
-                                >
-                                  変更
-                                </button>
+                                {{ convertJST(finishedBooking.startAt) }}
+                              </td>
+                              <td>
+                                <button class="btn btn-link">変更</button>
                               </td>
                             </tr>
                           </tbody>
@@ -52,65 +52,80 @@
                     </div>
                   </div>
                 </ng-container>
-                <ng-container *ngIf="bookings && bookings.length === 0">
+                <ng-container
+                  *ngIf="finishedBookings && finishedBookings.length === 0"
+                >
                   <div class="row">
-                    <div class="col-md-4 ml-auto mr-auto">
+                    <div class="col-12 ml-auto mr-auto">
                       <h3>まだデータがありません</h3>
                     </div>
                   </div>
-                </ng-container> -->
-                </div>
-              </ng-template>
-            </li>
-            <li class="nav-item" [ngbNavItem]="2">
-              <a class="nav-link" ngbNavLink> 予約一覧 </a>
-              <ng-template ngbNavContent>
-                <ng-container *ngIf="userData.bookings.length > 0">
-                  <div class="row">
-                    <div class="col-md ml-auto mr-auto">
-                      <div class="table-responsive">
-                        <table class="table table-hover table-shopping">
-                          <thead>
-                            <tr>
-                              <th>予約日時</th>
-                              <th>変更</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let booking of userData.bookings">
-                              <td>{{ convertJST(booking.startAt) }}</td>
-                              <td>
-                                <a
-                                  [routerLink]="['rebooking', booking._id]"
-                                  class="btn btn-link btn-primary"
-                                >
-                                  予定変更
-                                </a>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                </ng-container>
+              </div>
+            </ng-template>
+          </li>
+          <li class="nav-item" [ngbNavItem]="2">
+            <a class="nav-link" ngbNavLink> 予約一覧 </a>
+            <ng-template ngbNavContent>
+              <ng-container
+                *ngIf="upcomingBookings && upcomingBookings.length > 0"
+              >
+                <div class="row">
+                  <div class="col-md ml-auto mr-auto">
+                    <div class="table-responsive">
+                      <table class="table table-hover table-shopping">
+                        <thead>
+                          <tr>
+                            <th>予約日時</th>
+                            <th>変更</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let upcomingBooking of upcomingBookings">
+                            <td>{{ convertJST(upcomingBooking.startAt) }}</td>
+                            <td>
+                              <a
+                                [routerLink]="[
+                                  'rebooking',
+                                  upcomingBooking._id
+                                ]"
+                                class="btn btn-link btn-primary"
+                              >
+                                予定変更
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
-                </ng-container>
-
+                </div>
+              </ng-container>
+              <ng-container
+                *ngIf="upcomingBookings && upcomingBookings.length === 0"
+              >
                 <div class="row">
-                  <div class="col-md mr-auto ml-auto">
-                    <a
-                      class="btn btn-magnify btn-primary btn-round btn-lg"
-                      [routerLink]="['booking']"
-                    >
-                      <i class="nc-icon nc-calendar-60"></i> &nbsp;
-                      レッスンを予約する
-                    </a>
+                  <div class="col-12 ml-auto mr-auto">
+                    <h3>まだ予約がありません</h3>
                   </div>
                 </div>
-              </ng-template>
-            </li>
-          </ul>
-          <div [ngbNavOutlet]="nav" class="mt-2"></div>
-        </div>
+              </ng-container>
+
+              <div class="row">
+                <div class="col-md mr-auto ml-auto">
+                  <a
+                    class="btn btn-magnify btn-primary btn-round btn-lg"
+                    [routerLink]="['booking']"
+                  >
+                    <i class="nc-icon nc-calendar-60"></i> &nbsp;
+                    レッスンを予約する
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </div>
     </div>
   </div>
