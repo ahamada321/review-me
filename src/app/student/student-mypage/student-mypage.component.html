@@ -85,10 +85,7 @@
                             <td>{{ convertJST(upcomingBooking.start) }}</td>
                             <td>
                               <a
-                                [routerLink]="[
-                                  'rebooking',
-                                  upcomingBooking._id
-                                ]"
+                                [routerLink]="['booking', upcomingBooking._id]"
                                 class="btn btn-link btn-primary"
                               >
                                 予定変更

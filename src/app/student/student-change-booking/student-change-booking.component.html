@@ -1,12 +1,14 @@
-<div *ngIf="currentBooking" class="card-description">
-  <h6>【選択中の診療内容】</h6>
-  <!-- <h6>{{ currentBooking.courseType }}</h6> -->
-  <br />
-  <h6>【予約日時】</h6>
-  <h6>{{ currentBooking.start | date : "yyyy/MM/dd HH:mm" }}スタート</h6>
-</div>
-<mat-horizontal-stepper [linear]="false" #stepper>
-  <mat-step label="日時選択" [completed]="isSelectedDateTime">
+<div *ngIf="currentBooking">
+  <div class="space-30"></div>
+  <div class="container text-center">
+    <h1 class="">
+      <small>レッスン変更</small>
+    </h1>
+    <div class="space-top"></div>
+    <h6>【変更したいレッスン】</h6>
+    <h6>{{ currentBooking.start | date : "yyyy年MM月dd日 HH:mm" }}〜</h6>
+    <div class="space-top"></div>
+
     <div class="row">
       <div class="col-md-5 ml-auto mr-auto">
         <div class="input-group date">
@@ -41,9 +43,9 @@
           <button
             *ngIf="isValidBooking(timeTable)"
             class="btn btn-primary"
-            (click)="selectDateTime(timeTable, stepper)"
+            (click)="selectDateTime(timeTable)"
           >
-            {{ timeTable.format("HH:mm") }} スタート
+            {{ timeTable.format("HH:mm") }} 〜
           </button>
           <button
             *ngIf="!isValidBooking(timeTable)"
@@ -55,28 +57,5 @@
         </p>
       </div>
     </div>
-  </mat-step>
-</mat-horizontal-stepper>
-<!-- <section id="clinic-booking">
-  <form>
-    <div class="form-group">
-      
-    </div>
-  </form> -->
-
-<!--
-  <ng-container *ngIf="timeTables.length == 0 || isDateBlock_flg">
-    <div class="separator"></div>
-    <div class="info">
-      <div class="icon icon-warning">
-        <i class="nc-icon nc-cart-simple"></i>
-      </div>
-      <div class="description">
-        <h4 class="info-title">Thank you</h4>
-        <p>本日分は完売しました</p>
-        <div class="space-top"></div>
-      </div>
-    </div>
-    <div class="separator"></div>
-  </ng-container>
-</section> -->
+  </div>
+</div>

@@ -7,7 +7,7 @@ import { AuthGuard } from '../auth/shared/auth.guard';
 
 import { StudentComponent } from './student.component';
 import { StudentBookingComponent } from './student-booking/student-booking.component';
-import { StudentRebookingComponent } from './student-rebooking/student-rebooking.component';
+import { StudentChangeBookingComponent } from './student-change-booking/student-change-booking.component';
 import { StudentEditComponent } from './student-edit/student-edit.component';
 import { StudentChangePasswordComponent } from './student-change-password/student-change-password.component';
 import { StudentMypageComponent } from './student-mypage/student-mypage.component';
@@ -37,8 +37,8 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'rebooking',
-        component: StudentRebookingComponent,
+        path: 'booking/:bookingId',
+        component: StudentChangeBookingComponent,
         canActivate: [AuthGuard],
       },
       {
@@ -64,7 +64,7 @@ const routes: Routes = [
   declarations: [
     StudentComponent,
     StudentBookingComponent,
-    StudentRebookingComponent,
+    StudentChangeBookingComponent,
     StudentEditComponent,
     StudentChangePasswordComponent,
     StudentMypageComponent,

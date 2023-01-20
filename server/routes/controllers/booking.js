@@ -83,8 +83,6 @@ exports.createBooking = function (req, res) {
 };
 
 exports.getBookingById = function (req, res) {
-  const user = res.locals.user;
-
   Booking.findById(req.params.id).exec(function (err, foundBooking) {
     if (err) {
       return res.status(422).send({
@@ -173,11 +171,18 @@ exports.getFinishedBookings = function (req, res) {
 
 exports.updateBooking = function (req, res) {
   const bookingData = req.body;
-  const user = res.locals.user;
 
-  Booking.updateOne({ _id: bookingData._id }, bookingData, () => {});
-
-  return res.json({ status: "updated" });
+  Booking.findOneAndUpdate(
+    { _id: bookingData._id },
+    bookingData,
+    { returnOriginal: false },
+    function (err) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      return res.json({ status: "updated" });
+    }
+  );
 };
 
 exports.getTeacherBookings = function (req, res) {
