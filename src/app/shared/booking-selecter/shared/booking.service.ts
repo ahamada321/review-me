@@ -19,11 +19,11 @@ export class BookingService {
     return this.http.get('/api/v1/bookings/expired');
   }
 
-  public getUserAcceptedBookings(): Observable<any> {
-    return this.http.get('/api/v1/bookings/accepted');
+  public getUpcomingBookings(): Observable<any> {
+    return this.http.get('/api/v1/bookings/upcoming');
   }
 
-  public getUserFinishedBookings(): Observable<any> {
+  public getFinishedBookings(): Observable<any> {
     return this.http.get('/api/v1/bookings/finished');
   }
 

@@ -14,4 +14,16 @@ router.get("/:id", UserCtrl.authMiddleware, BookingCtrl.getBookingById);
 
 router.delete("/:id", UserCtrl.authMiddleware, BookingCtrl.deleteBooking);
 
+router.get(
+  "/upcoming",
+  UserCtrl.authMiddleware,
+  BookingCtrl.getUpcomingBookings
+);
+
+router.get(
+  "/finished",
+  UserCtrl.authMiddleware,
+  BookingCtrl.getFinishedBookings
+);
+
 module.exports = router;

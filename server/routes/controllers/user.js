@@ -254,7 +254,7 @@ exports.getUserById = function (req, res) {
   if (reqUserId == user.id) {
     // Display all
     User.findById(reqUserId)
-      .populate("pendingTeachers teachers", "-password")
+      .populate("pendingTeachers teachers bookings", "-password")
       .exec(function (err, foundUser) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });

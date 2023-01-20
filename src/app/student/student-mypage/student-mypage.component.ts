@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
+import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
+import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
 import { User } from 'src/app/shared/services/user.model';
 
 @Component({
@@ -12,32 +14,15 @@ import { User } from 'src/app/shared/services/user.model';
 export class StudentMypageComponent implements OnInit {
   active = 2;
   userData!: User;
-  bookings = [
-    {
-      createdAt: moment(),
-      startAt: moment(),
-      oldStartAt: moment(),
-      courseTime: 60,
-      memo: 'メモを記入',
-      student: 'object_id',
-      teacher: '鈴木太郎',
-      status: 'pending',
-    },
-    {
-      createdAt: moment(),
-      startAt: moment(),
-      oldStartAt: moment(),
-      courseTime: 60,
-      memo: 'メモを記入',
-      student: 'object_id',
-      teacher: '鈴木太郎',
-      status: 'pending',
-    },
-  ];
+  userId = this.auth.getUserId();
+  upcomingBookings!: Booking[];
+  finishedBookings!: Booking[];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    public auth: MyOriginAuthService
+    public auth: MyOriginAuthService,
+    private bookingService: BookingService
   ) {}
 
   ngOnInit() {
@@ -45,10 +30,28 @@ export class StudentMypageComponent implements OnInit {
   }
 
   getMe() {
-    const userId = this.auth.getUserId();
-    this.auth.getUserById(userId).subscribe(
+    this.auth.getUserById(this.userId).subscribe(
       (foundUser) => {
         this.userData = foundUser;
+        debugger;
+      },
+      (err) => {}
+    );
+  }
+
+  getUpcomingBookings() {
+    this.bookingService.getUpcomingBookings(this.userId).subscribe(
+      (foundUpcomingBookings: any) => {
+        this.upcomingBookings = foundUpcomingBookings;
+      },
+      (err: any) => {}
+    );
+  }
+
+  getFinishedBookings() {
+    this.bookingService.getFinishedBookings().subscribe(
+      (foundFinishedBookings) => {
+        this.finishedBookings = foundFinishedBookings;
       },
       (err) => {}
     );
@@ -57,6 +60,7 @@ export class StudentMypageComponent implements OnInit {
   onEdit(booking: any) {}
 
   convertJST(time: any) {
-    return moment(time).subtract(9, 'hour').format('MM月 DD日 HH:mm 〜');
+    // return moment(time).subtract(9, 'hour').format('MM月 DD日 HH:mm 〜');
+    return moment(time).format('MM月 DD日 HH:mm 〜');
   }
 }

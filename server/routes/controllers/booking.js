@@ -136,6 +136,38 @@ exports.deleteBooking = function (req, res) {
     });
 };
 
+exports.getUpcomingBookings = function (req, res) {
+  const student = res.locals.user;
+
+  Booking.find({
+    student,
+    startAt: { $gt: moment().tz("Asia/Tokyo") },
+  })
+    .sort({ startAt: -1 })
+    .exec(function (err, foundBookings) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      return res.json(foundBookings);
+    });
+};
+
+exports.getFinishedBookings = function (req, res) {
+  const student = res.locals.user;
+
+  Booking.find({
+    student,
+    startAt: { $lte: moment().tz("Asia/Tokyo") },
+  })
+    .sort({ startAt: -1 })
+    .exec(function (err, foundBookings) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      return res.json(foundBookings);
+    });
+};
+
 exports.updateBooking = function (req, res) {
   const bookingData = req.body;
   const user = res.locals.user;
