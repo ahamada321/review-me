@@ -48,48 +48,48 @@ export class BookingSelecterComponent implements OnInit {
     // this.iskDateBlock(date)
     // const selectedDay = date.getDay()
     // let mTimeTables = []
-    // let mEndAt = null
-    // let mStartAt = null
+    // let mEnd = null
+    // let mStart = null
     // if(selectedDay==0 && this.rental.businesshour_enabled_sun) { // Sunday
-    //   mEndAt = moment(this.rental.businesshour_endTime_sun).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
-    //   mStartAt = moment(this.rental.businesshour_startTime_sun).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mEnd = moment(this.rental.businesshour_endTime_sun).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mStart = moment(this.rental.businesshour_startTime_sun).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
     // }
     // if(selectedDay==1 && this.rental.businesshour_enabled_mon) { // Monday
-    //   mEndAt = moment(this.rental.businesshour_endTime_mon).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
-    //   mStartAt = moment(this.rental.businesshour_startTime_mon).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mEnd = moment(this.rental.businesshour_endTime_mon).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mStart = moment(this.rental.businesshour_startTime_mon).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
     // }
     // if(selectedDay==2 && this.rental.businesshour_enabled_tue) {
-    //   mEndAt = moment(this.rental.businesshour_endTime_tue).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
-    //   mStartAt = moment(this.rental.businesshour_startTime_tue).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mEnd = moment(this.rental.businesshour_endTime_tue).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mStart = moment(this.rental.businesshour_startTime_tue).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
     // }
     // if(selectedDay==3 && this.rental.businesshour_enabled_wed) {
-    //   mEndAt = moment(this.rental.businesshour_endTime_wed).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
-    //   mStartAt = moment(this.rental.businesshour_startTime_wed).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mEnd = moment(this.rental.businesshour_endTime_wed).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mStart = moment(this.rental.businesshour_startTime_wed).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
     // }
     // if(selectedDay==4 && this.rental.businesshour_enabled_thu) {
-    //   mEndAt = moment(this.rental.businesshour_endTime_thu).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
-    //   mStartAt = moment(this.rental.businesshour_startTime_thu).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mEnd = moment(this.rental.businesshour_endTime_thu).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mStart = moment(this.rental.businesshour_startTime_thu).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
     // }
     // if(selectedDay==5 && this.rental.businesshour_enabled_fri) {
-    //   mEndAt = moment(this.rental.businesshour_endTime_fri).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
-    //   mStartAt = moment(this.rental.businesshour_startTime_fri).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mEnd = moment(this.rental.businesshour_endTime_fri).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mStart = moment(this.rental.businesshour_startTime_fri).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
     // }
     // if(selectedDay==6 && this.rental.businesshour_enabled_sat) {
-    //   mEndAt = moment(this.rental.businesshour_endTime_sat).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
-    //   mStartAt = moment(this.rental.businesshour_startTime_sat).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mEnd = moment(this.rental.businesshour_endTime_sat).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
+    //   mStart = moment(this.rental.businesshour_startTime_sat).set({'year': date.getFullYear(), 'month': date.getMonth(), 'date': date.getDate()})
     // }
-    // while(mStartAt < mEndAt) {
-    //     if(!this.isPastDateTime(mStartAt)){
-    //         mTimeTables.push(moment(mStartAt))
+    // while(mStart < mEnd) {
+    //     if(!this.isPastDateTime(mStart)){
+    //         mTimeTables.push(moment(mStart))
     //     }
-    //     mStartAt.add(30, 'minutes')
+    //     mStart.add(30, 'minutes')
     // }
     // this.timeTables = mTimeTables
     // this.newBookingInfo.emit(null)
   }
 
-  private isPastDateTime(startAt: Date) {
-    return moment(startAt).diff(moment()) < 0; // Attention: just "moment()" is already applied timezone!
+  private isPastDateTime(start: Date) {
+    return moment(start).diff(moment()) < 0; // Attention: just "moment()" is already applied timezone!
   }
 
   iskDateBlock(selectedDate: Date) {
@@ -99,27 +99,27 @@ export class BookingSelecterComponent implements OnInit {
 
     for (let booking of this.rental.bookings) {
       if (booking.status === 'block') {
-        if (selected_date === moment(booking.startAt).format('YYYY-MM-DD')) {
+        if (selected_date === moment(booking.start).format('YYYY-MM-DD')) {
           this.isDateBlock_flg = true;
         }
       }
     }
   }
 
-  isValidBooking(startAt: Date) {
+  isValidBooking(start: Date) {
     let isValid = false;
     const rentalBookings = this.rental.bookings;
 
-    const reqStart = moment(startAt);
-    const reqEnd = moment(startAt)
+    const reqStart = moment(start);
+    const reqEnd = moment(start)
       .add(this.selectedCourseTime, 'minute')
       .subtract(1, 'minute');
     if (rentalBookings && rentalBookings.length === 0) {
       return true;
     } else {
       isValid = rentalBookings.every((booking: any) => {
-        const existingStart = moment(booking.startAt);
-        const existingEnd = moment(booking.endAt);
+        const existingStart = moment(booking.start);
+        const existingEnd = moment(booking.end);
         // return ((existingStart<reqStart && existingEnd<reqStart) || (reqEnd<existingStart && reqEnd<existingEnd))
         return existingEnd < reqStart || reqEnd < existingStart;
       });
@@ -127,9 +127,9 @@ export class BookingSelecterComponent implements OnInit {
     }
   }
 
-  selectDateTime(startAt: Date) {
-    // this.newBooking.startAt = moment(startAt).format();
-    // this.newBooking.endAt = moment(startAt)
+  selectDateTime(start: Date) {
+    // this.newBooking.start = moment(start).format();
+    // this.newBooking.end = moment(start)
     //   .add(this.selectedCourseTime - 1, "minute")
     //   .format();
     // this.newBooking.courseTime = this.selectedCourseTime;

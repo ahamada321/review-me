@@ -3,7 +3,7 @@
   <!-- <h6>{{ currentBooking.courseType }}</h6> -->
   <br />
   <h6>【予約日時】</h6>
-  <h6>{{ currentBooking.startAt | date : "yyyy/MM/dd HH:mm" }}スタート</h6>
+  <h6>{{ currentBooking.start | date : "yyyy/MM/dd HH:mm" }}スタート</h6>
 </div>
 <mat-horizontal-stepper [linear]="false" #stepper>
   <mat-step label="日時選択" [completed]="isSelectedDateTime">

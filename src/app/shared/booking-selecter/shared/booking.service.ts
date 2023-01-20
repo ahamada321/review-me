@@ -7,8 +7,12 @@ import { HttpClient } from '@angular/common/http';
 export class BookingService {
   constructor(private http: HttpClient) {}
 
-  public getUserBookings(): Observable<any> {
-    return this.http.get('/api/v1/bookings');
+  // public getUserBookings(): Observable<any> {
+  //   return this.http.get('/api/v1/bookings');
+  // }
+
+  public getTeacherBookings(): Observable<any> {
+    return this.http.get('/api/v1/bookings/teacher');
   }
 
   public getUserPendingBookings(): Observable<any> {

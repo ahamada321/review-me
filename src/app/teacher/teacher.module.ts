@@ -28,7 +28,7 @@ const routes: Routes = [
       {
         path: '',
         component: TeacherMypageComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'edit',

@@ -40,7 +40,7 @@
                               *ngFor="let finishedBooking of finishedBookings"
                             >
                               <td>
-                                {{ convertJST(finishedBooking.startAt) }}
+                                {{ convertJST(finishedBooking.start) }}
                               </td>
                               <td>
                                 <button class="btn btn-link">変更</button>
@@ -82,7 +82,7 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let upcomingBooking of upcomingBookings">
-                            <td>{{ convertJST(upcomingBooking.startAt) }}</td>
+                            <td>{{ convertJST(upcomingBooking.start) }}</td>
                             <td>
                               <a
                                 [routerLink]="[
@@ -107,6 +107,7 @@
                 <div class="row">
                   <div class="col-12 ml-auto mr-auto">
                     <h3>まだ予約がありません</h3>
+                    <div class="space-top"></div>
                   </div>
                 </div>
               </ng-container>

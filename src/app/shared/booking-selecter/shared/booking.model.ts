@@ -6,10 +6,14 @@ export class Booking {
   static readonly DATE_FORMAT = 'Y-MM-DD';
   _id?: string;
   createdAt?: Date;
-  startAt!: any;
-  oldStartAt?: any;
-  perMonth?: number;
+
+  title!: string;
+  start!: any;
+  oldStart?: any;
   courseTime?: number;
+  end!: any;
+
+  perMonth?: number;
   memo?: string;
 
   teacher!: User;

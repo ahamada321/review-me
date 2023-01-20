@@ -10,8 +10,8 @@ exports.getRentalById = function (req, res) {
   Rental.findById(studentId)
     //.populate('user', 'username -_id')
     .populate("user") // Need to consider security in future.
-    //.populate('bookings', 'startAt endAt status -_id')
-    .populate("bookings", "startAt endAt status _id") // Need to consider security in future.
+    //.populate('bookings', 'start end status -_id')
+    .populate("bookings", "start end status _id") // Need to consider security in future.
     .exec(function (err, foundRental) {
       if (err) {
         return res.status(422).send({
@@ -124,9 +124,9 @@ exports.deleteRental = async function (req, res) {
   Rental.findById(rentalId)
     .populate({
       path: "bookings",
-      select: "startAt",
+      select: "start",
       match: {
-        startAt: {
+        start: {
           $gt: moment.tz("Asia/Tokyo").startOf("month").subtract(11, "month"),
         },
       }, // &gt: greater than. <- Pick up 1 year reports.

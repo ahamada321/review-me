@@ -16,7 +16,7 @@ router.get(
   BookingCtrl.getFinishedBookings
 );
 
-router.get("", UserCtrl.authMiddleware, BookingCtrl.getUserBookings); // All bookings
+router.get("/teacher", UserCtrl.authMiddleware, BookingCtrl.getTeacherBookings); // All bookings
 
 router.post("", UserCtrl.authMiddleware, BookingCtrl.createBooking);
 

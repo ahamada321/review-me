@@ -42,9 +42,7 @@ exports.sendFormMessage = function (req, res) {
 
 exports.requestDemo = function (req, res) {
   const { bookingDate, username, email, company, position, msg } = req.body;
-  const startAt = moment(bookingDate)
-    .tz("Asia/Tokyo")
-    .format("YYYY/MM/DD/HH:mm");
+  const start = moment(bookingDate).tz("Asia/Tokyo").format("YYYY/MM/DD/HH:mm");
 
   const sendMsg = {
     to: "info@aeru.me",
@@ -52,7 +50,7 @@ exports.requestDemo = function (req, res) {
     subject: "[" + username + " 様]からオンラインデモ申込がきました",
     text:
       "Zoomデモ希望日時：" +
-      startAt +
+      start +
       "\n\n" +
       "クリニック名：" +
       company +

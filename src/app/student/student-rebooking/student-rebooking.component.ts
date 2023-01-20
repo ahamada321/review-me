@@ -68,49 +68,49 @@ export class StudentRebookingComponent implements OnInit {
 
   isExpired() {
     const timeNow = moment(); // Attention: just "moment()" is already applied timezone!
-    return moment(this.currentBooking.startAt).diff(timeNow) < 0;
+    return moment(this.currentBooking.start).diff(timeNow) < 0;
   }
 
   onDateSelect(date: Date) {
     const selectedDay = date.getDay();
     let mTimeTables = [];
-    let mEndAt = null;
-    let mStartAt = null;
+    let mEnd = null;
+    let mStart = null;
 
-    mEndAt = moment({ hour: 20, minute: 30 }).set({
+    mEnd = moment({ hour: 20, minute: 30 }).set({
       year: date.getFullYear(),
       month: date.getMonth(),
       date: date.getDate(),
     });
-    mStartAt = moment({ hour: 9, minute: 0 }).set({
+    mStart = moment({ hour: 9, minute: 0 }).set({
       year: date.getFullYear(),
       month: date.getMonth(),
       date: date.getDate(),
     });
 
-    while (mStartAt < mEndAt) {
-      mTimeTables.push(moment(mStartAt));
-      mStartAt.add(30, 'minutes');
+    while (mStart < mEnd) {
+      mTimeTables.push(moment(mStart));
+      mStart.add(30, 'minutes');
     }
     this.timeTables = mTimeTables;
   }
 
-  isValidBooking(startAt: Date) {
+  isValidBooking(start: Date) {
     return true;
   }
 
-  selectDateTime(startAt: Date, stepper: MatStepper) {
+  selectDateTime(start: Date, stepper: MatStepper) {
     this.isSelectedDateTime = true;
     this.isClicked = false;
-    this.currentBooking.oldStartAt = this.currentBooking.startAt;
-    // this.currentBooking.startAt = startAt;
+    this.currentBooking.oldStart = this.currentBooking.start;
+    // this.currentBooking.start = start;
 
     // Swal.fire({
     //   html: `<h5>診療内容</h5>
     //       ${this.currentBooking.courseType}
     //       <br><br>
     //       <h5>変更後の予約日時</h5>
-    //       ${moment(startAt).format('YYYY/MM/DD/HH:mm')}スタート
+    //       ${moment(start).format('YYYY/MM/DD/HH:mm')}スタート
     //       <br><br>
     //       に変更しますか？`,
     //   icon: 'info',

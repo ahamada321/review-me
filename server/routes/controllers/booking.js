@@ -11,12 +11,12 @@ function isValidBooking(requestBooking, rentalBookings) {
   let isValid = true;
   if (rentalBookings && rentalBookings.length > 0) {
     isValid = rentalBookings.every(function (booking) {
-      const reqStart = moment(requestBooking.startAt);
-      const reqEnd = moment(requestBooking.startAt)
+      const reqStart = moment(requestBooking.start);
+      const reqEnd = moment(requestBooking.start)
         .add(requestBooking.courseTime, "minutes")
         .subtract(1, "minute");
-      const acturalStart = moment(booking.startAt);
-      const acturalEnd = moment(booking.startAt)
+      const acturalStart = moment(booking.start);
+      const acturalEnd = moment(booking.start)
         .add(booking.courseTime, "minutes")
         .subtract(1, "minute");
       return (
@@ -30,11 +30,14 @@ function isValidBooking(requestBooking, rentalBookings) {
 exports.createBooking = function (req, res) {
   // Passed booking information from booking.component.ts
   const student = res.locals.user;
-  const { startAt, courseTime, teacher } = req.body;
+  const { start, courseTime, title, teacher } = req.body;
+  const end = moment(start).add(courseTime, "minute");
 
   const booking = new Booking({
-    startAt,
+    start,
     courseTime,
+    end,
+    title,
     teacher,
     student,
   });
@@ -102,7 +105,7 @@ exports.deleteBooking = function (req, res) {
     .populate("user")
     .populate("rental")
     // .populate('payment', '_id')
-    // .populate('startAt')
+    // .populate('start')
     .exec(function (err, foundBooking) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
@@ -141,9 +144,9 @@ exports.getUpcomingBookings = function (req, res) {
 
   Booking.find({
     student,
-    startAt: { $gt: moment().tz("Asia/Tokyo") },
+    start: { $gt: moment().tz("Asia/Tokyo") },
   })
-    .sort({ startAt: 1 })
+    .sort({ start: 1 })
     .exec(function (err, foundBookings) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
@@ -157,9 +160,9 @@ exports.getFinishedBookings = function (req, res) {
 
   Booking.find({
     student,
-    startAt: { $lte: moment().tz("Asia/Tokyo") },
+    start: { $lte: moment().tz("Asia/Tokyo") },
   })
-    .sort({ startAt: -1 })
+    .sort({ start: -1 })
     .exec(function (err, foundBookings) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
@@ -177,17 +180,11 @@ exports.updateBooking = function (req, res) {
   return res.json({ status: "updated" });
 };
 
-exports.getUserBookings = function (req, res) {
-  const user = res.locals.user;
+exports.getTeacherBookings = function (req, res) {
+  const teacher = res.locals.user;
 
-  Booking.find({ user })
-    // .populate('rental')
-    .populate({
-      // populate 'rental' and 'bookings' in 'rental'
-      path: "rental",
-      populate: { path: "bookings" }, // This is using for re-proposal dates window.
-    })
-    .sort({ startAt: -1 })
+  Booking.find({ teacher })
+    .sort({ start: -1 })
     .exec(function (err, foundBookings) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });

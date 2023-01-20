@@ -44,40 +44,40 @@ export class StudentBookingComponent implements OnInit {
   onDateSelect(date: Date) {
     const selectedDay = date.getDay();
     let mTimeTables = [];
-    let mEndAt = null;
-    let mStartAt = null;
+    let mEnd = null;
+    let mStart = null;
 
-    mEndAt = moment({ hour: 20, minute: 30 }).set({
+    mEnd = moment({ hour: 20, minute: 30 }).set({
       year: date.getFullYear(),
       month: date.getMonth(),
       date: date.getDate(),
     });
-    mStartAt = moment({ hour: 9, minute: 0 }).set({
+    mStart = moment({ hour: 9, minute: 0 }).set({
       year: date.getFullYear(),
       month: date.getMonth(),
       date: date.getDate(),
     });
 
-    while (mStartAt < mEndAt) {
-      mTimeTables.push(moment(mStartAt));
-      mStartAt.add(30, 'minutes');
+    while (mStart < mEnd) {
+      mTimeTables.push(moment(mStart));
+      mStart.add(30, 'minutes');
     }
     this.timeTables = mTimeTables;
   }
 
-  isValidBooking(startAt: any) {
+  isValidBooking(start: any) {
     return true;
   }
 
-  selectDateTime(startAt: any) {
+  selectDateTime(start: any) {
     this.isSelectedDateTime = true;
     this.isClicked = false;
-    this.newBooking.startAt = startAt;
+    this.newBooking.start = start;
 
     Swal.fire({
       html: `
           <h5>予約日時</h5>
-          ${moment(startAt).format('MM月 DD日 HH:mm')} 〜
+          ${moment(start).format('MM月 DD日 HH:mm')} 〜
           <br><br>
           で予約しますか？`,
       icon: 'info',
@@ -97,6 +97,7 @@ export class StudentBookingComponent implements OnInit {
 
   createBooking() {
     this.isClicked = true;
+    this.newBooking.title = this.auth.getUsername();
     this.newBooking.courseTime = 30;
     this.bookingService.createBooking(this.newBooking).subscribe(
       (newBooking) => {

@@ -4,17 +4,17 @@ import { Booking } from './booking.model';
 
 @Injectable()
 export class BookingHelperService {
-  private getRangeOfDates(startAt: any, endAt: any, dateFormat: any) {
+  private getRangeOfDates(start: any, end: any, dateFormat: any) {
     const tempDates = [];
-    const mEndAt = moment(endAt);
-    let mStartAt = moment(startAt);
+    const mEnd = moment(end);
+    let mStart = moment(start);
 
-    while (mStartAt < mEndAt) {
-      tempDates.push(mStartAt.format(dateFormat));
-      mStartAt = mStartAt.add(1, 'day');
+    while (mStart < mEnd) {
+      tempDates.push(mStart.format(dateFormat));
+      mStart = mStart.add(1, 'day');
     }
-    tempDates.push(moment(startAt).format(dateFormat));
-    tempDates.push(mEndAt.format(dateFormat));
+    tempDates.push(moment(start).format(dateFormat));
+    tempDates.push(mEnd.format(dateFormat));
 
     return tempDates;
   }
@@ -27,7 +27,7 @@ export class BookingHelperService {
     return this.formatDate(date, Booking.DATE_FORMAT);
   }
 
-  public getBookingRangeOfDates(startAt: any, endAt: any) {
-    return this.getRangeOfDates(startAt, endAt, Booking.DATE_FORMAT);
+  public getBookingRangeOfDates(start: any, end: any) {
+    return this.getRangeOfDates(start, end, Booking.DATE_FORMAT);
   }
 }
