@@ -14,29 +14,28 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class StudentBookingComponent implements OnInit {
   isSelectedDateTime: boolean = false;
-
   selectedDate!: Date;
   minDate = new Date();
   timeTables: any = [];
   isDateBlock_flg: boolean = false;
   isClicked: boolean = false;
-  newBooking: any = [];
+  newBooking: Booking = new Booking();
   errors: any;
   userData: any;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private bookingService: BookingService,
-    public auth: MyOriginAuthService
+    public auth: MyOriginAuthService,
+    private bookingService: BookingService
   ) {}
 
   ngOnInit() {
-    const userId = this.auth.getUserId();
-    this.auth.getUserById(userId).subscribe(
-      (foundUser) => {
-        this.newBooking.teacher = foundUser.teacher;
-        this.newBooking.student = this.auth.getUserId();
+    const studentId = this.auth.getUserId();
+    this.auth.getUserById(studentId).subscribe(
+      (foundStudent) => {
+        this.newBooking.teacher = foundStudent.teachers[0]; //tmp
+        // this.newBooking.student = foundStudent;
       },
       (err) => {}
     );
@@ -91,9 +90,7 @@ export class StudentBookingComponent implements OnInit {
       allowOutsideClick: false,
     }).then((result) => {
       if (!result.dismiss) {
-        console.log('クリエートブッキング');
         this.createBooking();
-        this.showSwalSuccess();
       }
     });
   }
@@ -101,7 +98,6 @@ export class StudentBookingComponent implements OnInit {
   createBooking() {
     this.isClicked = true;
     this.newBooking.courseTime = 30;
-
     this.bookingService.createBooking(this.newBooking).subscribe(
       (newBooking) => {
         this.newBooking = new Booking();
@@ -119,8 +115,6 @@ export class StudentBookingComponent implements OnInit {
         this.isClicked = false;
       }
     );
-
-    // debugger;
   }
 
   private showSwalSuccess() {

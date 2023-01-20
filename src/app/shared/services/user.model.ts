@@ -1,7 +1,8 @@
+import { Schema } from 'mongoose';
 import { Booking } from '../booking-selecter/shared/booking.model';
 
 export class User {
-  _id?: string;
+  _id?: Schema.Types.ObjectId;
   isVerified?: boolean;
   userRole: string = 'Student';
   perMonth?: number;

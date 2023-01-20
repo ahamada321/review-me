@@ -12,7 +12,7 @@ export class Booking {
   courseTime?: number;
   memo?: string;
 
-  teacher?: User;
-  student?: User;
+  teacher!: User;
+  student!: User;
   status: string = 'Pending';
 }

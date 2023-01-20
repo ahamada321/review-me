@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-
-import * as moment from 'moment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import * as moment from 'moment';
 
 const jwt = new JwtHelperService();
 
@@ -47,7 +46,7 @@ export class MyOriginAuthService {
       .pipe(map((token) => this.saveToken(token)));
   }
 
-  public updateUser(userId: string, userData: any): Observable<any> {
+  public updateUser(userId: any, userData: any): Observable<any> {
     return this.http
       .patch('/api/v1/users/' + userId, userData)
       .pipe(map((token) => this.saveToken(token)));
@@ -61,7 +60,7 @@ export class MyOriginAuthService {
     return localStorage.getItem('app-auth')!;
   }
 
-  public getUserId(): string {
+  public getUserId(): any {
     return this.decodedToken.userId;
   }
 
@@ -89,7 +88,7 @@ export class MyOriginAuthService {
     return this.http.get('api/v1/users/register/' + verifyToken);
   }
 
-  public getUserById(userId: string): Observable<any> {
+  public getUserById(userId: any): Observable<any> {
     return this.http.get('/api/v1/users/' + userId);
   }
 }

@@ -60,8 +60,19 @@ exports.createBooking = function (req, res) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
 
-      User.updateOne({ _id: teacher.id }, { $push: { bookings: booking } });
-      User.updateOne({ _id: student.id }, { $push: { bookings: booking } });
+      User.findOneAndUpdate(
+        { _id: teacher._id },
+        { $push: { bookings: booking } },
+        { returnOriginal: false },
+        function () {}
+      );
+
+      User.findOneAndUpdate(
+        { _id: student.id },
+        { $push: { bookings: booking } },
+        { returnOriginal: false },
+        function () {}
+      );
 
       return res.json({ status: "success" });
     });
