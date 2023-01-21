@@ -35,6 +35,13 @@ const userSchema = new Schema({
   courseTime: { type: Number, default: 60 },
   bookings: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
   rentals: [{ type: Schema.Types.ObjectId, ref: "Rental" }],
+
+  affiliateCode: String,
+  stripe: String,
+
+  bookingNotificationFromStudent: { type: Boolean, default: true },
+  changeBookingNotificationFromStudent: { type: Boolean, default: true },
+  newsLetterFromLessonCalendar: { type: Boolean, default: true },
 });
 
 userSchema.methods.hasSamePassword = function (requestPassword) {
