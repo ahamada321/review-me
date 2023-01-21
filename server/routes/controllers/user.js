@@ -421,66 +421,6 @@ exports.register = function (req, res) {
   });
 };
 
-exports.updateUser = function (req, res) {
-  const userData = req.body;
-  const { password, passwordConfirmation } = req.body;
-  const reqUserId = req.params.id;
-  const user = res.locals.user; // This is logined user infomation.
-
-  if (reqUserId === user.id) {
-    if (!password || !passwordConfirmation) {
-      return res.status(422).send({
-        errors: [
-          {
-            title: "Data missing!",
-            detail: "パスワードとパスワード（確認）を入力してください",
-          },
-        ],
-      });
-    }
-
-    if (password !== passwordConfirmation) {
-      return res.status(422).send({
-        errors: [
-          {
-            title: "Error!",
-            detail: "パスワードとパスワード（確認）が異なります",
-          },
-        ],
-      });
-    }
-
-    User.findById(reqUserId, function (err, foundUser) {
-      foundUser.password = password;
-      foundUser.save();
-
-      const token = jwt.sign(
-        {
-          userId: user.id,
-          username: userData.username,
-          userRole: user.userRole,
-        },
-        config.SECRET,
-        { expiresIn: "12h" }
-      );
-
-      return res.json(token);
-    });
-  } else {
-    User.findOneAndUpdate(
-      { _id: reqUserId },
-      userData,
-      { returnOriginal: false },
-      function (err) {
-        if (err) {
-          return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
-        return res.json({ status: "success" });
-      }
-    );
-  }
-};
-
 // Not completely works!
 exports.deleteUser = async function (req, res) {
   const reqUserId = req.params.id;
@@ -504,64 +444,80 @@ exports.deleteUser = async function (req, res) {
   }
 };
 
-exports.setNwePassword = function (req, res) {
-  const { email, password, passwordConfirmation } = req.body;
-  const verifyToken = req.params.token;
-  let user;
+exports.updateUser = function (req, res) {
+  const userData = req.body;
+  const { password, passwordConfirmation } = req.body;
+  const reqUserId = req.params.id;
+  const user = res.locals.user; // This is logined user infomation.
 
-  if (!password || !email) {
-    return res.status(422).send({
-      errors: [
-        { title: "Data missing!", detail: "Provide email and password!" },
-      ],
-    });
+  if (reqUserId !== user.id) {
+    User.findOneAndUpdate(
+      { _id: reqUserId },
+      userData,
+      { returnOriginal: false },
+      function (err) {
+        if (err) {
+          return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+        return res.json({ status: "success" });
+      }
+    );
   }
 
-  if (password != passwordConfirmation) {
+  if (!password) {
+    User.findOneAndUpdate(
+      { _id: user.id },
+      userData,
+      { returnOriginal: false },
+      function (err) {
+        if (err) {
+          return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        const token = jwt.sign(
+          {
+            userId: user.id,
+            username: username,
+            userRole: user.userRole,
+          },
+          config.SECRET,
+          { expiresIn: "10h" }
+        );
+
+        return res.json(token);
+      }
+    );
+  }
+
+  if (password !== passwordConfirmation) {
     return res.status(422).send({
       errors: [
         {
-          title: "Invalid password!",
-          detail: "Password is not as same as confirmation!",
+          title: "Error!",
+          detail: "パスワードとパスワード（確認）が異なります",
         },
       ],
     });
   }
 
-  if (verifyToken) {
-    try {
-      user = jwt.verify(verifyToken, config.SECRET);
-    } catch (err) {
-      return res.status(422).send({
-        errors: [
-          { title: "Invalid token!", detail: "Token format is invalid!" },
-        ],
-      });
-    }
-  }
-
-  if (email !== user.email) {
-    return res.status(422).send({
-      errors: [
-        {
-          title: "email is incorrect!",
-          detail: "Email is incorrect as we sent!",
-        },
-      ],
-    });
-  }
-
-  User.findById(user.userId, function (err, foundUser) {
+  User.findById(reqUserId, function (err, foundUser) {
     if (err) {
       return res.status(422).send({ errors: normalizeErrors(err.errors) });
     }
     foundUser.password = password;
-    foundUser.save(function (err) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.status(200).send(foundUser);
-    });
+    foundUser.save();
+
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        username: userData.username,
+        userRole: user.userRole,
+      },
+      config.SECRET,
+      { expiresIn: "12h" }
+    );
+
+    return res.json(token);
   });
 };
 
