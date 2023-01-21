@@ -10,7 +10,7 @@
       </div>
       <div class="row">
         <div class="col-md-6 ml-auto mr-auto">
-          <form class="settings-form">
+          <form class="settings-form" #updateProfileForm="ngForm">
             <div class="row">
               <div class="col-md-12 col-sm-6">
                 <div class="form-group">
@@ -92,11 +92,30 @@
                 </bSwitch>
               </li>
             </ul>
-            <div class="text-center">
-              <button type="submit" class="btn btn-wd btn-primary btn-round">
-                保存する
-              </button>
-            </div>
+            <div class="space-top"></div>
+            <button
+              *ngIf="
+                updateProfileForm.pristine ||
+                !updateProfileForm.valid ||
+                isClicked
+              "
+              disabled
+              type="submit"
+              class="btn btn-block btn-round btn-lg"
+            >
+              更新
+            </button>
+            <button
+              *ngIf="
+                !updateProfileForm.pristine &&
+                updateProfileForm.valid &&
+                !isClicked
+              "
+              type="submit"
+              class="btn btn-block btn-primary btn-round btn-lg"
+            >
+              更新
+            </button>
           </form>
         </div>
       </div>

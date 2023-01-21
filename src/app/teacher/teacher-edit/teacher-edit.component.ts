@@ -15,6 +15,7 @@ export class TeacherEditComponent implements OnInit {
   state_info_cancel = true;
   state_info1 = true;
   data: Date = new Date();
+  isClicked: boolean = false;
 
   constructor(private auth: MyOriginAuthService, private router: Router) {}
 
