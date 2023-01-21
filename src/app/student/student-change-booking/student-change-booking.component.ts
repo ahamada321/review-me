@@ -85,7 +85,12 @@ export class StudentChangeBookingComponent implements OnInit {
   selectDateTime(start: Date) {
     this.isClicked = false;
     this.newBooking.oldStart = this.currentBooking.start;
+    this.newBooking.oldEnd = this.currentBooking.end;
     this.newBooking.start = start;
+    this.newBooking.end = moment(start).add(
+      this.currentBooking.courseTime,
+      'minute'
+    );
 
     Swal.fire({
       html: `
@@ -112,6 +117,7 @@ export class StudentChangeBookingComponent implements OnInit {
 
   updateBooking() {
     this.isClicked = true;
+
     this.bookingService.updateBooking(this.newBooking).subscribe(
       (Message) => {
         this.isClicked = false;

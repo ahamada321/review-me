@@ -9,6 +9,7 @@ const bookingSchema = new Schema({
   oldStart: Date,
   courseTime: { type: Number, required: "Course time is required" },
   end: Date,
+  oldEnd: Date,
 
   perMonth: Number,
   memo: String,

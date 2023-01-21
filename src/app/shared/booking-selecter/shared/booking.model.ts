@@ -12,6 +12,7 @@ export class Booking {
   oldStart?: any;
   courseTime?: number;
   end!: any;
+  oldEnd?: any;
 
   perMonth?: number;
   memo?: string;
