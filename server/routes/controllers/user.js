@@ -450,6 +450,7 @@ exports.updateUser = function (req, res) {
   const reqUserId = req.params.id;
   const user = res.locals.user; // This is logined user infomation.
 
+  // Teacher can change their students course time and lessons per month.
   if (reqUserId !== user.id) {
     User.findOneAndUpdate(
       { _id: reqUserId },
@@ -462,17 +463,52 @@ exports.updateUser = function (req, res) {
         return res.json({ status: "success" });
       }
     );
-  }
+  } else {
+    if (!password) {
+      // Update user info without password.
+      User.findOneAndUpdate(
+        { _id: user.id },
+        userData,
+        { returnOriginal: false },
+        function (err, foundUser) {
+          if (err) {
+            return res
+              .status(422)
+              .send({ errors: normalizeErrors(err.errors) });
+          }
 
-  if (!password) {
-    User.findOneAndUpdate(
-      { _id: user.id },
-      userData,
-      { returnOriginal: false },
-      function (err, foundUser) {
+          const token = jwt.sign(
+            {
+              userId: user.id,
+              username: foundUser.username,
+              userRole: foundUser.userRole,
+            },
+            config.SECRET,
+            { expiresIn: "12h" }
+          );
+
+          return res.json(token);
+        }
+      );
+    } else {
+      if (password !== passwordConfirmation) {
+        return res.status(422).send({
+          errors: [
+            {
+              title: "Error!",
+              detail: "パスワードとパスワード（確認）が異なります",
+            },
+          ],
+        });
+      }
+
+      // Update user password.
+      User.findById(reqUserId, function (err, foundUser) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
+        foundUser.password = password;
+        foundUser.save();
 
         const token = jwt.sign(
           {
@@ -485,40 +521,9 @@ exports.updateUser = function (req, res) {
         );
 
         return res.json(token);
-      }
-    );
-  }
-
-  if (password !== passwordConfirmation) {
-    return res.status(422).send({
-      errors: [
-        {
-          title: "Error!",
-          detail: "パスワードとパスワード（確認）が異なります",
-        },
-      ],
-    });
-  }
-
-  User.findById(reqUserId, function (err, foundUser) {
-    if (err) {
-      return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      });
     }
-    foundUser.password = password;
-    foundUser.save();
-
-    const token = jwt.sign(
-      {
-        userId: user.id,
-        username: foundUser.username,
-        userRole: foundUser.userRole,
-      },
-      config.SECRET,
-      { expiresIn: "12h" }
-    );
-
-    return res.json(token);
-  });
+  }
 };
 
 exports.setInitialPassword = function (req, res) {
