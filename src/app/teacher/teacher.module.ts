@@ -18,6 +18,7 @@ import { SearchbarModule } from '../shared/searchbar/searchbar.module';
 import { UserService } from '../shared/services/user.service';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AdsenseModule } from 'ng2-adsense';
+import { TeacherEditStudentComponent } from './teacher-edit-student/teacher-edit-student.component';
 // source　https://www.npmjs.com/package/ng2-adsense
 
 const routes: Routes = [
@@ -51,6 +52,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'manage/edit-student/:studentId',
+        component: TeacherEditStudentComponent,
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'search',
         component: TeacherSearchComponent,
         canActivate: [AuthGuard],
@@ -64,6 +70,7 @@ const routes: Routes = [
     TeacherComponent,
     TeacherChangePasswordComponent,
     TeacherEditComponent,
+    TeacherEditStudentComponent,
     TeacherMypageComponent,
     TeacherNotificationComponent,
     TeacherManageStudentsComponent,

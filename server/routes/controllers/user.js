@@ -247,6 +247,18 @@ exports.acceptUserRequest = async function (req, res) {
   );
 };
 
+exports.getMyStudents = function (req, res) {
+  const teacherId = res.locals.user.id;
+  User.findById(teacherId)
+    .populate("students", "-password")
+    .exec(function (err, foundTeacher) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      return res.json(foundTeacher.students);
+    });
+};
+
 exports.getUserById = function (req, res) {
   const reqUserId = req.params.id;
   const user = res.locals.user;
@@ -415,64 +427,17 @@ exports.updateUser = function (req, res) {
   const reqUserId = req.params.id;
   const user = res.locals.user; // This is logined user infomation.
 
-  if (user.userRole === "Owner") {
-    User.updateOne({ _id: reqUserId }, userData, () => {});
-
-    const token = jwt.sign(
-      {
-        userId: user.id,
-        username: userData.username,
-        userRole: user.userRole,
-      },
-      config.SECRET,
-      { expiresIn: "12h" }
-    );
-
-    return res.json(token);
-  } else if (reqUserId === user.id) {
-    if (!password || !confirmPassword) {
-      return res.status(422).send({
-        errors: [
-          {
-            title: "Data missing!",
-            detail: "パスワードとパスワード（確認）を入力してください",
-          },
-        ],
-      });
+  User.findOneAndUpdate(
+    { _id: reqUserId },
+    userData,
+    { returnOriginal: false },
+    function (err) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      return res.json({ status: "success" });
     }
-
-    if (password !== confirmPassword) {
-      return res.status(422).send({
-        errors: [
-          {
-            title: "Error!",
-            detail: "パスワードとパスワード（確認）が異なります",
-          },
-        ],
-      });
-    }
-
-    User.updateOne({ _id: reqUserId }, userData, () => {});
-
-    const token = jwt.sign(
-      {
-        userId: user.id,
-        username: userData.username,
-        userRole: user.userRole,
-      },
-      config.SECRET,
-      { expiresIn: "12h" }
-    );
-
-    return res.json(token);
-  } else {
-    return res.status(422).send({
-      errors: {
-        title: "Invalid user!",
-        detail: "Cannot edit other user profile!",
-      },
-    });
-  }
+  );
 };
 
 // Not completely works!

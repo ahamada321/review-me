@@ -19,6 +19,18 @@ export class UserService {
     return this.http.post('/api/v1/users/accept', teacher);
   }
 
+  public getMyStudents(): Observable<any> {
+    return this.http.get('/api/v1/users/mystudents');
+  }
+
+  public getUserById(userId: any): Observable<any> {
+    return this.http.get('/api/v1/users/' + userId);
+  }
+
+  public updateUser(userId: any, userData: any): Observable<any> {
+    return this.http.patch('/api/v1/users/' + userId, userData);
+  }
+
   //   public updateRental(rentalId: string, rentalData: Rental): Observable<any> {
   //     return this.http.patch('/api/v1/rentals/' + rentalId, rentalData);
   //   }

@@ -16,6 +16,8 @@ router.post("/adduser", UserCtrl.authMiddleware, UserCtrl.addUserRequest);
 
 router.post("/accept", UserCtrl.authMiddleware, UserCtrl.acceptUserRequest);
 
+router.get("/mystudents", UserCtrl.authMiddleware, UserCtrl.getMyStudents);
+
 router.get("/:id", UserCtrl.authMiddleware, UserCtrl.getUserById);
 
 router.patch("/:id", UserCtrl.authMiddleware, UserCtrl.updateUser);

@@ -1,0 +1,98 @@
+<div *ngIf="studentData" class="wrapper">
+  <div class="profile-content section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mr-auto ml-auto">
+          <h3 class="text-center">生徒のレッスン内容変更</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mr-auto ml-auto">
+          <div class="card card-register">
+            <form
+              class="settings-form"
+              #updateStudentForm="ngForm"
+              (ngSubmit)="updateStudent(updateStudentForm)"
+            >
+              <div class="form-group">
+                <label>生徒名</label>
+                <input
+                  [ngModel]="studentData.username"
+                  name="username"
+                  type="text"
+                  class="form-control border-input"
+                  disabled
+                />
+              </div>
+
+              <div class="form-group">
+                <label>レッスン時間 <span class="icon-danger">*</span></label>
+                <select
+                  class="custom-select"
+                  [(ngModel)]="studentData.courseTime"
+                  name="courseTime"
+                  required
+                >
+                  <option [value]="undefined" disabled>時間を選択</option>
+                  <option
+                    *ngFor="let dropdownCourseList of dropdownCourseLists"
+                    [value]="dropdownCourseList.id"
+                  >
+                    {{ dropdownCourseList.itemName }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label
+                  >レッスン回数/月 <span class="icon-danger">*</span></label
+                >
+                <select
+                  class="custom-select"
+                  [(ngModel)]="studentData.perMonth"
+                  name="perMonth"
+                  required
+                >
+                  <option [value]="undefined" disabled>
+                    レッスン回数を選択
+                  </option>
+                  <option
+                    *ngFor="
+                      let dropdownCourseTypeList of dropdownCourseTypeLists
+                    "
+                    [value]="dropdownCourseTypeList.id"
+                  >
+                    {{ dropdownCourseTypeList.itemName }}
+                  </option>
+                </select>
+              </div>
+              <button
+                *ngIf="
+                  updateStudentForm.pristine ||
+                  !updateStudentForm.valid ||
+                  isClicked
+                "
+                disabled
+                type="submit"
+                class="btn btn-block btn-round btn-lg"
+              >
+                更新
+              </button>
+              <button
+                *ngIf="
+                  !updateStudentForm.pristine &&
+                  updateStudentForm.valid &&
+                  !isClicked
+                "
+                type="submit"
+                class="btn btn-block btn-primary btn-round btn-lg"
+              >
+                更新
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
