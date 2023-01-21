@@ -5,8 +5,6 @@ export class User {
   _id?: Schema.Types.ObjectId;
   isVerified?: boolean;
   userRole: string = 'Student';
-  perMonth?: number;
-  courseTime?: number;
 
   username?: string;
   email?: string;
@@ -18,6 +16,8 @@ export class User {
   teachers!: User[];
   students!: User[];
 
+  perMonth?: number;
+  courseTime?: number;
   bookings!: Booking[];
 
   affiliateCode?: string;

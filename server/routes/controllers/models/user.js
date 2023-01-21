@@ -31,8 +31,10 @@ const userSchema = new Schema({
   pendingTeachers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   pendingStudents: [{ type: Schema.Types.ObjectId, ref: "User" }],
 
-  rentals: [{ type: Schema.Types.ObjectId, ref: "Rental" }],
+  perMonth: { type: Number, default: 4 },
+  courseTime: { type: Number, default: 60 },
   bookings: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
+  rentals: [{ type: Schema.Types.ObjectId, ref: "Rental" }],
 });
 
 userSchema.methods.hasSamePassword = function (requestPassword) {
