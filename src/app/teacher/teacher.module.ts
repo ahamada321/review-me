@@ -19,6 +19,7 @@ import { UserService } from '../shared/services/user.service';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AdsenseModule } from 'ng2-adsense';
 import { TeacherEditStudentComponent } from './teacher-edit-student/teacher-edit-student.component';
+import { ChangePasswordModule } from '../shared/change-password/change-password.module';
 // source　https://www.npmjs.com/package/ng2-adsense
 
 const routes: Routes = [
@@ -87,6 +88,7 @@ const routes: Routes = [
     SearchbarModule,
     FullCalendarModule,
     AdsenseModule,
+    ChangePasswordModule,
   ],
   exports: [],
   providers: [UserService],

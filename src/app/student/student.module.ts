@@ -20,6 +20,7 @@ import { BookingSelecterModule } from '../shared/booking-selecter/booking-select
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { StudentNotificationComponent } from './student-notification/student-notification.component';
 import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
+import { ChangePasswordModule } from '../shared/change-password/change-password.module';
 
 const routes: Routes = [
   {
@@ -82,6 +83,7 @@ const routes: Routes = [
     JwBootstrapSwitchNg2Module,
     ImageUploadModule,
     BookingSelecterModule,
+    ChangePasswordModule,
   ],
   exports: [],
   providers: [],

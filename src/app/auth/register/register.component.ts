@@ -58,7 +58,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   register() {
-    debugger;
     this.auth.register(this.formData).subscribe(
       (newUser) => {
         if (newUser.isVerified) {

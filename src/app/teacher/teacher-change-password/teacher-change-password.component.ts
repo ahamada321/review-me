@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-teacher-change-password',
@@ -7,7 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./teacher-change-password.component.scss'],
 })
 export class TeacherChangePasswordComponent implements OnInit {
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor() {}
 
   ngOnInit() {}
 }

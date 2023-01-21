@@ -423,21 +423,62 @@ exports.register = function (req, res) {
 
 exports.updateUser = function (req, res) {
   const userData = req.body;
-  const { password, confirmPassword } = req.body;
+  const { password, passwordConfirmation } = req.body;
   const reqUserId = req.params.id;
   const user = res.locals.user; // This is logined user infomation.
 
-  User.findOneAndUpdate(
-    { _id: reqUserId },
-    userData,
-    { returnOriginal: false },
-    function (err) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json({ status: "success" });
+  if (reqUserId === user.id) {
+    if (!password || !passwordConfirmation) {
+      return res.status(422).send({
+        errors: [
+          {
+            title: "Data missing!",
+            detail: "パスワードとパスワード（確認）を入力してください",
+          },
+        ],
+      });
     }
-  );
+
+    if (password !== passwordConfirmation) {
+      return res.status(422).send({
+        errors: [
+          {
+            title: "Error!",
+            detail: "パスワードとパスワード（確認）が異なります",
+          },
+        ],
+      });
+    }
+
+    User.findById(reqUserId, function (err, foundUser) {
+      foundUser.password = password;
+      foundUser.save();
+
+      const token = jwt.sign(
+        {
+          userId: user.id,
+          username: userData.username,
+          userRole: user.userRole,
+        },
+        config.SECRET,
+        { expiresIn: "12h" }
+      );
+
+      return res.json(token);
+    });
+  } else {
+    User.findOneAndUpdate(
+      { _id: reqUserId },
+      userData,
+      { returnOriginal: false },
+      function (err) {
+        if (err) {
+          return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+        return res.json({ status: "success" });
+      }
+    );
+  }
 };
 
 // Not completely works!
