@@ -7,11 +7,11 @@ import { User } from 'src/app/shared/services/user.model';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.scss'],
+  selector: 'app-change-email',
+  templateUrl: './change-email.component.html',
+  styleUrls: ['./change-email.component.scss'],
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangeEmailComponent implements OnInit {
   errors: any = [];
   userData!: User;
   userId = this.auth.getUserId();
@@ -38,7 +38,7 @@ export class ChangePasswordComponent implements OnInit {
 
   private showSwalSuccess() {
     Swal.fire({
-      title: 'パスワードが変更されました！',
+      title: 'メールアドレスが変更されました！',
       icon: 'success',
       customClass: {
         confirmButton: 'btn btn-primary btn-lg',
@@ -53,7 +53,7 @@ export class ChangePasswordComponent implements OnInit {
   private showSwalError() {
     Swal.fire({
       title: '通信エラー',
-      text: 'もう一度パスワード変更ボタンを押しなおしてください',
+      text: 'もう一度メールアドレス変更ボタンを押しなおしてください',
       icon: 'error',
       customClass: {
         confirmButton: 'btn btn-danger btn-lg',

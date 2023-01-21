@@ -19,6 +19,7 @@ const userSchema = new Schema({
     max: [128, "Too long, max is 64 characters."],
     required: "Email is required",
   },
+  oldEmail: String,
   password: {
     type: String,
     max: [32, "Too long, max is 32 characters."],

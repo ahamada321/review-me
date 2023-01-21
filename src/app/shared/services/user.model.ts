@@ -8,6 +8,7 @@ export class User {
 
   username?: string;
   email?: string;
+  oldEmail?: string;
   password?: string;
   passwordConfirmation?: string; // Frontend only!
 

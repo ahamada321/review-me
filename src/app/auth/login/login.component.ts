@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       text: '新しいパスワードでログインできます！',
       icon: 'success',
       customClass: {
-        confirmButton: 'btn btn-primary btn-round btn-lg',
+        confirmButton: 'btn btn-primary btn-lg',
       },
       buttonsStyling: false,
       timer: 5000,

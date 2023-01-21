@@ -21,6 +21,8 @@ import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { StudentNotificationComponent } from './student-notification/student-notification.component';
 import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
 import { ChangePasswordModule } from '../shared/change-password/change-password.module';
+import { ChangeEmailModule } from '../shared/change-email/change-email.module';
+import { StudentChangeEmailComponent } from './student-change-email/student-change-email.component';
 
 const routes: Routes = [
   {
@@ -53,6 +55,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'email',
+        component: StudentChangeEmailComponent,
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'notification',
         component: StudentNotificationComponent,
         canActivate: [AuthGuard],
@@ -68,6 +75,7 @@ const routes: Routes = [
     StudentChangeBookingComponent,
     StudentEditComponent,
     StudentChangePasswordComponent,
+    StudentChangeEmailComponent,
     StudentMypageComponent,
     StudentNotificationComponent,
   ],
@@ -84,6 +92,7 @@ const routes: Routes = [
     ImageUploadModule,
     BookingSelecterModule,
     ChangePasswordModule,
+    ChangeEmailModule,
   ],
   exports: [],
   providers: [],

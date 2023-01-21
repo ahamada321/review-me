@@ -89,7 +89,7 @@ export class TeacherEditStudentComponent implements OnInit {
       text: 'もう一度報告ボタンを押しなおしてください',
       icon: 'error',
       customClass: {
-        confirmButton: 'btn btn-danger btn-round btn-lg',
+        confirmButton: 'btn btn-danger btn-lg',
       },
       buttonsStyling: false,
     });
