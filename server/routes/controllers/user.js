@@ -469,7 +469,7 @@ exports.updateUser = function (req, res) {
       { _id: user.id },
       userData,
       { returnOriginal: false },
-      function (err) {
+      function (err, foundUser) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
@@ -477,11 +477,11 @@ exports.updateUser = function (req, res) {
         const token = jwt.sign(
           {
             userId: user.id,
-            username: username,
-            userRole: user.userRole,
+            username: foundUser.username,
+            userRole: foundUser.userRole,
           },
           config.SECRET,
-          { expiresIn: "10h" }
+          { expiresIn: "12h" }
         );
 
         return res.json(token);
@@ -510,8 +510,8 @@ exports.updateUser = function (req, res) {
     const token = jwt.sign(
       {
         userId: user.id,
-        username: userData.username,
-        userRole: user.userRole,
+        username: foundUser.username,
+        userRole: foundUser.userRole,
       },
       config.SECRET,
       { expiresIn: "12h" }
