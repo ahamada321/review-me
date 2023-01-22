@@ -85,10 +85,17 @@
                             <td>{{ convertJST(upcomingBooking.start) }}</td>
                             <td>
                               <a
+                                *ngIf="!isLess24Hours(upcomingBooking.start)"
                                 [routerLink]="['booking', upcomingBooking._id]"
                                 class="btn btn-link btn-primary"
                               >
                                 予定変更
+                              </a>
+                              <a
+                                *ngIf="isLess24Hours(upcomingBooking.start)"
+                                class="btn btn-link"
+                              >
+                                変更不可
                               </a>
                             </td>
                           </tr>

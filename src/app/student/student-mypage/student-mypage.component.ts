@@ -66,4 +66,9 @@ export class StudentMypageComponent implements OnInit {
     // return moment(time).subtract(9, 'hour').format('MM月 DD日 HH:mm 〜');
     return moment(time).format('MM月 DD日 HH:mm 〜');
   }
+
+  isLess24Hours(startAt: any) {
+    const timeNow = moment(); // Attention: just "moment()" is already applied timezone!
+    return moment(startAt).diff(timeNow.add(1, 'day')) < 0;
+  }
 }

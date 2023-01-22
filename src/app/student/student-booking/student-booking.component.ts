@@ -78,10 +78,11 @@ export class StudentBookingComponent implements OnInit {
 
     Swal.fire({
       html: `
-          <h5>予約日時</h5>
-          ${moment(start).format('MM月 DD日 HH:mm')} 〜
-          <br><br>
-          で予約しますか？`,
+          <h4>予約日時</h4>
+          <h3>${moment(start).format('MM月 DD日 HH:mm')} 〜</h3>
+          <br>
+          で予約しますか？<br><br>
+          <p>※開始24時間未満の予約は日時変更できなくなります</p>`,
       icon: 'info',
       showCancelButton: true,
       confirmButtonColor: '#51cbce',
