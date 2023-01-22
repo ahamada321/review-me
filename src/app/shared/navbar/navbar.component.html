@@ -9,13 +9,13 @@
           >Lesson Calendar</a
         >
         <a
-          *ngIf="auth.getUserRole() === 'Teacher'"
+          *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Teacher'"
           class="navbar-brand"
           [routerLink]="['/teacher']"
           >Lesson Calendar</a
         >
         <a
-          *ngIf="auth.getUserRole() === 'Student'"
+          *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Student'"
           class="navbar-brand"
           [routerLink]="['/student']"
           >Lesson Calendar</a
@@ -71,7 +71,7 @@
         </li>
         <li class="nav-item clickable">
           <a class="nav-link" [routerLink]="['/teacher/edit']"
-            ><i class="nc-icon nc-single-02"></i> マイページ</a
+            ><i class="nc-icon nc-single-02"></i> 設定</a
           >
         </li>
         <li class="nav-item clickable">
@@ -102,7 +102,7 @@
         </li>
         <li class="nav-item clickable">
           <a class="nav-link" [routerLink]="['/student/edit']"
-            ><i class="nc-icon nc-single-02"></i> マイページ</a
+            ><i class="nc-icon nc-single-02"></i> 設定</a
           >
         </li>
         <li class="nav-item clickable">
