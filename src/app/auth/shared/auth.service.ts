@@ -87,8 +87,4 @@ export class MyOriginAuthService {
   public userActivation(verifyToken: string): Observable<any> {
     return this.http.get('api/v1/users/register/' + verifyToken);
   }
-
-  public getUserById(userId: any): Observable<any> {
-    return this.http.get('/api/v1/users/' + userId);
-  }
 }

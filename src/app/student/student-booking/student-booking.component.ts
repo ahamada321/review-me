@@ -6,6 +6,7 @@ import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.s
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-student-booking',
@@ -27,12 +28,13 @@ export class StudentBookingComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public auth: MyOriginAuthService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
     const studentId = this.auth.getUserId();
-    this.auth.getUserById(studentId).subscribe(
+    this.userService.getUserById(studentId).subscribe(
       (foundStudent) => {
         this.newBooking.teacher = foundStudent.teachers[0]; //tmp
         // this.newBooking.student = foundStudent;

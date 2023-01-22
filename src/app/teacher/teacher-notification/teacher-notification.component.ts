@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/services/user.model';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-teacher-notification',
@@ -11,7 +12,11 @@ import { User } from 'src/app/shared/services/user.model';
 export class TeacherNotificationComponent implements OnInit {
   userData!: User;
 
-  constructor(private auth: MyOriginAuthService, private router: Router) {}
+  constructor(
+    private auth: MyOriginAuthService,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.getMe();
@@ -20,7 +25,7 @@ export class TeacherNotificationComponent implements OnInit {
 
   getMe() {
     const userId = this.auth.getUserId();
-    this.auth.getUserById(userId).subscribe(
+    this.userService.getUserById(userId).subscribe(
       (foundUser) => {
         this.userData = foundUser;
       },

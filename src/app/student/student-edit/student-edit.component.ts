@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-student-edit',
@@ -10,62 +12,76 @@ import Swal from 'sweetalert2';
   styleUrls: ['./student-edit.component.scss'],
 })
 export class StudentEditComponent implements OnInit {
+  isClicked: boolean = false;
+  errors: any = [];
   userData: any;
+  userId = this.auth.getUserId();
+  newsLetterFromLessonCalendar = true;
   state_info = true;
   state_info1 = true;
   data: Date = new Date();
 
-  constructor(private auth: MyOriginAuthService, private router: Router) {}
+  constructor(
+    private auth: MyOriginAuthService,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
-    // let navbar = document.getElementsByTagName('nav')[0];
-    // navbar.classList.add('navbar-transparent');
-    // let body = document.getElementsByTagName('body')[0];
-    // body.classList.add('settings-page');
-    // this.getUser();
+    this.getMe();
   }
-  ngOnDestroy() {
-    // let navbar = document.getElementsByTagName('nav')[0];
-    // navbar.classList.remove('navbar-transparent');
-    // if (navbar.classList.contains('nav-up')) {
-    //   navbar.classList.remove('nav-up');
-    // }
-    // let body = document.getElementsByTagName('body')[0];
-    // body.classList.remove('settings-page');
+  ngOnDestroy() {}
+
+  getMe() {
+    this.userService.getUserById(this.userId).subscribe(
+      (foundUser) => {
+        this.userData = foundUser;
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.errors = errorResponse.error.errors;
+      }
+    );
   }
 
-  getUser() {
-    // const userId = this.auth.getUserId();
-    // this.auth.getUserById(userId).subscribe(
-    //   (foundUser) => {
-    //     this.userData = foundUser;
-    //   },
-    //   (err) => {}
-    // );
-  }
+  updateUser(UserForm: NgForm) {
+    this.isClicked = true;
+    UserForm.value.oldEmail = this.userData.email;
 
-  updateUser(userForm: NgForm) {
-    // this.auth.updateUser(this.userData._id, userForm.value).subscribe(
-    //   (UserUpdated) => {
-    //     userForm.reset(userForm.value);
-    //     this.showSwalSuccess();
-    //   },
-    //   (err) => {}
-    // );
+    this.auth.updateUser(this.userId, UserForm.value).subscribe(
+      (Updated) => {
+        this.isClicked = false;
+        this.showSwalSuccess();
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.isClicked = false;
+        this.showSwalError();
+        this.errors = errorResponse.error.errors;
+      }
+    );
   }
 
   private showSwalSuccess() {
     Swal.fire({
       // title: 'User infomation has been updated!',
       icon: 'success',
-      text: 'ユーザー情報が更新されました！',
+      title: 'ユーザー情報が更新されました！',
       customClass: {
         confirmButton: 'btn btn-primary btn-lg',
       },
       buttonsStyling: false,
-      timer: 5000,
     }).then(() => {
-      this.router.navigate(['/rentals', { registered: 'success' }]);
+      this.router.navigate(['/student']);
+    });
+  }
+  private showSwalError() {
+    Swal.fire({
+      title: '通信エラー',
+      text: 'もう一度ユーザー情報変更ボタンを押しなおしてください',
+      icon: 'error',
+      customClass: {
+        confirmButton: 'btn btn-danger btn-lg',
+      },
+      buttonsStyling: false,
     });
   }
 }

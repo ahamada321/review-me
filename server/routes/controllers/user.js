@@ -263,7 +263,7 @@ exports.getUserById = function (req, res) {
   const reqUserId = req.params.id;
   const user = res.locals.user;
 
-  if (reqUserId == user.id) {
+  if (reqUserId === user.id) {
     // Display all
     User.findById(reqUserId)
       .populate("pendingTeachers teachers bookings", "-password")

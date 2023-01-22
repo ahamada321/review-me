@@ -86,7 +86,7 @@ export class TeacherEditStudentComponent implements OnInit {
   private showSwalError() {
     Swal.fire({
       title: '通信エラー',
-      text: 'もう一度報告ボタンを押しなおしてください',
+      text: 'もう一度ボタンを押しなおしてください',
       icon: 'error',
       customClass: {
         confirmButton: 'btn btn-danger btn-lg',

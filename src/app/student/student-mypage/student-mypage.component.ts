@@ -5,6 +5,7 @@ import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
 import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
 import { User } from 'src/app/shared/services/user.model';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-student-mypage',
@@ -22,7 +23,8 @@ export class StudentMypageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     public auth: MyOriginAuthService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -32,7 +34,7 @@ export class StudentMypageComponent implements OnInit {
   }
 
   getMe() {
-    this.auth.getUserById(this.userId).subscribe(
+    this.userService.getUserById(this.userId).subscribe(
       (foundUser) => {
         this.userData = foundUser;
       },

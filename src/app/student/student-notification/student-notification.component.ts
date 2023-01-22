@@ -28,7 +28,7 @@ export class StudentNotificationComponent implements OnInit {
 
   getMe() {
     const userId = this.auth.getUserId();
-    this.auth.getUserById(userId).subscribe(
+    this.userService.getUserById(userId).subscribe(
       (foundUser) => {
         this.userData = foundUser;
       },
