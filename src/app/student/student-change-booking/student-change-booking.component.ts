@@ -94,12 +94,15 @@ export class StudentChangeBookingComponent implements OnInit {
 
     Swal.fire({
       html: `
-          <h5>レッスン変更確認</h5>
-          ${moment(this.newBooking.oldStart).format('MM月DD日 HH:mm')}〜<br>
-          を<br>
-          ${moment(this.newBooking.start).format('MM月DD日 HH:mm')}〜
+          <h4>レッスン変更確認</h4>
+          <h4>${moment(this.newBooking.oldStart).format(
+            'MM月DD日 HH:mm'
+          )}〜</h4><br>
+          の予約を
+          <h4>${moment(this.newBooking.start).format('MM月DD日 HH:mm')}〜</h4>
           <br>
-          に変更しますか？`,
+          に変更しますか？<br><br>
+          <p>※開始24時間未満の予約は日時変更できなくなります</p>`,
       icon: 'info',
       showCancelButton: true,
       confirmButtonColor: '#51cbce',
