@@ -43,6 +43,85 @@ const userSchema = new Schema({
   bookingNotificationFromStudent: { type: Boolean, default: true },
   changeBookingNotificationFromStudent: { type: Boolean, default: true },
   newsLetterFromLessonCalendar: { type: Boolean, default: true },
+
+  // // Wanna be more simlpify menu below
+  mon_enabled: { type: Boolean, default: true },
+  mon_start: {
+    hour: { type: Number, default: 10 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  mon_end: {
+    hour: { type: Number, default: 19 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  tue_enabled: { type: Boolean, default: true },
+  tue_start: {
+    hour: { type: Number, default: 10 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  tue_end: {
+    hour: { type: Number, default: 19 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  wed_enabled: { type: Boolean, default: true },
+  wed_start: {
+    hour: { type: Number, default: 10 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  wed_end: {
+    hour: { type: Number, default: 19 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  thu_enabled: { type: Boolean, default: true },
+  thu_start: {
+    hour: { type: Number, default: 10 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  thu_end: {
+    hour: { type: Number, default: 19 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  fri_enabled: { type: Boolean, default: true },
+  fri_start: {
+    hour: { type: Number, default: 10 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  fri_end: {
+    hour: { type: Number, default: 19 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  sat_enabled: { type: Boolean, default: true },
+  sat_start: {
+    hour: { type: Number, default: 10 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  sat_end: {
+    hour: { type: Number, default: 19 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  sun_enabled: { type: Boolean, default: true },
+  sun_start: {
+    hour: { type: Number, default: 10 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
+  sun_end: {
+    hour: { type: Number, default: 19 },
+    minute: { type: Number, default: 0 },
+    second: { type: Number, default: 0 },
+  },
 });
 
 userSchema.methods.hasSamePassword = function (requestPassword) {

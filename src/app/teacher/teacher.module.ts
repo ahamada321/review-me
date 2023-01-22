@@ -4,22 +4,24 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthGuard } from '../auth/shared/auth.guard';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import { AdsenseModule } from 'ng2-adsense';
+import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
+import { SearchbarModule } from '../shared/searchbar/searchbar.module';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { ChangePasswordModule } from '../shared/change-password/change-password.module';
 
 import { TeacherComponent } from '../teacher/teacher.component';
-import { TeacherChangePasswordComponent } from './teacher-change-password/teacher-change-password.component';
-import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
 import { TeacherMypageComponent } from './teacher-mypage/teacher-mypage.component';
-import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
 import { TeacherNotificationComponent } from './teacher-notification/teacher-notification.component';
-import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
 import { TeacherManageStudentsComponent } from './teacher-manage-students/teacher-manage-students.component';
 import { TeacherSearchComponent } from './teacher-search/teacher-search.component';
-import { SearchbarModule } from '../shared/searchbar/searchbar.module';
-import { UserService } from '../shared/services/user.service';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { AdsenseModule } from 'ng2-adsense';
 import { TeacherEditStudentComponent } from './teacher-edit-student/teacher-edit-student.component';
-import { ChangePasswordModule } from '../shared/change-password/change-password.module';
+import { TeacherOfficehoursComponent } from './teacher-officehours/teacher-officehours.component';
+import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
+import { TeacherChangePasswordComponent } from './teacher-change-password/teacher-change-password.component';
+import { UserService } from '../shared/services/user.service';
+
 // source　https://www.npmjs.com/package/ng2-adsense
 
 const routes: Routes = [
@@ -33,16 +35,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path: 'edit',
-        component: TeacherEditComponent,
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'password',
-        component: TeacherChangePasswordComponent,
-        canActivate: [AuthGuard],
-      },
-      {
         path: 'notification',
         component: TeacherNotificationComponent,
         canActivate: [AuthGuard],
@@ -53,13 +45,28 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'search',
+        component: TeacherSearchComponent,
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'manage/edit-student/:studentId',
         component: TeacherEditStudentComponent,
         canActivate: [AuthGuard],
       },
       {
-        path: 'search',
-        component: TeacherSearchComponent,
+        path: 'officehours',
+        component: TeacherOfficehoursComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'edit',
+        component: TeacherEditComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'password',
+        component: TeacherChangePasswordComponent,
         canActivate: [AuthGuard],
       },
     ],
@@ -69,13 +76,14 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     TeacherComponent,
-    TeacherChangePasswordComponent,
-    TeacherEditComponent,
-    TeacherEditStudentComponent,
     TeacherMypageComponent,
     TeacherNotificationComponent,
     TeacherManageStudentsComponent,
     TeacherSearchComponent,
+    TeacherEditStudentComponent,
+    TeacherOfficehoursComponent,
+    TeacherEditComponent,
+    TeacherChangePasswordComponent,
   ],
   imports: [
     CommonModule,
@@ -84,10 +92,10 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     JwBootstrapSwitchNg2Module,
+    AdsenseModule,
     ImageUploadModule,
     SearchbarModule,
     FullCalendarModule,
-    AdsenseModule,
     ChangePasswordModule,
   ],
   exports: [],

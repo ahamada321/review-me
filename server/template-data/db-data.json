@@ -32,26 +32,20 @@
       "username": "田中太郎",
       "email": "a.hamada21@gmail.com",
       "password": "test1",
-      "isVerified": "true",
-      "gender": "男性",
       "userRole": "Student",
       "bookings": []
     },
     {
       "username": "木村あやか",
       "email": "a.hamada.biz@gmail.com",
-      "password": "test2",
-      "isVerified": "true",
-      "gender": "女性",
+      "password": "test1",
       "userRole": "Teacher",
       "bookings": []
     },
     {
       "username": "管理者",
-      "email": "test3@gmail.com",
-      "password": "test3",
-      "isVerified": "true",
-      "gender": "法人",
+      "email": "test1@gmail.com",
+      "password": "test1",
       "userRole": "Owner",
       "bookings": []
     }
