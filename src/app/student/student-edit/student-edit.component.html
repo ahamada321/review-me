@@ -1,7 +1,7 @@
 <div class="container">
   <div class="text-center">
     <h1>
-      <small>ユーザー情報変更</small>
+      <small>設定変更</small>
     </h1>
   </div>
   <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
@@ -10,17 +10,13 @@
   <div class="space-top"></div>
   <div class="row" *ngIf="userData">
     <div class="col-md-6 mr-auto ml-auto">
-      <form
-        class="register-form"
-        #updateUserForm="ngForm"
-        (ngSubmit)="updateUser(updateUserForm)"
-      >
+      <form #updateUserForm="ngForm" (ngSubmit)="updateUser(updateUserForm)">
         <div class="form-group">
           <label>名前</label>
           <input
             [ngModel]="userData.username"
             name="username"
-            type="username"
+            type="text"
             class="form-control border-input"
             placeholder="お名前（例：鈴木太郎）"
             required
@@ -68,14 +64,14 @@
           type="submit"
           class="btn btn-block btn-round btn-lg"
         >
-          ユーザー情報更新
+          変更する
         </button>
         <button
           *ngIf="!updateUserForm.pristine && updateUserForm.valid && !isClicked"
           type="submit"
           class="btn btn-primary btn-block btn-round btn-lg"
         >
-          ユーザー情報更新
+          変更する
         </button>
         <div class="space-top"></div>
       </form>

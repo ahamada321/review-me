@@ -16,10 +16,6 @@ export class StudentEditComponent implements OnInit {
   errors: any = [];
   userData: any;
   userId = this.auth.getUserId();
-  newsLetterFromLessonCalendar = true;
-  state_info = true;
-  state_info1 = true;
-  data: Date = new Date();
 
   constructor(
     private auth: MyOriginAuthService,
@@ -64,7 +60,7 @@ export class StudentEditComponent implements OnInit {
     Swal.fire({
       // title: 'User infomation has been updated!',
       icon: 'success',
-      title: 'ユーザー情報が更新されました！',
+      title: '設定が変更されました',
       customClass: {
         confirmButton: 'btn btn-primary btn-lg',
       },
@@ -76,7 +72,7 @@ export class StudentEditComponent implements OnInit {
   private showSwalError() {
     Swal.fire({
       title: '通信エラー',
-      text: 'もう一度ユーザー情報変更ボタンを押しなおしてください',
+      text: 'もう一度変更ボタンを押しなおしてください',
       icon: 'error',
       customClass: {
         confirmButton: 'btn btn-danger btn-lg',
