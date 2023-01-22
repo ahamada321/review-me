@@ -7,7 +7,7 @@ const bookingSchema = new Schema({
   title: String,
   start: { type: Date, required: "Starting date is required" },
   oldStart: Date,
-  courseTime: { type: Number, required: "Course time is required" },
+  courseTime: Number,
   end: Date,
   oldEnd: Date,
 

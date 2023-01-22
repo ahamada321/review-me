@@ -197,3 +197,22 @@ exports.getTeacherBookings = function (req, res) {
       return res.json(foundBookings);
     });
 };
+
+exports.createDateBlockBooking = function (req, res) {
+  const booking = new Booking(req.body);
+
+  User.findOneAndUpdate(
+    { _id: booking.teacher },
+    { $push: { bookings: booking } },
+    { returnOriginal: false },
+    function () {}
+  );
+
+  booking.save(function (err, result) {
+    if (err) {
+      return res.status(422).send({ errors: normalizeErrors(err.errors) });
+    }
+
+    return res.json(result.id);
+  });
+};

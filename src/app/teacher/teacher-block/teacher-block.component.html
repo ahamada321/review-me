@@ -1,0 +1,28 @@
+<div class="profile-content section">
+  <div class="container text-center">
+    <h1>
+      <small>来月のスケジュール</small>
+    </h1>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="space-top"></div>
+        <p class="description text-center">休日を予め設定できます.</p>
+        <p class="description text-center">
+          長押しドラッグ選択で複数日をまとめて設定できます.
+        </p>
+        <div class="space-top"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 ml-auto mr-auto">
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+        <!-- <full-calendar
+          #calendar
+          (click)="(handleDateClick)"
+          [options]="calendarOptions"
+        ></full-calendar> -->
+      </div>
+    </div>
+  </div>
+</div>
