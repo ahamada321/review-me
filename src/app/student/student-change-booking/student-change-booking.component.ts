@@ -25,23 +25,18 @@ export class StudentChangeBookingComponent implements OnInit {
 
   // Date picker params
   selectedDate!: Date;
-  minDate = new Date();
+  minDate!: Date;
+  maxDate!: Date;
 
   constructor(
-    public auth: MyOriginAuthService,
-    private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService,
-    private bookingService: BookingService //  private dateTimeAdapter: DateTimeAdapter<any>
-  ) {
-    // Initiate Datepicker
-    this.minDate.setDate(this.minDate.getDate() + 1);
-    this.minDate.setHours(0, 0, 0, 0);
-  }
+    private route: ActivatedRoute,
+    public auth: MyOriginAuthService,
+    private bookingService: BookingService, //  private dateTimeAdapter: DateTimeAdapter<any>
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
-    this.getMe();
-    // this.onDateSelect(this.selectedDate);
     this.route.params.subscribe((params) => {
       const bookingId = params['bookingId'];
       this.getBookingById(bookingId);
@@ -54,6 +49,20 @@ export class StudentChangeBookingComponent implements OnInit {
         this.newBooking = foundBooking;
         this.newBooking.oldStart = foundBooking.start;
         this.newBooking.oldEnd = foundBooking.end;
+
+        this.selectedDate = new Date(foundBooking.start);
+        this.minDate = new Date(
+          this.selectedDate.getFullYear(),
+          this.selectedDate.getMonth(),
+          this.selectedDate.getDate(),
+          0
+        );
+        this.maxDate = new Date(
+          this.selectedDate.getFullYear(),
+          this.selectedDate.getMonth() + 1,
+          0
+        );
+        this.getMe();
       },
       (err) => {}
     );
@@ -76,6 +85,7 @@ export class StudentChangeBookingComponent implements OnInit {
     this.userService.getUserById(teacherId).subscribe(
       (foundUser) => {
         this.teacherData = foundUser;
+        this.onDateSelect(this.selectedDate);
       },
       (errorResponse: HttpErrorResponse) => {
         this.errors = errorResponse.error.errors;
@@ -83,28 +93,142 @@ export class StudentChangeBookingComponent implements OnInit {
     );
   }
 
+  dayOffFilter = (date: Date | null): any => {
+    const selectedDay = date!.getDay();
+    return (
+      (selectedDay === 0 && this.teacherData.sun_enabled) ||
+      (selectedDay === 1 && this.teacherData.mon_enabled) ||
+      (selectedDay === 2 && this.teacherData.tue_enabled) ||
+      (selectedDay === 3 && this.teacherData.wed_enabled) ||
+      (selectedDay === 4 && this.teacherData.thu_enabled) ||
+      (selectedDay === 5 && this.teacherData.fri_enabled) ||
+      (selectedDay === 6 && this.teacherData.sat_enabled)
+    );
+  };
+
   onDateSelect(date: Date) {
+    this.isDateBlock_flg = false;
+    this.iskDateBlock(date);
     const selectedDay = date.getDay();
     let mTimeTables = [];
     let mEndAt = null;
-    let mStart = null;
-
-    mEndAt = moment({ hour: 20, minute: 30 }).set({
-      year: date.getFullYear(),
-      month: date.getMonth(),
-      date: date.getDate(),
-    });
-    mStart = moment({ hour: 9, minute: 0 }).set({
-      year: date.getFullYear(),
-      month: date.getMonth(),
-      date: date.getDate(),
-    });
-
-    while (mStart < mEndAt) {
-      mTimeTables.push(moment(mStart));
-      mStart.add(30, 'minutes');
+    let mStartAt = null;
+    if (selectedDay == 0 && this.teacherData.sun_enabled) {
+      // Sunday
+      mEndAt = moment(this.teacherData.sun_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.sun_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 1 && this.teacherData.mon_enabled) {
+      // Monday
+      mEndAt = moment(this.teacherData.mon_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.mon_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 2 && this.teacherData.tue_enabled) {
+      // Tuesday
+      mEndAt = moment(this.teacherData.tue_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.tue_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 3 && this.teacherData.wed_enabled) {
+      // Wednesday
+      mEndAt = moment(this.teacherData.wed_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.wed_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 4 && this.teacherData.thu_enabled) {
+      // Thursday
+      mEndAt = moment(this.teacherData.thu_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.thu_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 5 && this.teacherData.fri_enabled) {
+      // Friday
+      mEndAt = moment(this.teacherData.fri_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.fri_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 6 && this.teacherData.sat_enabled) {
+      // Saturday
+      mEndAt = moment(this.teacherData.sat_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.sat_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    while (mStartAt! < mEndAt!) {
+      if (!this.isPastDateTime(mStartAt)) {
+        mTimeTables.push(moment(mStartAt));
+      }
+      mStartAt!.add(30, 'minutes');
     }
     this.timeTables = mTimeTables;
+  }
+
+  iskDateBlock(selectedDate: Date) {
+    const selected_date = moment(selectedDate)
+      .subtract(1, 'month')
+      .format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()
+
+    for (let booking of this.teacherData.bookings) {
+      if (booking.status === 'block') {
+        if (selected_date === moment(booking.start).format('YYYY-MM-DD')) {
+          this.isDateBlock_flg = true;
+        }
+      }
+    }
+  }
+
+  private isPastDateTime(start: any) {
+    return moment(start).diff(moment()) < 0; // Attention: just "moment()" is already applied timezone!
   }
 
   isValidBooking(start: any) {
@@ -169,7 +293,6 @@ export class StudentChangeBookingComponent implements OnInit {
 
   updateBooking() {
     this.isClicked = true;
-    debugger;
     this.bookingService.updateBooking(this.newBooking).subscribe(
       (Message) => {
         this.isClicked = false;

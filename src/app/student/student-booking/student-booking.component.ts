@@ -77,30 +77,6 @@ export class StudentBookingComponent implements OnInit {
     );
   }
 
-  // onDateSelect(date: Date) {
-  //   const selectedDay = date.getDay();
-  //   let mTimeTables = [];
-  //   let mEnd = null;
-  //   let mStart = null;
-
-  //   mEnd = moment({ hour: 20, minute: 30 }).set({
-  //     year: date.getFullYear(),
-  //     month: date.getMonth(),
-  //     date: date.getDate(),
-  //   });
-  //   mStart = moment({ hour: 9, minute: 0 }).set({
-  //     year: date.getFullYear(),
-  //     month: date.getMonth(),
-  //     date: date.getDate(),
-  //   });
-
-  //   while (mStart < mEnd) {
-  //     mTimeTables.push(moment(mStart));
-  //     mStart.add(30, 'minutes');
-  //   }
-  //   this.timeTables = mTimeTables;
-  // }
-
   dayOffFilter = (date: Date | null): any => {
     const selectedDay = date!.getDay();
     return (
@@ -148,6 +124,7 @@ export class StudentBookingComponent implements OnInit {
       });
     }
     if (selectedDay == 2 && this.teacherData.tue_enabled) {
+      // Tuesday
       mEndAt = moment(this.teacherData.tue_end).set({
         year: date.getFullYear(),
         month: date.getMonth(),
@@ -160,6 +137,7 @@ export class StudentBookingComponent implements OnInit {
       });
     }
     if (selectedDay == 3 && this.teacherData.wed_enabled) {
+      // Wednesday
       mEndAt = moment(this.teacherData.wed_end).set({
         year: date.getFullYear(),
         month: date.getMonth(),
@@ -172,6 +150,7 @@ export class StudentBookingComponent implements OnInit {
       });
     }
     if (selectedDay == 4 && this.teacherData.thu_enabled) {
+      // Thursday
       mEndAt = moment(this.teacherData.thu_end).set({
         year: date.getFullYear(),
         month: date.getMonth(),
@@ -184,6 +163,7 @@ export class StudentBookingComponent implements OnInit {
       });
     }
     if (selectedDay == 5 && this.teacherData.fri_enabled) {
+      // Friday
       mEndAt = moment(this.teacherData.fri_end).set({
         year: date.getFullYear(),
         month: date.getMonth(),
@@ -196,6 +176,7 @@ export class StudentBookingComponent implements OnInit {
       });
     }
     if (selectedDay == 6 && this.teacherData.sat_enabled) {
+      // Saturday
       mEndAt = moment(this.teacherData.sat_end).set({
         year: date.getFullYear(),
         month: date.getMonth(),
