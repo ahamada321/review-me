@@ -17,7 +17,8 @@ import { User } from 'src/app/shared/services/user.model';
 export class StudentBookingComponent implements OnInit {
   isSelectedDateTime: boolean = false;
   selectedDate!: Date;
-  minDate = new Date();
+  minDate!: Date;
+  maxDate!: Date;
   timeTables: any = [];
   isDateBlock_flg: boolean = false;
   isClicked: boolean = false;
@@ -35,6 +36,11 @@ export class StudentBookingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const now = new Date();
+    this.selectedDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    this.minDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    this.maxDate = new Date(now.getFullYear(), now.getMonth() + 2, 0);
+
     this.getMe();
   }
 
@@ -63,6 +69,7 @@ export class StudentBookingComponent implements OnInit {
     this.userService.getUserById(teacherId).subscribe(
       (foundUser) => {
         this.teacherData = foundUser;
+        this.onDateSelect(this.selectedDate);
       },
       (errorResponse: HttpErrorResponse) => {
         this.errors = errorResponse.error.errors;
@@ -70,28 +77,162 @@ export class StudentBookingComponent implements OnInit {
     );
   }
 
+  // onDateSelect(date: Date) {
+  //   const selectedDay = date.getDay();
+  //   let mTimeTables = [];
+  //   let mEnd = null;
+  //   let mStart = null;
+
+  //   mEnd = moment({ hour: 20, minute: 30 }).set({
+  //     year: date.getFullYear(),
+  //     month: date.getMonth(),
+  //     date: date.getDate(),
+  //   });
+  //   mStart = moment({ hour: 9, minute: 0 }).set({
+  //     year: date.getFullYear(),
+  //     month: date.getMonth(),
+  //     date: date.getDate(),
+  //   });
+
+  //   while (mStart < mEnd) {
+  //     mTimeTables.push(moment(mStart));
+  //     mStart.add(30, 'minutes');
+  //   }
+  //   this.timeTables = mTimeTables;
+  // }
+
+  dayOffFilter = (date: Date | null): any => {
+    const selectedDay = date!.getDay();
+    return (
+      (selectedDay === 0 && this.teacherData.sun_enabled) ||
+      (selectedDay === 1 && this.teacherData.mon_enabled) ||
+      (selectedDay === 2 && this.teacherData.tue_enabled) ||
+      (selectedDay === 3 && this.teacherData.wed_enabled) ||
+      (selectedDay === 4 && this.teacherData.thu_enabled) ||
+      (selectedDay === 5 && this.teacherData.fri_enabled) ||
+      (selectedDay === 6 && this.teacherData.sat_enabled)
+    );
+  };
+
   onDateSelect(date: Date) {
+    this.isDateBlock_flg = false;
+    this.iskDateBlock(date);
     const selectedDay = date.getDay();
     let mTimeTables = [];
-    let mEnd = null;
-    let mStart = null;
-
-    mEnd = moment({ hour: 20, minute: 30 }).set({
-      year: date.getFullYear(),
-      month: date.getMonth(),
-      date: date.getDate(),
-    });
-    mStart = moment({ hour: 9, minute: 0 }).set({
-      year: date.getFullYear(),
-      month: date.getMonth(),
-      date: date.getDate(),
-    });
-
-    while (mStart < mEnd) {
-      mTimeTables.push(moment(mStart));
-      mStart.add(30, 'minutes');
+    let mEndAt = null;
+    let mStartAt = null;
+    if (selectedDay == 0 && this.teacherData.sun_enabled) {
+      // Sunday
+      mEndAt = moment(this.teacherData.sun_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.sun_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 1 && this.teacherData.mon_enabled) {
+      // Monday
+      mEndAt = moment(this.teacherData.mon_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.mon_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 2 && this.teacherData.tue_enabled) {
+      mEndAt = moment(this.teacherData.tue_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.tue_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 3 && this.teacherData.wed_enabled) {
+      mEndAt = moment(this.teacherData.wed_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.wed_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 4 && this.teacherData.thu_enabled) {
+      mEndAt = moment(this.teacherData.thu_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.thu_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 5 && this.teacherData.fri_enabled) {
+      mEndAt = moment(this.teacherData.fri_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.fri_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    if (selectedDay == 6 && this.teacherData.sat_enabled) {
+      mEndAt = moment(this.teacherData.sat_end).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+      mStartAt = moment(this.teacherData.sat_start).set({
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        date: date.getDate(),
+      });
+    }
+    while (mStartAt! < mEndAt!) {
+      if (!this.isPastDateTime(mStartAt)) {
+        mTimeTables.push(moment(mStartAt));
+      }
+      mStartAt!.add(30, 'minutes');
     }
     this.timeTables = mTimeTables;
+    // this.newBookingInfo.emit(null);
+  }
+
+  iskDateBlock(selectedDate: Date) {
+    const selected_date = moment(selectedDate)
+      .subtract(1, 'month')
+      .format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()
+
+    for (let booking of this.teacherData.bookings) {
+      if (booking.status === 'block') {
+        if (selected_date === moment(booking.start).format('YYYY-MM-DD')) {
+          this.isDateBlock_flg = true;
+        }
+      }
+    }
+  }
+
+  private isPastDateTime(start: any) {
+    return moment(start).diff(moment()) < 0; // Attention: just "moment()" is already applied timezone!
   }
 
   isValidBooking(start: any) {
@@ -130,7 +271,7 @@ export class StudentBookingComponent implements OnInit {
           <h3>${moment(start).format('MM月 DD日 HH:mm')} 〜</h3>
           <br>
           で予約しますか？<br><br>
-          <p>※開始24時間未満の予約は日時変更できなくなります</p>`,
+          <p>※レッスン開始24時間前まで変更可能です。</p>`,
       icon: 'info',
       showCancelButton: true,
       confirmButtonColor: '#51cbce',
@@ -155,7 +296,6 @@ export class StudentBookingComponent implements OnInit {
         this.showSwalSuccess();
       },
       (errorResponse: HttpErrorResponse) => {
-        console.error(errorResponse);
         if (errorResponse.error && errorResponse.error.errors) {
           this.errors = errorResponse.error.errors;
         } else {
