@@ -1,4 +1,4 @@
-<div *ngIf="currentBooking">
+<div *ngIf="newBooking">
   <div class="space-30"></div>
   <div class="container text-center">
     <h1>
@@ -6,7 +6,7 @@
     </h1>
     <div class="space-top"></div>
     <h6>【変更したいレッスン】</h6>
-    <h6>{{ currentBooking.start | date : "yyyy年MM月dd日 HH:mm" }}〜</h6>
+    <h6>{{ newBooking.oldStart | date : "yyyy年MM月dd日 HH:mm" }}〜</h6>
     <div class="space-top"></div>
 
     <div class="row">

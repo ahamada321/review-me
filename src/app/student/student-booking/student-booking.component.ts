@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from 'src/app/shared/services/user.service';
+import { User } from 'src/app/shared/services/user.model';
 
 @Component({
   selector: 'app-student-booking',
@@ -22,7 +23,8 @@ export class StudentBookingComponent implements OnInit {
   isClicked: boolean = false;
   newBooking: Booking = new Booking();
   errors: any;
-  userData: any;
+  studentData!: User;
+  teacherData!: User;
 
   constructor(
     private router: Router,
@@ -33,13 +35,38 @@ export class StudentBookingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getMe();
+  }
+
+  getMe() {
     const studentId = this.auth.getUserId();
     this.userService.getUserById(studentId).subscribe(
-      (foundStudent) => {
-        this.newBooking.teacher = foundStudent.teachers[0]; //tmp
-        // this.newBooking.student = foundStudent;
+      (foundUser) => {
+        this.studentData = foundUser;
+        if (!foundUser.teachers[0]) {
+          this.showSwalError();
+          return;
+        }
+        this.newBooking.title = this.auth.getUsername();
+        this.newBooking.teacher = foundUser.teachers[0]; //tmp
+        this.newBooking.student = studentId;
+        this.newBooking.courseTime = foundUser.courseTime;
+        this.getMyTeacher(foundUser.teachers[0]._id);
       },
-      (err) => {}
+      (errorResponse: HttpErrorResponse) => {
+        this.errors = errorResponse.error.errors;
+      }
+    );
+  }
+
+  getMyTeacher(teacherId: any) {
+    this.userService.getUserById(teacherId).subscribe(
+      (foundUser) => {
+        this.teacherData = foundUser;
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.errors = errorResponse.error.errors;
+      }
     );
   }
 
@@ -68,13 +95,34 @@ export class StudentBookingComponent implements OnInit {
   }
 
   isValidBooking(start: any) {
-    return true;
+    let isValid = true;
+    const teacherBookings = this.teacherData.bookings;
+    if (teacherBookings && teacherBookings.length > 0) {
+      const reqStart = moment(start);
+      const reqEnd = moment(start)
+        .add(this.newBooking.courseTime, 'minute')
+        .subtract(1, 'minute');
+
+      isValid = teacherBookings.every((booking) => {
+        const existingStart = moment(booking.start);
+        const existingEnd = moment(booking.end).subtract(1, 'minute');
+        return (
+          (existingStart < reqStart && existingEnd <= reqStart) ||
+          (reqEnd < existingStart && reqEnd < existingEnd)
+        );
+      });
+    }
+    return isValid;
   }
 
   selectDateTime(start: any) {
     this.isSelectedDateTime = true;
     this.isClicked = false;
     this.newBooking.start = start;
+    this.newBooking.end = moment(start).add(
+      this.newBooking.courseTime,
+      'minute'
+    );
 
     Swal.fire({
       html: `
@@ -100,8 +148,6 @@ export class StudentBookingComponent implements OnInit {
 
   createBooking() {
     this.isClicked = true;
-    this.newBooking.title = this.auth.getUsername();
-    this.newBooking.courseTime = 30;
     this.bookingService.createBooking(this.newBooking).subscribe(
       (newBooking) => {
         this.newBooking = new Booking();
@@ -127,6 +173,20 @@ export class StudentBookingComponent implements OnInit {
       icon: 'success',
       customClass: {
         confirmButton: 'btn btn-primary btn-lg',
+      },
+      buttonsStyling: false,
+    }).then(() => {
+      this.router.navigate(['/student']);
+    });
+  }
+
+  private showSwalError() {
+    Swal.fire({
+      title: '担当の先生がいません',
+      text: '先に担当の先生からの担任登録リクエストを承認してください',
+      icon: 'error',
+      customClass: {
+        confirmButton: 'btn btn-danger btn-lg',
       },
       buttonsStyling: false,
     }).then(() => {

@@ -277,7 +277,7 @@ exports.getUserById = function (req, res) {
     // Restrict some data
     User.findById(reqUserId)
       // .select('-revenue -customer -password')
-      .select("-password")
+      .populate("bookings", "-password")
       .exec(function (err, foundUser) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });

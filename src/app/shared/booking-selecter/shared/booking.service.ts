@@ -14,8 +14,8 @@ export class BookingService {
     return this.http.get('/api/v1/bookings/' + bookingId);
   }
 
-  public getTeacherBookings(): Observable<any> {
-    return this.http.get('/api/v1/bookings/teacher');
+  public getUserBookings(userId: any): Observable<any> {
+    return this.http.get('/api/v1/bookings/user/' + userId);
   }
 
   public getUserPendingBookings(): Observable<any> {

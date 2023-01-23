@@ -5,7 +5,9 @@ import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
 import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
 import Swal from 'sweetalert2';
-import * as moment from 'moment';
+import * as moment from 'moment-timezone';
+import { UserService } from 'src/app/shared/services/user.service';
+import { User } from 'src/app/shared/services/user.model';
 
 @Component({
   selector: 'app-student-change-booking',
@@ -13,10 +15,10 @@ import * as moment from 'moment';
   styleUrls: ['./student-change-booking.component.scss'],
 })
 export class StudentChangeBookingComponent implements OnInit {
-  bookingId: any;
   timeTables: any = [];
-  newBooking: Booking = new Booking();
-  currentBooking: Booking = new Booking();
+  studentData!: User;
+  teacherData!: User;
+  newBooking!: Booking;
   isDateBlock_flg: boolean = false;
   isClicked: boolean = false;
   errors: any[] = [];
@@ -29,6 +31,7 @@ export class StudentChangeBookingComponent implements OnInit {
     public auth: MyOriginAuthService,
     private route: ActivatedRoute,
     private router: Router,
+    private userService: UserService,
     private bookingService: BookingService //  private dateTimeAdapter: DateTimeAdapter<any>
   ) {
     // Initiate Datepicker
@@ -37,10 +40,10 @@ export class StudentChangeBookingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getMe();
     // this.onDateSelect(this.selectedDate);
     this.route.params.subscribe((params) => {
       const bookingId = params['bookingId'];
-      this.newBooking._id = bookingId;
       this.getBookingById(bookingId);
     });
   }
@@ -48,9 +51,35 @@ export class StudentChangeBookingComponent implements OnInit {
   private getBookingById(bookingId: string) {
     this.bookingService.getBookingById(bookingId).subscribe(
       (foundBooking) => {
-        this.currentBooking = foundBooking;
+        this.newBooking = foundBooking;
+        this.newBooking.oldStart = foundBooking.start;
+        this.newBooking.oldEnd = foundBooking.end;
       },
       (err) => {}
+    );
+  }
+
+  getMe() {
+    const studentId = this.auth.getUserId();
+    this.userService.getUserById(studentId).subscribe(
+      (foundUser) => {
+        this.studentData = foundUser;
+        this.getMyTeacher(foundUser.teachers[0]._id);
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.errors = errorResponse.error.errors;
+      }
+    );
+  }
+
+  getMyTeacher(teacherId: any) {
+    this.userService.getUserById(teacherId).subscribe(
+      (foundUser) => {
+        this.teacherData = foundUser;
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.errors = errorResponse.error.errors;
+      }
     );
   }
 
@@ -78,17 +107,37 @@ export class StudentChangeBookingComponent implements OnInit {
     this.timeTables = mTimeTables;
   }
 
-  isValidBooking(start: Date) {
-    return true;
+  isValidBooking(start: any) {
+    let isValid = false;
+    const teacherBookings = this.teacherData.bookings;
+    const reqStart = moment(start);
+    const reqEnd = moment(start)
+      .add(this.newBooking.courseTime, 'minute')
+      .subtract(1, 'minute');
+
+    if (teacherBookings && teacherBookings.length === 0) {
+      return true;
+    }
+
+    isValid = teacherBookings.every((booking) => {
+      const existingStart = moment(booking.start);
+      const existingEnd = moment(booking.start)
+        .add(booking.courseTime)
+        .subtract(1, 'minute');
+      return (
+        (existingStart < reqStart && existingEnd < reqStart) ||
+        (reqEnd < existingStart && reqEnd < existingEnd)
+      );
+    });
+
+    return isValid;
   }
 
   selectDateTime(start: Date) {
     this.isClicked = false;
-    this.newBooking.oldStart = this.currentBooking.start;
-    this.newBooking.oldEnd = this.currentBooking.end;
     this.newBooking.start = start;
     this.newBooking.end = moment(start).add(
-      this.currentBooking.courseTime,
+      this.newBooking.courseTime,
       'minute'
     );
 
@@ -120,16 +169,16 @@ export class StudentChangeBookingComponent implements OnInit {
 
   updateBooking() {
     this.isClicked = true;
-
+    debugger;
     this.bookingService.updateBooking(this.newBooking).subscribe(
       (Message) => {
         this.isClicked = false;
         this.showSwalSuccess();
       },
       (errorResponse: HttpErrorResponse) => {
+        this.isClicked = false;
         console.error(errorResponse);
         this.errors = errorResponse.error.errors;
-        this.isClicked = false;
       }
     );
   }

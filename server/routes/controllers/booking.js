@@ -27,11 +27,9 @@ function isValidBooking(requestBooking, rentalBookings) {
   }
   return isValid;
 }
+
 exports.createBooking = function (req, res) {
-  // Passed booking information from booking.component.ts
-  const student = res.locals.user;
-  const { start, courseTime, title, teacher } = req.body;
-  const end = moment(start).add(courseTime, "minute");
+  const { start, end, courseTime, title, teacher, student } = req.body;
 
   const booking = new Booking({
     start,
@@ -82,8 +80,25 @@ exports.createBooking = function (req, res) {
   });
 };
 
+exports.updateBooking = function (req, res) {
+  const bookingData = req.body;
+
+  Booking.findOneAndUpdate(
+    { _id: bookingData._id },
+    bookingData,
+    { returnOriginal: false },
+    function (err) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      return res.json({ status: "updated" });
+    }
+  );
+};
+
 exports.getBookingById = function (req, res) {
-  Booking.findById(req.params.id).exec(function (err, foundBooking) {
+  const bookingId = req.params.id;
+  Booking.findById(bookingId, function (err, foundBooking) {
     if (err) {
       return res.status(422).send({
         errors: {
@@ -100,8 +115,7 @@ exports.deleteBooking = function (req, res) {
   const user = res.locals.user;
 
   Booking.findById(req.params.id)
-    .populate("user")
-    .populate("rental")
+    .populate("user rental")
     // .populate('payment', '_id')
     // .populate('start')
     .exec(function (err, foundBooking) {
@@ -169,24 +183,21 @@ exports.getFinishedBookings = function (req, res) {
     });
 };
 
-exports.updateBooking = function (req, res) {
-  const bookingData = req.body;
+exports.getUserBookings = function (req, res) {
+  const userId = req.params.id;
 
-  Booking.findOneAndUpdate(
-    { _id: bookingData._id },
-    bookingData,
-    { returnOriginal: false },
-    function (err) {
+  Booking.findOne({ $or: [{ teacher: userId }, { student: userId }] })
+    .sort({ start: -1 })
+    .exec(function (err, foundBookings) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
-      return res.json({ status: "updated" });
-    }
-  );
+      return res.json(foundBookings);
+    });
 };
 
-exports.getTeacherBookings = function (req, res) {
-  const teacher = res.locals.user;
+exports.getStudentBookings = function (req, res) {
+  const userId = res.locals.user;
 
   Booking.find({ teacher })
     .sort({ start: -1 })

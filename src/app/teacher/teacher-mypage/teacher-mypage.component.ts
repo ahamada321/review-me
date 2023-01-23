@@ -44,7 +44,7 @@ export class TeacherMypageComponent implements OnInit {
   }
 
   getBookings() {
-    this.bookingService.getTeacherBookings().subscribe(
+    this.bookingService.getUserBookings(this.auth.getUserId()).subscribe(
       (foundBookings) => {
         this.calendarOptions.events = foundBookings;
       },
