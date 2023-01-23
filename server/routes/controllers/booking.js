@@ -186,7 +186,7 @@ exports.getFinishedBookings = function (req, res) {
 exports.getUserBookings = function (req, res) {
   const userId = req.params.id;
 
-  Booking.findOne({ $or: [{ teacher: userId }, { student: userId }] })
+  Booking.find({ $or: [{ teacher: userId }, { student: userId }] })
     .sort({ start: -1 })
     .exec(function (err, foundBookings) {
       if (err) {
@@ -219,11 +219,11 @@ exports.createDateBlockBooking = function (req, res) {
     function () {}
   );
 
-  booking.save(function (err, result) {
+  booking.save(function (err, savedBooking) {
     if (err) {
       return res.status(422).send({ errors: normalizeErrors(err.errors) });
     }
 
-    return res.json(result.id);
+    return res.json(savedBooking);
   });
 };

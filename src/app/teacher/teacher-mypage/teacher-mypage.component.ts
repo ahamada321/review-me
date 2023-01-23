@@ -15,6 +15,7 @@ export class TeacherMypageComponent implements OnInit {
     initialView: 'dayGridMonth',
     plugins: [listPlugin, dayGridPlugin],
     locale: 'ja',
+    timezone: 'Asia/Tokyo',
     navLinks: true,
     businessHours: true,
     dayMaxEventRows: true,

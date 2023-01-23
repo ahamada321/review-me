@@ -13,6 +13,10 @@ export class Booking {
   courseTime?: number;
   end!: any;
   oldEnd?: any;
+  allDay?: boolean;
+
+  display?: string;
+  color?: string;
 
   perMonth?: number;
   memo?: string;

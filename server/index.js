@@ -15,11 +15,7 @@ const contactformRoutes = require("./routes/contactforms");
 // const imageUploadRoutes = require("./routes/image-upload");
 
 mongoose
-  .connect(config.DB_URI, {
-    // useCreateIndex: true,
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
-  })
+  .connect(config.DB_URI, {})
   .then(() => {
     if (process.env.NODE_ENV !== "production") {
       // const fakeDb = new FakeDb();

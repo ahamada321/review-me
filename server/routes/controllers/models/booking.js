@@ -10,6 +10,10 @@ const bookingSchema = new Schema({
   courseTime: Number,
   end: Date,
   oldEnd: Date,
+  allDay: Boolean,
+
+  display: String,
+  color: String,
 
   perMonth: Number,
   memo: String,
