@@ -1,269 +1,259 @@
-<div class="profile-content section">
-  <div class="container text-center">
-    <h1>
-      <small>営業時間設定</small>
-    </h1>
-    <p>営業時間の設定ができます</p>
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="space-top"></div>
-        <h5 class="description">曜日毎に定例受付時間を設定できます.</h5>
-        <h5 class="description">
-          OFFに切り替えた曜日で予約確定済の予約は保護されます.
-        </h5>
-        <div class="space-top"></div>
-      </div>
+<div class="text-center">
+  <h1>
+    <small>営業時間設定</small>
+  </h1>
+  <p>曜日ごとに営業時間設定ができます</p>
+  <div class="space-top"></div>
+  <form *ngIf="userData" #UserForm="ngForm" (ngSubmit)="updateUser(UserForm)">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="text-center">受付</th>
+            <th>曜日</th>
+            <th>受付開始</th>
+            <th>受付終了</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center content-center">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [ngModel]="userData.mon_enabled"
+                    name="mon_enabled"
+                    value=""
+                  />
+                  <span class="form-check-sign"></span>
+                </label>
+              </div>
+            </td>
+            <td>月</td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.mon_start"
+                name="mon_start"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.mon_end"
+                name="mon_end"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [ngModel]="userData.tue_enabled"
+                    name="tue_enabled"
+                    value=""
+                  />
+                  <span class="form-check-sign"></span>
+                </label>
+              </div>
+            </td>
+            <td>火</td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.tue_start"
+                name="tue_start"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.tue_end"
+                name="tue_end"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [ngModel]="userData.wed_enabled"
+                    name="wed_enabled"
+                    value=""
+                  />
+                  <span class="form-check-sign"></span>
+                </label>
+              </div>
+            </td>
+            <td>水</td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.wed_start"
+                name="wed_start"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.wed_end"
+                name="wed_end"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [ngModel]="userData.thu_enabled"
+                    name="thu_enabled"
+                    value=""
+                  />
+                  <span class="form-check-sign"></span>
+                </label>
+              </div>
+            </td>
+            <td>木</td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.thu_start"
+                name="thu_start"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.thu_end"
+                name="thu_end"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [ngModel]="userData.fri_enabled"
+                    name="fri_enabled"
+                    value=""
+                  />
+                  <span class="form-check-sign"></span>
+                </label>
+              </div>
+            </td>
+            <td>金</td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.fri_start"
+                name="fri_start"
+                [minuteStep]="15"
+                required
+              >
+              </ngb-timepicker>
+            </td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.fri_end"
+                name="fri_end"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [ngModel]="userData.sat_enabled"
+                    name="sat_enabled"
+                    value=""
+                  />
+                  <span class="form-check-sign"></span>
+                </label>
+              </div>
+            </td>
+            <td>土</td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.sat_start"
+                name="sat_start"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.sat_end"
+                name="sat_end"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-center">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    [ngModel]="userData.sun_enabled"
+                    name="sun_enabled"
+                    value=""
+                  />
+                  <span class="form-check-sign"></span>
+                </label>
+              </div>
+            </td>
+            <td>日</td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.sun_start"
+                name="sun_start"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+            <td>
+              <ngb-timepicker
+                [ngModel]="userData.sun_end"
+                name="sun_end"
+                [minuteStep]="15"
+              >
+              </ngb-timepicker>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <form *ngIf="userData" #UserForm="ngForm" (ngSubmit)="updateUser(UserForm)">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th class="text-center">受付</th>
-              <th>曜日</th>
-              <th>受付開始</th>
-              <th>受付終了</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-center">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [ngModel]="userData.mon_enabled"
-                      name="mon_enabled"
-                      value=""
-                    />
-                    <span class="form-check-sign"></span>
-                  </label>
-                </div>
-              </td>
-              <td>月</td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.mon_start"
-                  name="mon_start"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.mon_end"
-                  name="mon_end"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [ngModel]="userData.tue_enabled"
-                      name="tue_enabled"
-                      value=""
-                    />
-                    <span class="form-check-sign"></span>
-                  </label>
-                </div>
-              </td>
-              <td>火</td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.tue_start"
-                  name="tue_start"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.tue_end"
-                  name="tue_end"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [ngModel]="userData.wed_enabled"
-                      name="wed_enabled"
-                      value=""
-                    />
-                    <span class="form-check-sign"></span>
-                  </label>
-                </div>
-              </td>
-              <td>水</td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.wed_start"
-                  name="wed_start"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.wed_end"
-                  name="wed_end"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [ngModel]="userData.thu_enabled"
-                      name="thu_enabled"
-                      value=""
-                    />
-                    <span class="form-check-sign"></span>
-                  </label>
-                </div>
-              </td>
-              <td>木</td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.thu_start"
-                  name="thu_start"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.thu_end"
-                  name="thu_end"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [ngModel]="userData.fri_enabled"
-                      name="fri_enabled"
-                      value=""
-                    />
-                    <span class="form-check-sign"></span>
-                  </label>
-                </div>
-              </td>
-              <td>金</td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.fri_start"
-                  name="fri_start"
-                  [minuteStep]="15"
-                  required
-                >
-                </ngb-timepicker>
-              </td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.fri_end"
-                  name="fri_end"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [ngModel]="userData.sat_enabled"
-                      name="sat_enabled"
-                      value=""
-                    />
-                    <span class="form-check-sign"></span>
-                  </label>
-                </div>
-              </td>
-              <td>土</td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.sat_start"
-                  name="sat_start"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.sat_end"
-                  name="sat_end"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-            </tr>
-            <tr>
-              <td class="text-center">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [ngModel]="userData.sun_enabled"
-                      name="sun_enabled"
-                      value=""
-                    />
-                    <span class="form-check-sign"></span>
-                  </label>
-                </div>
-              </td>
-              <td>日</td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.sun_start"
-                  name="sun_start"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-              <td>
-                <ngb-timepicker
-                  [ngModel]="userData.sun_end"
-                  name="sun_end"
-                  [minuteStep]="15"
-                >
-                </ngb-timepicker>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <br />
-      <div class="space-top"></div>
+    <br />
+    <div class="space-top"></div>
+    <div class="container">
       <button
         *ngIf="UserForm.pristine || !UserForm.valid || isClicked"
         disabled
@@ -279,9 +269,10 @@
       >
         変更する
       </button>
-    </form>
+    </div>
+  </form>
 
-    <!-- <div class="row">
+  <!-- <div class="row">
   <div class="col-md-12">
     <div class="space-top"></div>
     <h5 class="description text-center">
@@ -309,5 +300,4 @@
     ></full-calendar>
   </div>
 </div> -->
-  </div>
 </div>
