@@ -27,7 +27,7 @@ export class User {
   affiliateCode?: string;
   stripe?: string;
 
-  bookingNotificationFromStudent?: boolean;
+  // bookingNotificationFromStudent?: boolean;
   changeBookingNotificationFromStudent?: boolean;
   newsLetterFromLessonCalendar?: boolean;
 

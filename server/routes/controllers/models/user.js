@@ -41,7 +41,7 @@ const userSchema = new Schema({
   affiliateCode: String,
   stripe: String,
 
-  bookingNotificationFromStudent: { type: Boolean, default: true },
+  // bookingNotificationFromStudent: { type: Boolean, default: false },
   changeBookingNotificationFromStudent: { type: Boolean, default: true },
   newsLetterFromLessonCalendar: { type: Boolean, default: true },
 
