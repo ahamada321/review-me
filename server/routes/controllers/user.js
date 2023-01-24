@@ -327,6 +327,7 @@ exports.getUserById = function (req, res) {
     // Display all
     User.findById(reqUserId)
       .populate("pendingTeachers teachers bookings notifications", "-password")
+      .sort({ notifications: -1 })
       .exec(function (err, foundUser) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });

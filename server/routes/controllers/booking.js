@@ -3,6 +3,7 @@ const Booking = require("./models/booking");
 const Payment = require("./models/payment");
 const Rental = require("./models/rental");
 const User = require("./models/user");
+const Notification = require("./models/notification");
 const moment = require("moment-timezone");
 
 const config = require("../../config");
@@ -91,7 +92,37 @@ exports.updateBooking = function (req, res) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
-      return res.json({ status: "updated" });
+
+      const newNotification = new Notification({
+        title: bookingData.title + "さんのレッスン予約が変更されました",
+        description:
+          moment(bookingData.oldStart)
+            .tz("Asia/Tokyo")
+            .format("MM月DD日 HH:mm〜") +
+          " → " +
+          moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜"),
+        user: bookingData.teacher,
+      });
+
+      newNotification.save(function (err, savedNotification) {
+        if (err) {
+          return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+        User.findOneAndUpdate(
+          { _id: bookingData.teacher },
+          { $push: { notifications: savedNotification } },
+          { returnOriginal: false },
+          function (err) {
+            if (err) {
+              return res
+                .status(422)
+                .send({ errors: normalizeErrors(err.errors) });
+            }
+            // sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
+            return res.json({ status: "updated" });
+          }
+        );
+      });
     }
   );
 };
