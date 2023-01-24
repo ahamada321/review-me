@@ -2,6 +2,7 @@ const Rental = require("./routes/controllers/models/rental");
 const Booking = require("./routes/controllers/models/booking");
 const User = require("./routes/controllers/models/user");
 const Payment = require("./routes/controllers/models/payment");
+const Notification = require("./routes/controllers/models/notification");
 const Data = require("./template-data/db-data.json");
 
 class FakeDb {
@@ -14,6 +15,7 @@ class FakeDb {
     await User.deleteMany({});
     await Booking.deleteMany({});
     await Payment.deleteMany({});
+    await Notification.deleteMany({});
   }
   pushDataToDb() {
     const user = new User(this.users[0]);

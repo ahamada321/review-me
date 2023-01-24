@@ -1,5 +1,6 @@
 const User = require("./models/user");
 const Booking = require("./models/booking");
+const Notification = require("./models/notification");
 const { normalizeErrors } = require("./helpers/mongoose");
 const jwt = require("jsonwebtoken");
 const config = require("../../config");
@@ -168,7 +169,7 @@ exports.addUserRequest = async function (req, res) {
   );
 };
 
-exports.acceptUserRequest = async function (req, res) {
+exports.acceptAddUserRequest = async function (req, res) {
   const studentId = res.locals.user.id;
   const teacherId = req.body._id;
   const teacherEmail = req.body.email;
@@ -247,6 +248,65 @@ exports.acceptUserRequest = async function (req, res) {
   );
 };
 
+exports.removeUserRequest = async function (req, res) {
+  const teacherId = res.locals.user.id;
+  const studentId = req.body._id;
+  const studentEmail = req.body.email;
+
+  User.findOneAndUpdate(
+    { _id: teacherId },
+    { $pull: { students: studentId } },
+    { returnOriginal: false },
+    function (err) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+    }
+  );
+  User.findOneAndUpdate(
+    { _id: studentId },
+    { $pull: { teachers: teacherId } },
+    { returnOriginal: false },
+    function (err) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+    }
+  );
+
+  User.findById(teacherId, function (err, foundTeacher) {
+    if (err) {
+      return res.status(422).send({ errors: normalizeErrors(err.errors) });
+    }
+
+    const newNotification = new Notification({
+      title: foundTeacher.username + "先生が担当から外れました",
+      description: foundTeacher.username + "先生が担当から外れました",
+      user: studentId,
+    });
+
+    newNotification.save(function (err, savedNotification) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      User.findOneAndUpdate(
+        { _id: studentId },
+        { $push: { notifications: savedNotification } },
+        { returnOriginal: false },
+        function (err) {
+          if (err) {
+            return res
+              .status(422)
+              .send({ errors: normalizeErrors(err.errors) });
+          }
+          // sendEmailTo(studentEmail, REMOVED_RECIEVED, req.hostname);
+          return res.json({ status: "success" });
+        }
+      );
+    });
+  });
+};
+
 exports.getMyStudents = function (req, res) {
   const teacherId = res.locals.user.id;
   User.findById(teacherId)
@@ -266,7 +326,7 @@ exports.getUserById = function (req, res) {
   if (reqUserId === user.id) {
     // Display all
     User.findById(reqUserId)
-      .populate("pendingTeachers teachers bookings", "-password")
+      .populate("pendingTeachers teachers bookings notifications", "-password")
       .exec(function (err, foundUser) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });

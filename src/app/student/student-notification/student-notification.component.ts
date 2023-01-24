@@ -36,8 +36,8 @@ export class StudentNotificationComponent implements OnInit {
     );
   }
 
-  acceptUserRequest(pendingTeacher: any) {
-    this.userService.acceptUserRequest(pendingTeacher).subscribe(
+  acceptAddUserRequest(pendingTeacher: any) {
+    this.userService.acceptAddUserRequest(pendingTeacher).subscribe(
       (success: any) => {
         Swal.fire({
           title: '承認しました！',

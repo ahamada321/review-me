@@ -36,7 +36,7 @@
               </td>
               <td>
                 <a
-                  [routerLink]="['rebooking', myStudent._id]"
+                  (click)="removeUserRequest(myStudent)"
                   class="btn btn-link btn-danger"
                 >
                   削除

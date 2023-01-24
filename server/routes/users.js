@@ -12,9 +12,19 @@ router.get("/reset/:id", UserCtrl.setInitialPassword);
 
 router.post("/search", UserCtrl.searchUsers);
 
-router.post("/adduser", UserCtrl.authMiddleware, UserCtrl.addUserRequest);
+router.post("/add-request", UserCtrl.authMiddleware, UserCtrl.addUserRequest);
 
-router.post("/accept", UserCtrl.authMiddleware, UserCtrl.acceptUserRequest);
+router.post(
+  "/accept-adding",
+  UserCtrl.authMiddleware,
+  UserCtrl.acceptAddUserRequest
+);
+
+router.post(
+  "/remove-request",
+  UserCtrl.authMiddleware,
+  UserCtrl.removeUserRequest
+);
 
 router.get("/mystudents", UserCtrl.authMiddleware, UserCtrl.getMyStudents);
 

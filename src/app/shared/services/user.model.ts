@@ -1,6 +1,7 @@
-import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Schema } from 'mongoose';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Booking } from '../booking-selecter/shared/booking.model';
+import { Notification } from './notification.model';
 
 export class User {
   _id?: Schema.Types.ObjectId;
@@ -15,6 +16,7 @@ export class User {
 
   pendingTeachers!: User[];
   pendingStudents!: User[];
+  notifications!: Notification[];
   teachers!: User[];
   students!: User[];
 

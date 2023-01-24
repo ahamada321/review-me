@@ -31,6 +31,7 @@ const userSchema = new Schema({
   students: [{ type: Schema.Types.ObjectId, ref: "User" }],
   pendingTeachers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   pendingStudents: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  notifications: [{ type: Schema.Types.ObjectId, ref: "Notification" }],
 
   perMonth: { type: Number, default: 4 },
   courseTime: { type: Number, default: 60 },

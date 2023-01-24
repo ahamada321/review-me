@@ -12,11 +12,15 @@ export class UserService {
   }
 
   public addUserRequest(student: any): Observable<any> {
-    return this.http.post('/api/v1/users/adduser', student);
+    return this.http.post('/api/v1/users/add-request', student);
   }
 
-  public acceptUserRequest(teacher: any): Observable<any> {
-    return this.http.post('/api/v1/users/accept', teacher);
+  public acceptAddUserRequest(teacher: any): Observable<any> {
+    return this.http.post('/api/v1/users/accept-adding', teacher);
+  }
+
+  public removeUserRequest(student: any): Observable<any> {
+    return this.http.post('/api/v1/users/remove-request', student);
   }
 
   public getMyStudents(): Observable<any> {
