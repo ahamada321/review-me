@@ -220,12 +220,10 @@ exports.countUserBookings = function (req, res) {
   Booking.count({
     student: userId,
     start: {
-      $and: [
-        { $gte: moment().tz("Asia/Tokyo").add(1, "month").startOf("month") },
-        { $lt: moment().tz("Asia/Tokyo").add(2, "month").startOf("month") },
-      ],
+      $gte: moment().tz("Asia/Tokyo").add(1, "month").startOf("month"),
+      $lt: moment().tz("Asia/Tokyo").add(2, "month").startOf("month"),
     },
-  }).exec(function (err, foundfoundBookingsCountsBookings) {
+  }).exec(function (err, foundBookingsCounts) {
     if (err) {
       return res.status(422).send({ errors: normalizeErrors(err.errors) });
     }

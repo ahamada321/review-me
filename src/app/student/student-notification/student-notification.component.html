@@ -8,11 +8,11 @@
             <hr />
 
             <div *ngIf="userData.pendingTeachers">
-              <div class="media">
-                <div
-                  class="media-body"
-                  *ngFor="let pendingTeacher of userData.pendingTeachers"
-                >
+              <div
+                class="media"
+                *ngFor="let pendingTeacher of userData.pendingTeachers"
+              >
+                <div class="media-body">
                   <div class="pull-right">
                     <h6 class="text-muted">2023年8月11日 11:54</h6>
                   </div>
@@ -36,11 +36,11 @@
               </div>
             </div>
             <div *ngIf="userData.notifications">
-              <div class="media">
-                <div
-                  class="media-body"
-                  *ngFor="let notification of userData.notifications"
-                >
+              <div
+                class="media"
+                *ngFor="let notification of userData.notifications"
+              >
+                <div class="media-body">
                   <div class="pull-right">
                     <h6 class="text-muted">
                       {{

@@ -18,6 +18,7 @@ export class StudentMypageComponent implements OnInit {
   userId = this.auth.getUserId();
   upcomingBookings!: Booking[];
   finishedBookings!: Booking[];
+  countBookings!: number;
 
   constructor(
     private router: Router,
@@ -29,8 +30,9 @@ export class StudentMypageComponent implements OnInit {
 
   ngOnInit() {
     this.getMe();
-    this.getUpcomingBookings();
     this.getFinishedBookings();
+    this.getUpcomingBookings();
+    this.getCountBookings();
   }
 
   getMe() {
@@ -48,6 +50,15 @@ export class StudentMypageComponent implements OnInit {
         this.upcomingBookings = foundUpcomingBookings;
       },
       (err: any) => {}
+    );
+  }
+
+  getCountBookings() {
+    this.bookingService.countUserBookings(this.userId).subscribe(
+      (foundCountBookings) => {
+        this.countBookings = foundCountBookings;
+      },
+      (error) => {}
     );
   }
 

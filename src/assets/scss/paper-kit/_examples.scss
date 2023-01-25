@@ -25,6 +25,26 @@
   }
 }
 
+.link-other-medium-gray {
+  // Added by Hamada.
+  color: $other-medium-gray !important;
+  &:focus,
+  &:active,
+  &:hover {
+    color: $other-medium-gray-states-color !important;
+  }
+}
+
+.link-disabled {
+  // Added by Hamada.
+  color: $link-disabled-color !important;
+  &:focus,
+  &:active,
+  &:hover {
+    color: $link-disabled-states-color !important;
+  }
+}
+
 .landing-alert {
   margin-bottom: 0;
 }
