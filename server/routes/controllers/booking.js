@@ -214,6 +214,25 @@ exports.getFinishedBookings = function (req, res) {
     });
 };
 
+exports.countUserBookings = function (req, res) {
+  const userId = req.params.id;
+
+  Booking.count({
+    student: userId,
+    start: {
+      $and: [
+        { $gte: moment().tz("Asia/Tokyo").add(1, "month").startOf("month") },
+        { $lt: moment().tz("Asia/Tokyo").add(2, "month").startOf("month") },
+      ],
+    },
+  }).exec(function (err, foundfoundBookingsCountsBookings) {
+    if (err) {
+      return res.status(422).send({ errors: normalizeErrors(err.errors) });
+    }
+    return res.json(foundBookingsCounts);
+  });
+};
+
 exports.getUserBookings = function (req, res) {
   const userId = req.params.id;
 

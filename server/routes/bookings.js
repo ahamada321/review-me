@@ -16,6 +16,12 @@ router.get(
   BookingCtrl.getFinishedBookings
 );
 
+router.get(
+  "count/user/:id",
+  UserCtrl.authMiddleware,
+  BookingCtrl.countUserBookings
+); // All bookings
+
 router.get("/user/:id", UserCtrl.authMiddleware, BookingCtrl.getUserBookings); // All bookings
 
 router.post("", UserCtrl.authMiddleware, BookingCtrl.createBooking);

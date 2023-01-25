@@ -14,6 +14,10 @@ export class BookingService {
     return this.http.get('/api/v1/bookings/' + bookingId);
   }
 
+  public countUserBookings(userId: any): Observable<any> {
+    return this.http.get('/api/v1/bookings/count/user/' + userId);
+  }
+
   public getUserBookings(userId: any): Observable<any> {
     return this.http.get('/api/v1/bookings/user/' + userId);
   }
