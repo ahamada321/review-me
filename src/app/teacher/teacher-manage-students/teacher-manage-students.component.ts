@@ -43,7 +43,7 @@ export class TeacherManageStudentsComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#51cbce',
       cancelButtonColor: '#9A9A9A',
-      confirmButtonText: '申請する',
+      confirmButtonText: '削除する',
       cancelButtonText: 'キャンセル',
       reverseButtons: true,
       allowOutsideClick: false,
