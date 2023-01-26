@@ -22,6 +22,10 @@ export class BookingService {
     return this.http.get('/api/v1/bookings/user/' + userId);
   }
 
+  public getUserDateBlockBookings(userId: any): Observable<any> {
+    return this.http.get('/api/v1/bookings/block/user/' + userId);
+  }
+
   public getUserPendingBookings(): Observable<any> {
     return this.http.get('/api/v1/bookings/pending');
   }

@@ -4,7 +4,7 @@ import { User } from '../../services/user.model';
 
 export class Booking {
   static readonly DATE_FORMAT = 'Y-MM-DD';
-  _id?: string;
+  _id!: string;
   createdAt?: Date;
 
   title!: string;

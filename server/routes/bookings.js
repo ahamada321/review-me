@@ -24,6 +24,12 @@ router.get(
 
 router.get("/user/:id", UserCtrl.authMiddleware, BookingCtrl.getUserBookings); // All bookings
 
+router.get(
+  "/block/user/:id",
+  UserCtrl.authMiddleware,
+  BookingCtrl.getUserDateBlockBookings
+); // All bookings
+
 router.post("", UserCtrl.authMiddleware, BookingCtrl.createBooking);
 
 router.patch("", UserCtrl.authMiddleware, BookingCtrl.updateBooking);

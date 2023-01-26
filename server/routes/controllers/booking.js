@@ -138,43 +138,42 @@ exports.getBookingById = function (req, res) {
 };
 
 exports.deleteBooking = function (req, res) {
-  const user = res.locals.user;
+  const userId = res.locals.user.id;
+  const bookingId = req.params.id;
 
-  Booking.findById(req.params.id)
-    .populate("user rental")
-    // .populate('payment', '_id')
-    // .populate('start')
-    .exec(function (err, foundBooking) {
+  Booking.findById(bookingId, function (err, foundBooking) {
+    if (err) {
+      return res.status(422).send({ errors: normalizeErrors(err.errors) });
+    }
+    // if (foundBooking.teacher._id !== userId) {
+    //   return res.status(422).send({
+    //     errors: [
+    //       {
+    //         title: "Invalid request!",
+    //         detail: "You cannot delete other users booking!",
+    //       },
+    //     ],
+    //   });
+    // }
+    // if(foundBooking.status === 'active') {
+    //     return res.status(422).send({errors: [{title: "Invalid request!", detail: "Cannot delete active booking!"}]})
+    // }
+
+    foundBooking.remove(function (err) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
-      // if(foundBooking.user.id !== user.id) {
-      //     return res.status(422).send({errors: [{title: "Invalid request!", detail: "You cannot delete other users booking!"}]})
-      // }
-      // if(foundBooking.status === 'active') {
-      //     return res.status(422).send({errors: [{title: "Invalid request!", detail: "Cannot delete active booking!"}]})
-      // }
 
-      foundBooking.remove(function (err) {
-        if (err) {
-          return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
-        Rental.updateOne(
-          { _id: foundBooking.rental.id },
-          { $pull: { bookings: foundBooking.id } },
-          () => {}
-        ); // Delete Booking from Rental
+      User.findOneAndUpdate(
+        { _id: userId },
+        { $pull: { bookings: bookingId } },
+        { returnOriginal: false },
+        () => {}
+      ); // Delete Booking from Teacher
 
-        User.updateOne(
-          { _id: foundBooking.user.id },
-          { $pull: { bookings: foundBooking.id } },
-          () => {}
-        ); // Delete Booking from User
-
-        // Payment.updateOne({_id: foundBooking.payment.id}, {status: 'canseled by user'}, ()=>{})
-        return res.json({ status: "deleted" });
-      });
+      return res.json({ status: "deleted" });
     });
+  });
 };
 
 exports.getUpcomingBookings = function (req, res) {
@@ -231,6 +230,19 @@ exports.getUserBookings = function (req, res) {
 
   Booking.find({ $or: [{ teacher: userId }, { student: userId }] })
     .sort({ start: -1 })
+    .exec(function (err, foundBookings) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      return res.json(foundBookings);
+    });
+};
+
+exports.getUserDateBlockBookings = function (req, res) {
+  const userId = req.params.id;
+
+  Booking.find({ teacher: userId, title: "休み" })
+    .sort({ start: 1 })
     .exec(function (err, foundBookings) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });

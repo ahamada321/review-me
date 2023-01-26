@@ -5,6 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthGuard } from '../auth/shared/auth.guard';
 import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import {
+  OwlDateTimeModule,
+  OwlNativeDateTimeModule,
+} from '@danielmoncada/angular-datetime-picker';
 import { AdsenseModule } from 'ng2-adsense';
 import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
 import { SearchbarModule } from '../shared/searchbar/searchbar.module';
@@ -22,6 +26,7 @@ import { TeacherEditComponent } from './teacher-edit/teacher-edit.component';
 import { TeacherChangePasswordComponent } from './teacher-change-password/teacher-change-password.component';
 import { UserService } from '../shared/services/user.service';
 import { TeacherBlockComponent } from './teacher-block/teacher-block.component';
+import { TeacherManageBlocksComponent } from './teacher-manage-blocks/teacher-manage-blocks.component';
 
 // source　https://www.npmjs.com/package/ng2-adsense
 
@@ -38,6 +43,11 @@ const routes: Routes = [
       {
         path: 'block',
         component: TeacherBlockComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'manage-block',
+        component: TeacherManageBlocksComponent,
         canActivate: [AuthGuard],
       },
       {
@@ -84,6 +94,7 @@ const routes: Routes = [
     TeacherComponent,
     TeacherMypageComponent,
     TeacherBlockComponent,
+    TeacherManageBlocksComponent,
     TeacherNotificationComponent,
     TeacherManageStudentsComponent,
     TeacherSearchComponent,
@@ -99,6 +110,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     JwBootstrapSwitchNg2Module,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     AdsenseModule,
     ImageUploadModule,
     SearchbarModule,
