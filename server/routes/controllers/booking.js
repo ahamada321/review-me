@@ -30,16 +30,9 @@ function isValidBooking(requestBooking, rentalBookings) {
 }
 
 exports.createBooking = function (req, res) {
-  const { start, end, courseTime, title, teacher, student } = req.body;
+  const { teacher, student } = req.body;
 
-  const booking = new Booking({
-    start,
-    courseTime,
-    end,
-    title,
-    teacher,
-    student,
-  });
+  const booking = new Booking(req.body);
 
   Booking.find({ teacher }).exec(function (err, foundBookings) {
     if (err) {
@@ -69,12 +62,14 @@ exports.createBooking = function (req, res) {
         function () {}
       );
 
-      User.findOneAndUpdate(
-        { _id: student.id },
-        { $push: { bookings: booking } },
-        { returnOriginal: false },
-        function () {}
-      );
+      if (student && student.id) {
+        User.findOneAndUpdate(
+          { _id: student.id },
+          { $push: { bookings: booking } },
+          { returnOriginal: false },
+          function () {}
+        );
+      }
 
       return res.json({ status: "success" });
     });

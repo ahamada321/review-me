@@ -1,28 +1,152 @@
-<div class="profile-content section">
-  <div class="container text-center">
-    <h1>
-      <small>来月のスケジュール</small>
+<div *ngIf="userData">
+  <div class="container">
+    <h1 class="text-center">
+      <small>予約ブロック日時を登録</small>
     </h1>
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="space-top"></div>
-        <p class="description text-center">休日を予め設定できます.</p>
-        <p class="description text-center">
-          長押しドラッグ選択で複数日をまとめて設定できます.
-        </p>
-        <div class="space-top"></div>
+    <div class="space-top"></div>
+    <form
+      #dateBlockForm="ngForm"
+      (ngSubmit)="addDayOffConfirmation(dateBlockForm)"
+    >
+      <label
+        >予約をブロックにしたい日付を選択してください
+        <span class="icon-danger">*</span></label
+      >
+      <div class="row">
+        <div class="col-md-5 ml-auto mr-auto">
+          <div class="input-group date">
+            <input
+              [(ngModel)]="selectedDate"
+              name="selectedDate"
+              [readonly]="true"
+              [owlDateTime]="dt1"
+              [owlDateTimeTrigger]="dt1"
+              [min]="minDate"
+              [max]="maxDate"
+              [owlDateTimeFilter]="dayOffFilter"
+              class="form-control"
+              placeholder="希望日を選択"
+              required
+            />
+            <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+
+            <div class="input-group-append">
+              <span class="glyphicon glyphicon-calendar input-group-text">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-10 ml-auto mr-auto">
-        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
-        <!-- <full-calendar
-          #calendar
-          (click)="(handleDateClick)"
-          [options]="calendarOptions"
-        ></full-calendar> -->
+
+      <div class="space-top"></div>
+      <div class="row">
+        <div class="col-12">
+          <label
+            >予約ブロック時間を選択してください
+            <span class="icon-danger">*</span></label
+          >
+          <div class="form-check-radio">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="allDay"
+                id="BlockAllDay"
+                [(ngModel)]="newBooking.allDay"
+                [value]="true"
+                required
+              />
+              終日ブロックする
+              <span class="form-check-sign"></span>
+            </label>
+          </div>
+          <div class="form-check-radio">
+            <label class="form-check-label">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="allDay"
+                id="BlockSpotTime"
+                [(ngModel)]="newBooking.allDay"
+                [value]="false"
+                required
+              />
+              時間指定して予約ブロックする
+              <span class="form-check-sign"></span>
+            </label>
+          </div>
+        </div>
       </div>
+
+      <div class="space-top"></div>
+      <div class="row" *ngIf="newBooking.allDay === false">
+        <div class="col-6">
+          <div class="form-group">
+            <label>予約ブロック開始時刻</label>
+            <ngb-timepicker
+              name="start"
+              [(ngModel)]="start"
+              [minuteStep]="15"
+            ></ngb-timepicker>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label>予約ブロック終了時刻</label>
+            <ngb-timepicker
+              name="end"
+              [(ngModel)]="end"
+              [minuteStep]="15"
+            ></ngb-timepicker>
+          </div>
+        </div>
+      </div>
+      <!-- セカンドアップデート -->
+      <!-- <div class="space-top"></div>
+    <label>繰り返し頻度選択</label>
+    <div class="form-check-radio">
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          checked
+          type="radio"
+          name=""
+          id="bookings: Student"
+          [(ngModel)]="userData.bookings"
+          value=""
+        />
+        この日のみ
+        <span class="form-check-sign"></span>
+      </label>
     </div>
+    <div class="form-check-radio">
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          name=""
+          id="bookings: "
+          [(ngModel)]="userData.bookings"
+          value=""
+        />
+        毎週
+        <span class="form-check-sign"></span>
+      </label>
+    </div> -->
+      <div class="space-top"></div>
+      <button
+        [disabled]="!dateBlockForm.valid"
+        type="submit"
+        class="btn btn-primary btn-block btn-round btn-lg"
+      >
+        登録する
+      </button>
+    </form>
+    <div *ngIf="errors.length > 0" class="alert alert-danger">
+      <p *ngFor="let error of errors">{{ error.detail }}</p>
+    </div>
+    <div class="space-top"></div>
   </div>
 </div>

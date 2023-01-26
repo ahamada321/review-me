@@ -13,7 +13,7 @@ export class Booking {
   courseTime?: number;
   end!: any;
   oldEnd?: any;
-  allDay?: boolean;
+  allDay: boolean = false;
 
   display?: string;
   color?: string;

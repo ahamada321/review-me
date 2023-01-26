@@ -45,7 +45,7 @@ export class BookingSelecterComponent implements OnInit {
 
   onDateSelect(date: Date) {
     // this.isDateBlock_flg = false
-    // this.iskDateBlock(date)
+    // this.isDateBlock(date)
     // const selectedDay = date.getDay()
     // let mTimeTables = []
     // let mEnd = null
@@ -92,7 +92,7 @@ export class BookingSelecterComponent implements OnInit {
     return moment(start).diff(moment()) < 0; // Attention: just "moment()" is already applied timezone!
   }
 
-  iskDateBlock(selectedDate: Date) {
+  isDateBlock(selectedDate: Date) {
     const selected_date = moment(selectedDate)
       .subtract(1, 'month')
       .format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()

@@ -3,14 +3,13 @@ import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/services/user.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import { EventClickArg, EventInput } from '@fullcalendar/core';
-
-import Swal from 'sweetalert2';
-import * as moment from 'moment';
 import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
+import { User } from 'src/app/shared/services/user.model';
+
+import { HttpErrorResponse } from '@angular/common/http';
+import * as moment from 'moment';
+import Swal from 'sweetalert2';
+import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
 
 @Component({
@@ -19,22 +18,17 @@ import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.s
   styleUrls: ['./teacher-block.component.scss'],
 })
 export class TeacherBlockComponent implements OnInit {
-  isClicked: boolean = false;
-  errors: any = [];
-  userData: any;
+  selectedDate!: Date;
+  minDate!: Date;
+  maxDate!: Date;
   userId = this.auth.getUserId();
-  calendarOptions: any = {
-    longPressDelay: '300',
-    selectable: 'true',
-    calendarEvents: [],
-    initialView: 'dayGridMonth',
-    plugins: [dayGridPlugin, interactionPlugin],
-    locale: 'ja',
-    businessHours: true,
-    dayMaxEventRows: true,
-    dateClick: this.handleDateClick.bind(this),
-  };
-  calendarEvents: any;
+  userData!: User;
+  errors: any = [];
+  timeTables: any = [];
+  isDateBlock_flg: boolean = false;
+  newBooking: Booking = new Booking();
+  start!: NgbTimeStruct;
+  end!: NgbTimeStruct;
 
   constructor(
     private auth: MyOriginAuthService,
@@ -44,6 +38,11 @@ export class TeacherBlockComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const now = new Date();
+    this.selectedDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    this.minDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    this.maxDate = new Date(now.getFullYear(), now.getMonth() + 2, 0);
+
     this.getMe();
   }
 
@@ -51,6 +50,11 @@ export class TeacherBlockComponent implements OnInit {
     this.userService.getUserById(this.userId).subscribe(
       (foundUser) => {
         this.userData = foundUser;
+        this.newBooking.title = '休み';
+        this.newBooking.color = '#f5593d';
+        this.newBooking.teacher = this.userId;
+        this.start = { hour: 13, minute: 30, second: 0 };
+        this.end = { hour: 14, minute: 30, second: 0 };
       },
       (errorResponse: HttpErrorResponse) => {
         this.errors = errorResponse.error.errors;
@@ -58,45 +62,133 @@ export class TeacherBlockComponent implements OnInit {
     );
   }
 
-  handleDateClick(arg: any) {
+  dayOffFilter = (date: Date | null): any => {
+    const selectedDay = date!.getDay();
+    return (
+      (selectedDay === 0 && this.userData.sun_enabled) ||
+      (selectedDay === 1 && this.userData.mon_enabled) ||
+      (selectedDay === 2 && this.userData.tue_enabled) ||
+      (selectedDay === 3 && this.userData.wed_enabled) ||
+      (selectedDay === 4 && this.userData.thu_enabled) ||
+      (selectedDay === 5 && this.userData.fri_enabled) ||
+      (selectedDay === 6 && this.userData.sat_enabled)
+    );
+  };
+
+  addDayOffConfirmation(dateBlockForm: NgForm) {
+    if (this.newBooking.allDay) {
+      this.showSwalBlockAllDayConfirmation(dateBlockForm);
+    } else {
+      this.showSwalBlockSpotTimeConfirmation(dateBlockForm);
+    }
+  }
+
+  showSwalBlockAllDayConfirmation(dateBlockForm: NgForm) {
+    this.newBooking.start = moment(this.selectedDate).set({
+      hour: 0,
+      minute: 0,
+    });
+    this.newBooking.end = moment(this.selectedDate).set({
+      hour: 23,
+      minute: 59,
+    });
+    this.newBooking.display = 'background';
+
     Swal.fire({
+      html: `<h5>${moment(this.selectedDate).format('MM月DD日')}</h5>
+          の予約受付を終日ブロックしますか？
+         `,
       icon: 'info',
-      title: '以下日時を休みにしますか？',
-      text: arg.dateStr,
+      showCancelButton: true,
       confirmButtonColor: '#51cbce',
       cancelButtonColor: '#9A9A9A',
-      confirmButtonText: '休み',
+      confirmButtonText: 'はい',
       cancelButtonText: 'キャンセル',
-      showCancelButton: true,
-      allowOutsideClick: false,
       reverseButtons: true,
+      allowOutsideClick: false,
     }).then((result) => {
-      if (result.value) {
-        const event = {
-          // id: '',
-          title: '休み',
-          allday: true,
-          start: arg.dateStr,
-          end: moment(arg.dateStr).add(1, 'day').format('YYYY-MM-DD'),
-          teacher: this.userId,
-        };
-        console.log(event);
-        this.createDateBlockBooking(event);
+      if (!result.dismiss) {
+        this.bookingService.createBooking(this.newBooking).subscribe(
+          (success: any) => {
+            Swal.fire({
+              title: 'ブロックしました',
+
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary btn-lg',
+              },
+              buttonsStyling: false,
+            }).then((result) => {
+              this.router.navigate(['/teacher']);
+            });
+          },
+          (errorResponse: HttpErrorResponse) => {
+            console.error(errorResponse);
+            const error = errorResponse.error.errors[0];
+            Swal.fire({
+              title: `${error.title}`,
+              text: `${error.detail}`,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-danger btn-lg',
+              },
+              buttonsStyling: false,
+            });
+          }
+        );
       }
     });
   }
 
-  delay(arg0: number) {
-    throw new Error('Method not implemented.');
-  }
+  showSwalBlockSpotTimeConfirmation(dateBlockForm: NgForm) {
+    this.newBooking.start = moment(this.selectedDate).set(this.start);
+    this.newBooking.end = moment(this.selectedDate).set(this.end);
 
-  private createDateBlockBooking(event: any) {
-    this.bookingService.createDateBlockBooking(event).subscribe(
-      (resultId) => {
-        event.id = resultId;
-        this.calendarEvents = this.calendarEvents.concat(event); // Update front UI
-      },
-      (err) => {}
-    );
+    Swal.fire({
+      html: `<h5>${this.newBooking.start.format(
+        'MM月DD日 HH:mm'
+      )} 〜 ${this.newBooking.end.format('HH:mm')}</h5>
+          の予約受付をブロックしますか？
+         `,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#51cbce',
+      cancelButtonColor: '#9A9A9A',
+      confirmButtonText: 'はい',
+      cancelButtonText: 'キャンセル',
+      reverseButtons: true,
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (!result.dismiss) {
+        this.bookingService.createBooking(this.newBooking).subscribe(
+          (success: any) => {
+            Swal.fire({
+              title: 'ブロックしました',
+
+              icon: 'success',
+              customClass: {
+                confirmButton: 'btn btn-primary btn-lg',
+              },
+              buttonsStyling: false,
+            }).then((result) => {
+              this.router.navigate(['/teacher']);
+            });
+          },
+          (errorResponse: HttpErrorResponse) => {
+            console.error(errorResponse);
+            const error = errorResponse.error.errors[0];
+            Swal.fire({
+              title: `${error.title}`,
+              text: `${error.detail}`,
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-danger btn-lg',
+              },
+              buttonsStyling: false,
+            });
+          }
+        );
+      }
+    });
   }
 }

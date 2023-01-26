@@ -24,6 +24,7 @@ export class StudentBookingComponent implements OnInit {
   isClicked: boolean = false;
   newBooking: Booking = new Booking();
   errors: any;
+  userId = this.auth.getUserId();
   studentData!: User;
   teacherData!: User;
 
@@ -45,8 +46,7 @@ export class StudentBookingComponent implements OnInit {
   }
 
   getMe() {
-    const studentId = this.auth.getUserId();
-    this.userService.getUserById(studentId).subscribe(
+    this.userService.getUserById(this.userId).subscribe(
       (foundUser) => {
         this.studentData = foundUser;
         if (!foundUser.teachers[0]) {
@@ -55,7 +55,7 @@ export class StudentBookingComponent implements OnInit {
         }
         this.newBooking.title = this.auth.getUsername();
         this.newBooking.teacher = foundUser.teachers[0]; //tmp
-        this.newBooking.student = studentId;
+        this.newBooking.student = this.userId;
         this.newBooking.courseTime = foundUser.courseTime;
         this.getMyTeacher(foundUser.teachers[0]._id);
       },
@@ -92,7 +92,7 @@ export class StudentBookingComponent implements OnInit {
 
   onDateSelect(date: Date) {
     this.isDateBlock_flg = false;
-    this.iskDateBlock(date);
+    this.isDateBlock(date);
     const selectedDay = date.getDay();
     let mTimeTables = [];
     let mEndAt = null;
@@ -198,7 +198,7 @@ export class StudentBookingComponent implements OnInit {
     // this.newBookingInfo.emit(null);
   }
 
-  iskDateBlock(selectedDate: Date) {
+  isDateBlock(selectedDate: Date) {
     const selected_date = moment(selectedDate)
       .subtract(1, 'month')
       .format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()

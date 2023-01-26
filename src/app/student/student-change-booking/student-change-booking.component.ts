@@ -108,7 +108,7 @@ export class StudentChangeBookingComponent implements OnInit {
 
   onDateSelect(date: Date) {
     this.isDateBlock_flg = false;
-    this.iskDateBlock(date);
+    this.isDateBlock(date);
     const selectedDay = date.getDay();
     let mTimeTables = [];
     let mEndAt = null;
@@ -213,7 +213,7 @@ export class StudentChangeBookingComponent implements OnInit {
     this.timeTables = mTimeTables;
   }
 
-  iskDateBlock(selectedDate: Date) {
+  isDateBlock(selectedDate: Date) {
     const selected_date = moment(selectedDate)
       .subtract(1, 'month')
       .format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()
