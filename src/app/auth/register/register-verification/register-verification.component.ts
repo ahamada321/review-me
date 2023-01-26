@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MyOriginAuthService } from '../../service/auth.service';
+import { MyOriginAuthService } from '../../shared/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
-import { LoginPopupComponent } from '../../login-popup/login-popup.component';
 
 @Component({
   selector: 'app-register-verification',
@@ -60,7 +59,7 @@ export class RegisterVerificationComponent implements OnInit {
         buttonsStyling: false,
         allowOutsideClick: false,
       }).then(() => {
-        this.modalLoginOpen();
+        this.router.navigate(['/login']);
       });
     } else if (type == 'failed') {
       // Maybe won't need URL expired pattern.
@@ -77,10 +76,5 @@ export class RegisterVerificationComponent implements OnInit {
         this.router.navigate(['/']);
       });
     }
-  }
-
-  modalLoginOpen() {
-    this.router.navigate(['/']);
-    this.modalService.open(LoginPopupComponent, { backdrop: 'static' });
   }
 }

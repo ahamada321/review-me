@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-8 ml-auto mr-auto">
+    <div class="card card-raised card-form-horizontal no-transition">
+      <div class="card-body">
+        <form
+          #searchForm="ngForm"
+          (ngSubmit)="searchBy(searchForm.value.searchWords)"
+        >
+          <div class="row">
+            <div class="col-md-8">
+              <div class="form-group">
+                <input
+                  (ngModel)="(searchWords)"
+                  name="searchWords"
+                  type="text"
+                  placeholder="生徒名で検索"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-primary btn-block">
+                <i class="nc-icon nc-zoom-split"></i> &nbsp; 検索する
+              </button>
+              <div class="separator-10"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

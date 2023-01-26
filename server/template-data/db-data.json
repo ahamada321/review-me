@@ -1,0 +1,53 @@
+{
+  "rentals": [
+    {
+      "shared": true,
+      "createdAt": "2018/11/10",
+      "lastLesson": "2018/11/30",
+
+      "birthday": "1987/11/30",
+      "gender": "男性",
+      "rentalname": "田中太郎",
+      "tel": "080-1234-1234",
+      "email": "abc@gmail.com",
+
+      "memo": "この生徒に関するメモをここに記述できます。"
+    },
+    {
+      "shared": true,
+      "createdAt": "2018/11/10",
+      "lastLesson": "2018/11/30",
+
+      "birthday": "1987/11/30",
+      "gender": "女性",
+      "rentalname": "鈴木花子",
+      "tel": "080-1234-1234",
+      "email": "abc@gmail.com",
+
+      "memo": "この生徒に関するメモをここに記述できます。"
+    }
+  ],
+  "users": [
+    {
+      "username": "田中太郎",
+      "email": "a.hamada21@gmail.com",
+      "password": "test1",
+      "userRole": "Student",
+      "bookings": []
+    },
+    {
+      "username": "木村あやか",
+      "email": "a.hamada.biz@gmail.com",
+      "password": "test1",
+      "userRole": "Teacher",
+      "bookings": []
+    },
+    {
+      "username": "管理者",
+      "email": "test1@gmail.com",
+      "password": "test1",
+      "userRole": "Owner",
+      "bookings": []
+    }
+  ]
+}

@@ -101,13 +101,13 @@ export class AppComponent implements OnInit {
               // add logic
               navbar.classList.remove('navbar-transparent');
             } else if (
-              _locationExamples !== 'blogposts' &&
-              _locationExamples !== 'contactus' &&
+              _locationExamples !== 'login' &&
               _locationExamples !== 'register' &&
+              _locationExamples !== 'contactus' &&
               this.location.path() !== '/nucleoicons'
             ) {
               // remove logic
-              navbar.classList.add('navbar-transparent');
+              // navbar.classList.add('navbar-transparent');
             }
           }
         });
@@ -129,7 +129,11 @@ export class AppComponent implements OnInit {
   removeFooter() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
     titlee = titlee.slice(1);
-    if (titlee === 'register' || titlee === 'maintenance') {
+    if (
+      titlee === 'login' ||
+      titlee === 'register' ||
+      titlee === 'maintenance'
+    ) {
       return false;
     } else {
       return true;

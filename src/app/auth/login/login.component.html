@@ -1,0 +1,112 @@
+<div class="wrapper">
+  <div
+    class="page-header section-dark"
+    style="background-image: url('./assets/img/login.webp')"
+  >
+    <div class="filter"></div>
+    <div class="container">
+      <div class="space-100"></div>
+      <div class="text-center">
+        <a class="btn btn-link btn-neutral" [routerLink]="['/landing']">
+          \ レッスンカレンダーとは？ /
+        </a>
+        <p style="font-weight: bold">
+          毎月のレッスンをインターネット上で<br />管理できるサービス
+        </p>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+          <div class="card card-register">
+            <h3 class="card-title">ログインはこちら</h3>
+            <br />
+            <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+              <p *ngFor="let error of errors">{{ error.detail }}</p>
+            </div>
+            <form
+              class="register-form"
+              [formGroup]="loginForm"
+              (ngSubmit)="login()"
+            >
+              <!-- <label>Email</label> -->
+              <div class="form-group">
+                <div
+                  class="input-group"
+                  [ngClass]="{ 'input-group-focus': focus === true }"
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="nc-icon nc-email-85"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email"
+                    placeholder="example@gmail.com"
+                    pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                    (focus)="focus = true"
+                    (blur)="focus = false"
+                  />
+                </div>
+              </div>
+              <!-- <label>Password</label> -->
+              <div class="form-group">
+                <div
+                  class="input-group"
+                  [ngClass]="{ 'input-group-focus': focus1 === true }"
+                >
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="nc-icon nc-key-25"></i>
+                    </span>
+                  </div>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    formControlName="password"
+                    placeholder="パスワード"
+                    (focus)="focus1 = true"
+                    (blur)="focus1 = false"
+                  />
+                </div>
+              </div>
+              <button
+                *ngIf="!loginForm.valid"
+                disabled
+                type="submit"
+                class="btn btn-block btn-round btn-lg"
+              >
+                ログイン
+              </button>
+              <button
+                *ngIf="loginForm.valid"
+                type="submit"
+                class="btn btn-primary btn-block btn-round btn-lg"
+              >
+                ログイン
+              </button>
+            </form>
+            <div class="forgot space-top">
+              <a [routerLink]="['/register']" class="btn btn-link btn-primary"
+                >新規会員登録はこちら</a
+              >
+              <a
+                [routerLink]="['/login/reset']"
+                class="btn btn-link btn-primary"
+                >パスワードをお忘れですか？</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer register-footer text-center">
+      <h6>
+        &copy; 2019 - {{ date | date : "yyyy" }}, made with
+        <i class="fa fa-heart heart"></i> by Aeru.me
+      </h6>
+    </div>
+  </div>
+</div>

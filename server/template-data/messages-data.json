@@ -1,0 +1,10 @@
+{
+    "messages": [
+        {
+            "to": "sendTo",
+            "from": "info@ap-trainer.com",
+            "subject": "商品Aへの予約リクエストが来ています！",
+            "text": "あなたの商品Aへの予約リクエストが来ています。受理されますか。"
+        }
+    ]
+}

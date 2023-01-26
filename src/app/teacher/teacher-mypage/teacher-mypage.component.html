@@ -1,0 +1,33 @@
+<div class="text-center">
+  <h1>
+    <small>こんにちは<br />{{ auth.getUsername() }}先生</small>
+  </h1>
+</div>
+
+<!-- <ng2-adsense
+  [adClient]="'ca-pub-xxxxxxxxxxxxxxx'"
+  [adFormat]="'auto'"
+  [display]="'block'"
+  [width]="320"
+  [height]="108"
+>
+</ng2-adsense> -->
+<div class="space-top"></div>
+<div class="row">
+  <div class="col-md mr-auto ml-auto text-center">
+    <a class="btn btn-primary btn-round" [routerLink]="['block']">
+      <i class="nc-icon nc-calendar-60"></i> &nbsp;
+      来月の予約ブロック日時を設定する
+    </a>
+  </div>
+</div>
+<div class="space-top"></div>
+<div class="col-md mr-auto ml-auto text-center">
+  <a class="link-danger" [routerLink]="['manage-block']"
+    >来月の予約ブロック日時を削除する
+  </a>
+</div>
+<div class="space-top"></div>
+<div class="container">
+  <full-calendar [options]="calendarOptions"></full-calendar>
+</div>

@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MyOriginAuthService } from '../service/auth.service';
+import { MyOriginAuthService } from '../shared/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LoginPopupComponent } from '../login-popup/login-popup.component';
+import { User } from 'src/app/shared/services/user.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  data: Date = new Date();
+  date: Date = new Date();
   isTermsAgreed: boolean = false;
 
   focus: any;
@@ -20,8 +20,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   focus2: any;
   focus3: any;
 
-  // formData: User = new User();
-  formData: any; //tmp
+  formData: User = new User();
 
   errors: any[] = [];
 
@@ -59,7 +58,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   register() {
-    this.formData.userRole = 'Owner';
     this.auth.register(this.formData).subscribe(
       (newUser) => {
         if (newUser.isVerified) {
@@ -102,8 +100,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   modalLoginOpen() {
-    this.router.navigate(['/']);
-    this.modalService.open(LoginPopupComponent, { backdrop: 'static' });
+    this.router.navigate(['/login']);
   }
 
   termsOpen(content: any) {

@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="text-center">
+    <h1>
+      <small>設定変更</small>
+    </h1>
+  </div>
+  <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+    <p *ngFor="let error of errors">{{ error.detail }}</p>
+  </div>
+  <div class="space-top"></div>
+  <div class="row" *ngIf="userData">
+    <div class="col-md-6 mr-auto ml-auto">
+      <form #updateUserForm="ngForm" (ngSubmit)="updateUser(updateUserForm)">
+        <div class="form-group">
+          <label>名前</label>
+          <input
+            [ngModel]="userData.username"
+            name="username"
+            type="text"
+            class="form-control border-input"
+            placeholder="お名前（例：鈴木太郎）"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>メールアドレス</label>
+          <input
+            [ngModel]="userData.email"
+            name="email"
+            type="email"
+            class="form-control border-input"
+            placeholder="example@gmail.com"
+            pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>パスワード</label>
+          <a
+            [routerLink]="['/teacher/password']"
+            class="btn btn-link btn-primary"
+            >パスワード変更はこちら</a
+          >
+        </div>
+        <div class="forgot space-top"></div>
+        <div class="space-top"></div>
+        <label>メール通知</label>
+        <ul class="notifications">
+          <!-- <li class="notification-item">
+            生徒からのレッスン予約通知
+            <bSwitch
+              [switch-on-color]="'primary'"
+              [switch-off-color]="'primary'"
+              [ngModel]="userData.bookingNotificationFromStudent"
+              name="bookingNotificationFromStudent"
+            >
+            </bSwitch>
+          </li> -->
+          <li class="notification-item">
+            生徒からのレッスン変更通知
+            <bSwitch
+              [switch-on-color]="'primary'"
+              [switch-off-color]="'primary'"
+              [ngModel]="userData.changeBookingNotificationFromStudent"
+              name="changeBookingNotificationFromStudent"
+            >
+            </bSwitch>
+          </li>
+          <li class="notification-item">
+            レッスンカレンダーからのお知らせ
+            <bSwitch
+              [switch-on-color]="'primary'"
+              [switch-off-color]="'primary'"
+              [ngModel]="userData.newsLetterFromLessonCalendar"
+              name="newsLetterFromLessonCalendar"
+            >
+            </bSwitch>
+          </li>
+        </ul>
+        <div class="space-top"></div>
+        <button
+          *ngIf="updateUserForm.pristine || !updateUserForm.valid || isClicked"
+          disabled
+          type="submit"
+          class="btn btn-block btn-round btn-lg"
+        >
+          変更する
+        </button>
+        <button
+          *ngIf="!updateUserForm.pristine && updateUserForm.valid && !isClicked"
+          type="submit"
+          class="btn btn-primary btn-block btn-round btn-lg"
+        >
+          変更する
+        </button>
+        <div class="space-top"></div>
+      </form>
+    </div>
+  </div>
+</div>
