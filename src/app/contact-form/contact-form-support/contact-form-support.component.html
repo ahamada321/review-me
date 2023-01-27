@@ -1,0 +1,73 @@
+<div class="wrapper">
+  <div
+    class="page-header page-header-xs settings-background"
+    style="background-image: url('./assets/img/contactus.jpg')"
+  >
+    <div class="filter"></div>
+    <div class="content-center">
+      <div class="container">
+        <h1 class="title">お問い合わせ</h1>
+        <h5 class="description">お問い合わせ内容を入力してください</h5>
+      </div>
+    </div>
+  </div>
+  <div class="space-top"></div>
+
+  <div class="container">
+    <div class="row" *ngIf="userData">
+      <div class="col-md-8 mr-auto ml-auto">
+        <h3 class="card-title text-center">Contact Us</h3>
+        <div class="card-body">
+          <form
+            [formGroup]="contactusForm"
+            (ngSubmit)="sendMessage(contactusForm)"
+          >
+            <div class="row">
+              <div class="col-md-6">
+                <label>お名前 </label>
+                <div class="form-group">
+                  <p>{{ userData.username }}</p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label>返信先メールアドレス </label>
+                <div class="form-group">
+                  <p>{{ userData.email }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>お問い合わせ内容 <span class="icon-danger">*</span></label>
+              <textarea
+                formControlName="msg"
+                type="text"
+                class="form-control"
+                rows="4"
+                placeholder="お問い合わせ内容を入力してください."
+                required
+              >
+              </textarea>
+            </div>
+            <div *ngIf="isInvalidForm('msg')" class="alert alert-danger">
+              <div *ngIf="contactusForm.controls['msg'].errors?.['required']">
+                お問い合わせ内容を入力してください.
+              </div>
+            </div>
+            <div *ngIf="errorResponse" class="alert alert-danger">
+              ネットワークエラー。しばらく経ってからもう一度お試しください。
+            </div>
+            <div class="text-center">
+              <button
+                [disabled]="!contactusForm.valid"
+                type="submit"
+                class="btn btn-primary btn-block btn-round btn-lg"
+              >
+                この内容で送信
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
