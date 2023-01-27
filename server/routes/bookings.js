@@ -38,10 +38,4 @@ router.get("/:id", UserCtrl.authMiddleware, BookingCtrl.getBookingById);
 
 router.delete("/:id", UserCtrl.authMiddleware, BookingCtrl.deleteBooking);
 
-router.post(
-  "/block",
-  UserCtrl.authMiddleware,
-  BookingCtrl.createDateBlockBooking
-);
-
 module.exports = router;

@@ -53,6 +53,7 @@ export class TeacherBlockComponent implements OnInit {
         this.newBooking.title = '休み';
         this.newBooking.color = '#f5593d';
         this.newBooking.teacher = this.userId;
+        this.newBooking.status = 'block';
         this.start = { hour: 13, minute: 30, second: 0 };
         this.end = { hour: 14, minute: 30, second: 0 };
       },
@@ -84,6 +85,7 @@ export class TeacherBlockComponent implements OnInit {
   }
 
   showSwalBlockAllDayConfirmation(dateBlockForm: NgForm) {
+    this.newBooking.display = 'background';
     this.newBooking.start = moment(this.selectedDate).set({
       hour: 0,
       minute: 0,
@@ -92,7 +94,6 @@ export class TeacherBlockComponent implements OnInit {
       hour: 23,
       minute: 59,
     });
-    this.newBooking.display = 'background';
 
     Swal.fire({
       html: `<h5>${moment(this.selectedDate).format('MM月DD日')}</h5>

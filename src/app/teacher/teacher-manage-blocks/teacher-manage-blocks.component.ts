@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 import { Router } from '@angular/router';
-// import { User } from 'src/app/shared/services/user.model';
-// import { UserService } from 'src/app/shared/services/user.service';
 import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
-
 import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
@@ -34,8 +31,8 @@ export class TeacherManageBlocksComponent implements OnInit {
     this.bookingService
       .getUserDateBlockBookings(this.auth.getUserId())
       .subscribe(
-        (foundBookings) => {
-          this.blockBookings = foundBookings;
+        (foundBlockBookings) => {
+          this.blockBookings = foundBlockBookings;
         },
         (error) => {}
       );
@@ -98,10 +95,11 @@ export class TeacherManageBlocksComponent implements OnInit {
 
   showSwalDeleteSpotTimeConfirmation(booking: Booking) {
     Swal.fire({
-      html: `<h5>${booking.start.format(
-        'MM月DD日 HH:mm'
-      )} 〜 ${booking.end.format('HH:mm')}</h5>
-          の予約ブロックを削除しますか？
+      html:
+        `<h5>${moment(booking.start).format('MM月DD日 HH:mm')} 〜 ${moment(
+          booking.end
+        ).format('HH:mm')}</h5>` +
+        `の予約ブロックを削除しますか？
          `,
       icon: 'info',
       showCancelButton: true,
@@ -113,7 +111,7 @@ export class TeacherManageBlocksComponent implements OnInit {
       allowOutsideClick: false,
     }).then((result) => {
       if (!result.dismiss) {
-        this.bookingService.createBooking(booking._id).subscribe(
+        this.bookingService.deleteBooking(booking._id).subscribe(
           (success: any) => {
             Swal.fire({
               title: '削除しました',

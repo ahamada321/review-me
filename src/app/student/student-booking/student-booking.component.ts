@@ -217,23 +217,26 @@ export class StudentBookingComponent implements OnInit {
   }
 
   isValidBooking(start: any) {
-    let isValid = true;
-    const teacherBookings = this.teacherData.bookings;
-    if (teacherBookings && teacherBookings.length > 0) {
-      const reqStart = moment(start);
-      const reqEnd = moment(start)
-        .add(this.newBooking.courseTime, 'minute')
-        .subtract(1, 'minute');
+    let isValid = false;
+    const reqStart = moment(start);
+    const reqEnd = moment(start)
+      .add(this.newBooking.courseTime, 'minute')
+      .subtract(1, 'minute');
 
-      isValid = teacherBookings.every((booking) => {
-        const existingStart = moment(booking.start);
-        const existingEnd = moment(booking.end).subtract(1, 'minute');
-        return (
-          (existingStart < reqStart && existingEnd <= reqStart) ||
-          (reqEnd < existingStart && reqEnd < existingEnd)
-        );
-      });
+    const teacherBookings = this.teacherData.bookings;
+    if (teacherBookings && teacherBookings.length === 0) {
+      return true;
     }
+
+    isValid = teacherBookings.every((booking) => {
+      const existingStart = moment(booking.start);
+      const existingEnd = moment(booking.end).subtract(1, 'minute');
+      return (
+        (existingStart < reqStart && existingEnd < reqStart) ||
+        (reqEnd < existingStart && reqEnd < existingEnd)
+      );
+    });
+
     return isValid;
   }
 
