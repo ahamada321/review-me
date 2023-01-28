@@ -20,7 +20,6 @@ export class StudentBookingComponent implements OnInit {
   minDate!: Date;
   maxDate!: Date;
   timeTables: any = [];
-  isDateBlock_flg: boolean = false;
   isClicked: boolean = false;
   newBooking: Booking = new Booking();
   errors: any;
@@ -79,20 +78,20 @@ export class StudentBookingComponent implements OnInit {
 
   dayOffFilter = (date: Date | null): any => {
     const selectedDay = date!.getDay();
+    const isDateBlock_flg = this.isDateBlock(date!);
+
     return (
-      (selectedDay === 0 && this.teacherData.sun_enabled) ||
-      (selectedDay === 1 && this.teacherData.mon_enabled) ||
-      (selectedDay === 2 && this.teacherData.tue_enabled) ||
-      (selectedDay === 3 && this.teacherData.wed_enabled) ||
-      (selectedDay === 4 && this.teacherData.thu_enabled) ||
-      (selectedDay === 5 && this.teacherData.fri_enabled) ||
-      (selectedDay === 6 && this.teacherData.sat_enabled)
+      (selectedDay === 0 && this.teacherData.sun_enabled && !isDateBlock_flg) ||
+      (selectedDay === 1 && this.teacherData.mon_enabled && !isDateBlock_flg) ||
+      (selectedDay === 2 && this.teacherData.tue_enabled && !isDateBlock_flg) ||
+      (selectedDay === 3 && this.teacherData.wed_enabled && !isDateBlock_flg) ||
+      (selectedDay === 4 && this.teacherData.thu_enabled && !isDateBlock_flg) ||
+      (selectedDay === 5 && this.teacherData.fri_enabled && !isDateBlock_flg) ||
+      (selectedDay === 6 && this.teacherData.sat_enabled && !isDateBlock_flg)
     );
   };
 
   onDateSelect(date: Date) {
-    this.isDateBlock_flg = false;
-    this.isDateBlock(date);
     const selectedDay = date.getDay();
     let mTimeTables = [];
     let mEndAt = null;
@@ -199,17 +198,16 @@ export class StudentBookingComponent implements OnInit {
   }
 
   isDateBlock(selectedDate: Date) {
-    const selected_date = moment(selectedDate)
-      .subtract(1, 'month')
-      .format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()
+    const selected_date = moment(selectedDate).format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()
 
     for (let booking of this.teacherData.bookings) {
       if (booking.status === 'block') {
         if (selected_date === moment(booking.start).format('YYYY-MM-DD')) {
-          this.isDateBlock_flg = true;
+          return booking.allDay;
         }
       }
     }
+    return false;
   }
 
   private isPastDateTime(start: any) {
