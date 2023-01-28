@@ -5,7 +5,7 @@ import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
 import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
 import Swal from 'sweetalert2';
-import * as moment from 'moment-timezone';
+import * as moment from 'moment';
 import { UserService } from 'src/app/shared/services/user.service';
 import { User } from 'src/app/shared/services/user.model';
 
@@ -15,18 +15,17 @@ import { User } from 'src/app/shared/services/user.model';
   styleUrls: ['./student-change-booking.component.scss'],
 })
 export class StudentChangeBookingComponent implements OnInit {
-  timeTables: any = [];
-  studentData!: User;
-  teacherData!: User;
-  newBooking!: Booking;
-  isDateBlock_flg: boolean = false;
-  isClicked: boolean = false;
-  errors: any[] = [];
-
-  // Date picker params
+  // isSelectedDateTime: boolean = false;
   selectedDate!: Date;
   minDate!: Date;
   maxDate!: Date;
+  timeTables: any = [];
+  isDateBlock_flg: boolean = false;
+  isClicked: boolean = false;
+  newBooking!: Booking;
+  errors: any[] = [];
+  studentData!: User;
+  teacherData!: User;
 
   constructor(
     private router: Router,
@@ -246,16 +245,14 @@ export class StudentChangeBookingComponent implements OnInit {
     isValid = teacherBookings.every((booking) => {
       const existingStart = moment(booking.start);
       const existingEnd = moment(booking.end).subtract(1, 'minute');
-      return (
-        (existingStart < reqStart && existingEnd < reqStart) ||
-        (reqEnd < existingStart && reqEnd < existingEnd)
-      );
+      return existingEnd < reqStart || reqEnd < existingEnd;
     });
 
     return isValid;
   }
 
   selectDateTime(start: Date) {
+    // this.isSelectedDateTime = true;s
     this.isClicked = false;
     this.newBooking.start = start;
     this.newBooking.end = moment(start).add(

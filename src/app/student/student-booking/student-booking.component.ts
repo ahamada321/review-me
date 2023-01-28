@@ -15,7 +15,7 @@ import { User } from 'src/app/shared/services/user.model';
   styleUrls: ['./student-booking.component.scss'],
 })
 export class StudentBookingComponent implements OnInit {
-  isSelectedDateTime: boolean = false;
+  // isSelectedDateTime: boolean = false;
   selectedDate!: Date;
   minDate!: Date;
   maxDate!: Date;
@@ -231,17 +231,14 @@ export class StudentBookingComponent implements OnInit {
     isValid = teacherBookings.every((booking) => {
       const existingStart = moment(booking.start);
       const existingEnd = moment(booking.end).subtract(1, 'minute');
-      return (
-        (existingStart < reqStart && existingEnd < reqStart) ||
-        (reqEnd < existingStart && reqEnd < existingEnd)
-      );
+      return existingEnd < reqStart || reqEnd < existingEnd;
     });
 
     return isValid;
   }
 
   selectDateTime(start: any) {
-    this.isSelectedDateTime = true;
+    // this.isSelectedDateTime = true;
     this.isClicked = false;
     this.newBooking.start = start;
     this.newBooking.end = moment(start).add(
@@ -307,14 +304,15 @@ export class StudentBookingComponent implements OnInit {
   private showSwalError() {
     Swal.fire({
       title: '担当の先生がいません',
-      text: '先に担当の先生からの担任登録リクエストを承認してください',
+      text: '通知から先に担当の先生からのリクエストを承認してください',
       icon: 'error',
       customClass: {
         confirmButton: 'btn btn-danger btn-lg',
       },
+      confirmButtonText: '通知へ行く',
       buttonsStyling: false,
     }).then(() => {
-      this.router.navigate(['/student']);
+      this.router.navigate(['/student/notification']);
     });
   }
 }
