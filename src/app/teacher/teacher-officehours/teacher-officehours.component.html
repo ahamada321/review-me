@@ -17,7 +17,7 @@
         </thead>
         <tbody>
           <tr>
-            <td class="text-center content-center">
+            <td class="">
               <div class="form-check">
                 <label class="form-check-label">
                   <input
@@ -34,6 +34,7 @@
             <td>月</td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.mon_start"
                 name="mon_start"
                 [minuteStep]="15"
@@ -42,6 +43,7 @@
             </td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.mon_end"
                 name="mon_end"
                 [minuteStep]="15"
@@ -50,7 +52,7 @@
             </td>
           </tr>
           <tr>
-            <td class="text-center">
+            <td class="">
               <div class="form-check">
                 <label class="form-check-label">
                   <input
@@ -67,6 +69,7 @@
             <td>火</td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.tue_start"
                 name="tue_start"
                 [minuteStep]="15"
@@ -75,6 +78,7 @@
             </td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.tue_end"
                 name="tue_end"
                 [minuteStep]="15"
@@ -83,7 +87,7 @@
             </td>
           </tr>
           <tr>
-            <td class="text-center">
+            <td class="">
               <div class="form-check">
                 <label class="form-check-label">
                   <input
@@ -100,6 +104,7 @@
             <td>水</td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.wed_start"
                 name="wed_start"
                 [minuteStep]="15"
@@ -108,6 +113,7 @@
             </td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.wed_end"
                 name="wed_end"
                 [minuteStep]="15"
@@ -116,7 +122,7 @@
             </td>
           </tr>
           <tr>
-            <td class="text-center">
+            <td class="">
               <div class="form-check">
                 <label class="form-check-label">
                   <input
@@ -133,6 +139,7 @@
             <td>木</td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.thu_start"
                 name="thu_start"
                 [minuteStep]="15"
@@ -141,6 +148,7 @@
             </td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.thu_end"
                 name="thu_end"
                 [minuteStep]="15"
@@ -149,7 +157,7 @@
             </td>
           </tr>
           <tr>
-            <td class="text-center">
+            <td class="">
               <div class="form-check">
                 <label class="form-check-label">
                   <input
@@ -166,6 +174,7 @@
             <td>金</td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.fri_start"
                 name="fri_start"
                 [minuteStep]="15"
@@ -175,6 +184,7 @@
             </td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.fri_end"
                 name="fri_end"
                 [minuteStep]="15"
@@ -183,7 +193,7 @@
             </td>
           </tr>
           <tr>
-            <td class="text-center">
+            <td class="">
               <div class="form-check">
                 <label class="form-check-label">
                   <input
@@ -200,6 +210,7 @@
             <td>土</td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.sat_start"
                 name="sat_start"
                 [minuteStep]="15"
@@ -208,6 +219,7 @@
             </td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.sat_end"
                 name="sat_end"
                 [minuteStep]="15"
@@ -216,7 +228,7 @@
             </td>
           </tr>
           <tr>
-            <td class="text-center">
+            <td class="">
               <div class="form-check">
                 <label class="form-check-label">
                   <input
@@ -233,6 +245,7 @@
             <td>日</td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.sun_start"
                 name="sun_start"
                 [minuteStep]="15"
@@ -241,6 +254,7 @@
             </td>
             <td>
               <ngb-timepicker
+                class="justify-center"
                 [ngModel]="userData.sun_end"
                 name="sun_end"
                 [minuteStep]="15"
@@ -271,33 +285,5 @@
       </button>
     </div>
   </form>
-
-  <!-- <div class="row">
-  <div class="col-md-12">
-    <div class="space-top"></div>
-    <h5 class="description text-center">
-      受付ブロック日を予め設定できます.
-    </h5>
-    <h5 class="description text-center">
-      長押しドラッグ選択で複数日をまとめてブロックできます.
-    </h5>
-    <div class="space-top"></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-10 ml-auto mr-auto">
-    <full-calendar
-      #calendar
-      defaultView="dayGridMonth"
-      [plugins]="calendarPlugins"
-      [longPressDelay]="300"
-      [selectable]="true"
-      [events]="calendarEvents"
-      [businessHours]="calendarBusinessHours"
-      (dateClick)="handleDateClick($event)"
-      (select)="handleDragSelect($event)"
-      (eventClick)="handleEventClick($event)"
-    ></full-calendar>
-  </div>
-</div> -->
+  <div class="space-top"></div>
 </div>
