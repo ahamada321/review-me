@@ -37,10 +37,7 @@
       </div>
     </div>
   </div>
-  <div
-    *ngIf="timeTables && timeTables.length > 0 && !isDateBlock_flg"
-    class="info"
-  >
+  <div *ngIf="timeTables && timeTables.length > 0" class="info">
     <div *ngFor="let timeTable of timeTables">
       <p>
         <button
@@ -60,9 +57,7 @@
       </p>
     </div>
   </div>
-  <ng-container
-    *ngIf="teacherData && (timeTables.length == 0 || isDateBlock_flg)"
-  >
+  <ng-container *ngIf="teacherData && timeTables.length == 0">
     <div class="separator"></div>
     <div class="info">
       <div class="icon icon-primary">

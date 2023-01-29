@@ -52,8 +52,7 @@ export class StudentChangeBookingComponent implements OnInit {
         this.minDate = new Date(
           this.selectedDate.getFullYear(),
           this.selectedDate.getMonth(),
-          this.selectedDate.getDate(),
-          0
+          1
         );
         this.maxDate = new Date(
           this.selectedDate.getFullYear(),
