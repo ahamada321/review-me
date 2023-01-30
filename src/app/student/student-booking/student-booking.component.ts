@@ -15,12 +15,11 @@ import { User } from 'src/app/shared/services/user.model';
   styleUrls: ['./student-booking.component.scss'],
 })
 export class StudentBookingComponent implements OnInit {
-  isSelectedDateTime: boolean = false;
+  // isSelectedDateTime: boolean = false;
   selectedDate!: Date;
   minDate!: Date;
   maxDate!: Date;
   timeTables: any = [];
-  isDateBlock_flg: boolean = false;
   isClicked: boolean = false;
   newBooking: Booking = new Booking();
   errors: any;
@@ -79,20 +78,20 @@ export class StudentBookingComponent implements OnInit {
 
   dayOffFilter = (date: Date | null): any => {
     const selectedDay = date!.getDay();
+    const isDateBlock_flg = this.isDateBlock(date!);
+
     return (
-      (selectedDay === 0 && this.teacherData.sun_enabled) ||
-      (selectedDay === 1 && this.teacherData.mon_enabled) ||
-      (selectedDay === 2 && this.teacherData.tue_enabled) ||
-      (selectedDay === 3 && this.teacherData.wed_enabled) ||
-      (selectedDay === 4 && this.teacherData.thu_enabled) ||
-      (selectedDay === 5 && this.teacherData.fri_enabled) ||
-      (selectedDay === 6 && this.teacherData.sat_enabled)
+      (selectedDay === 0 && this.teacherData.sun_enabled && !isDateBlock_flg) ||
+      (selectedDay === 1 && this.teacherData.mon_enabled && !isDateBlock_flg) ||
+      (selectedDay === 2 && this.teacherData.tue_enabled && !isDateBlock_flg) ||
+      (selectedDay === 3 && this.teacherData.wed_enabled && !isDateBlock_flg) ||
+      (selectedDay === 4 && this.teacherData.thu_enabled && !isDateBlock_flg) ||
+      (selectedDay === 5 && this.teacherData.fri_enabled && !isDateBlock_flg) ||
+      (selectedDay === 6 && this.teacherData.sat_enabled && !isDateBlock_flg)
     );
   };
 
   onDateSelect(date: Date) {
-    this.isDateBlock_flg = false;
-    this.isDateBlock(date);
     const selectedDay = date.getDay();
     let mTimeTables = [];
     let mEndAt = null;
@@ -199,17 +198,16 @@ export class StudentBookingComponent implements OnInit {
   }
 
   isDateBlock(selectedDate: Date) {
-    const selected_date = moment(selectedDate)
-      .subtract(1, 'month')
-      .format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()
+    const selected_date = moment(selectedDate).format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()
 
     for (let booking of this.teacherData.bookings) {
       if (booking.status === 'block') {
         if (selected_date === moment(booking.start).format('YYYY-MM-DD')) {
-          this.isDateBlock_flg = true;
+          return booking.allDay;
         }
       }
     }
+    return false;
   }
 
   private isPastDateTime(start: any) {
@@ -217,28 +215,28 @@ export class StudentBookingComponent implements OnInit {
   }
 
   isValidBooking(start: any) {
-    let isValid = true;
-    const teacherBookings = this.teacherData.bookings;
-    if (teacherBookings && teacherBookings.length > 0) {
-      const reqStart = moment(start);
-      const reqEnd = moment(start)
-        .add(this.newBooking.courseTime, 'minute')
-        .subtract(1, 'minute');
+    let isValid = false;
+    const reqStart = moment(start);
+    const reqEnd = moment(start)
+      .add(this.newBooking.courseTime, 'minute')
+      .subtract(1, 'minute');
 
-      isValid = teacherBookings.every((booking) => {
-        const existingStart = moment(booking.start);
-        const existingEnd = moment(booking.end).subtract(1, 'minute');
-        return (
-          (existingStart < reqStart && existingEnd <= reqStart) ||
-          (reqEnd < existingStart && reqEnd < existingEnd)
-        );
-      });
+    const teacherBookings = this.teacherData.bookings;
+    if (teacherBookings && teacherBookings.length === 0) {
+      return true;
     }
+
+    isValid = teacherBookings.every((booking) => {
+      const existingStart = moment(booking.start);
+      const existingEnd = moment(booking.end).subtract(1, 'minute');
+      return existingEnd < reqStart || reqEnd < existingEnd;
+    });
+
     return isValid;
   }
 
   selectDateTime(start: any) {
-    this.isSelectedDateTime = true;
+    // this.isSelectedDateTime = true;
     this.isClicked = false;
     this.newBooking.start = start;
     this.newBooking.end = moment(start).add(
@@ -304,14 +302,15 @@ export class StudentBookingComponent implements OnInit {
   private showSwalError() {
     Swal.fire({
       title: '担当の先生がいません',
-      text: '先に担当の先生からの担任登録リクエストを承認してください',
+      text: '通知から先に担当の先生からのリクエストを承認してください',
       icon: 'error',
       customClass: {
         confirmButton: 'btn btn-danger btn-lg',
       },
+      confirmButtonText: '通知へ行く',
       buttonsStyling: false,
     }).then(() => {
-      this.router.navigate(['/student']);
+      this.router.navigate(['/student/notification']);
     });
   }
 }

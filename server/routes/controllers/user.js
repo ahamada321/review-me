@@ -323,29 +323,22 @@ exports.getUserById = function (req, res) {
   const reqUserId = req.params.id;
   const user = res.locals.user;
 
-  if (reqUserId === user.id) {
-    // Display all
-    User.findById(reqUserId)
-      .populate("pendingTeachers teachers bookings notifications", "-password")
-      .sort({ notifications: -1 })
-      .exec(function (err, foundUser) {
-        if (err) {
-          return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
-        return res.json(foundUser);
-      });
-  } else {
-    // Restrict some data
-    User.findById(reqUserId)
-      // .select('-revenue -customer -password')
-      .populate("bookings", "-password")
-      .exec(function (err, foundUser) {
-        if (err) {
-          return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
-        return res.json(foundUser);
-      });
-  }
+  User.findOne({ _id: reqUserId })
+    .populate("pendingTeachers teachers bookings notifications")
+    .sort({ notifications: -1 })
+    .exec(function (err, foundUser) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      foundUser.password = null;
+      // if (reqUserId !== user.id) {
+      //   foundUser.pendingTeachers = null;
+      //   foundUser.teachers = null;
+      //   foundUser.notifications = null;
+      // }
+
+      return res.json(foundUser);
+    });
 };
 
 //Reffering from ./routes/user.js

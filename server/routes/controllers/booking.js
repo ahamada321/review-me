@@ -8,24 +8,25 @@ const moment = require("moment-timezone");
 
 const config = require("../../config");
 
-function isValidBooking(requestBooking, rentalBookings) {
-  let isValid = true;
-  if (rentalBookings && rentalBookings.length > 0) {
-    isValid = rentalBookings.every(function (booking) {
-      const reqStart = moment(requestBooking.start);
-      const reqEnd = moment(requestBooking.start)
-        .add(requestBooking.courseTime, "minutes")
-        .subtract(1, "minute");
-      const acturalStart = moment(booking.start);
-      const acturalEnd = moment(booking.start)
-        .add(booking.courseTime, "minutes")
-        .subtract(1, "minute");
-      return (
-        (acturalStart < reqStart && acturalEnd < reqStart) ||
-        (reqEnd < acturalStart && reqEnd < acturalEnd)
-      );
-    });
+function isValidBooking(requestBooking, existingBookings) {
+  let isValid = false;
+  const reqStart = moment(requestBooking.start);
+  const reqEnd = moment(requestBooking.start)
+    .add(requestBooking.courseTime, "minute")
+    .subtract(1, "minute");
+  if (existingBookings && existingBookings.length === 0) {
+    return true;
   }
+
+  isValid = existingBookings.every(function (booking) {
+    const existingStart = moment(booking.start);
+    const existingEnd = moment(booking.end).subtract(1, "minute");
+    return (
+      (existingStart < reqStart && existingEnd < reqStart) ||
+      (reqEnd < existingStart && reqEnd < existingEnd)
+    );
+  });
+
   return isValid;
 }
 
@@ -43,8 +44,8 @@ exports.createBooking = function (req, res) {
       return res.status(422).send({
         errors: [
           {
-            title: "予約できません",
-            detail: "他の日程で予約を取り直してください",
+            title: "この時間は既に予約で埋まっています",
+            detail: "他の日程で予約し直してください",
           },
         ],
       });
@@ -56,15 +57,15 @@ exports.createBooking = function (req, res) {
       }
 
       User.findOneAndUpdate(
-        { _id: teacher._id },
+        { _id: teacher },
         { $push: { bookings: booking } },
         { returnOriginal: false },
         function () {}
       );
 
-      if (student && student.id) {
+      if (student) {
         User.findOneAndUpdate(
-          { _id: student.id },
+          { _id: student },
           { $push: { bookings: booking } },
           { returnOriginal: false },
           function () {}
@@ -249,36 +250,4 @@ exports.getUserDateBlockBookings = function (req, res) {
       }
       return res.json(foundBookings);
     });
-};
-
-exports.getStudentBookings = function (req, res) {
-  const userId = res.locals.user;
-
-  Booking.find({ teacher })
-    .sort({ start: -1 })
-    .exec(function (err, foundBookings) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundBookings);
-    });
-};
-
-exports.createDateBlockBooking = function (req, res) {
-  const booking = new Booking(req.body);
-
-  User.findOneAndUpdate(
-    { _id: booking.teacher },
-    { $push: { bookings: booking } },
-    { returnOriginal: false },
-    function () {}
-  );
-
-  booking.save(function (err, savedBooking) {
-    if (err) {
-      return res.status(422).send({ errors: normalizeErrors(err.errors) });
-    }
-
-    return res.json(savedBooking);
-  });
 };

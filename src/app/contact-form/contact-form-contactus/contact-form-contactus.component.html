@@ -1,0 +1,147 @@
+<div class="wrapper">
+  <div
+    class="page-header page-header-xs settings-background"
+    style="background-image: url('./assets/img/contactus.jpg')"
+  >
+    <div class="filter"></div>
+    <div class="content-center">
+      <div class="container">
+        <h1 class="title">お問い合わせ</h1>
+        <h5 class="description">お問い合わせ内容を入力してください</h5>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="space-top"></div>
+
+    <div class="row">
+      <div class="col-md-8 mr-auto ml-auto">
+        <div class="card card-contact no-transition">
+          <h3 class="card-title text-center">Contact Us</h3>
+          <div class="card-body">
+            <form
+              class="contact-form"
+              [formGroup]="contactusForm"
+              (ngSubmit)="sendMessage(contactusForm)"
+            >
+              <div class="row">
+                <div class="col-md-6">
+                  <label>お名前 <span class="icon-danger">*</span></label>
+                  <div class="form-group">
+                    <input
+                      formControlName="username"
+                      type="text"
+                      class="form-control"
+                      placeholder="ご担当者名"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label
+                    >返信先メールアドレス
+                    <span class="icon-danger">*</span></label
+                  >
+                  <div class="form-group">
+                    <input
+                      formControlName="email"
+                      type="email"
+                      class="form-control"
+                      placeholder="返信先メールアドレス"
+                      pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-6">
+                  <label
+                    >貴社名/部署名 <span class="icon-danger">*</span></label
+                  >
+                  <div class="form-group">
+                    <input
+                      formControlName="company"
+                      type="text"
+                      class="form-control"
+                      placeholder="貴社名 / 部署名"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label>電話番号</label>
+                  <div class="form-group">
+                    <input
+                      formControlName="position"
+                      type="text"
+                      class="form-control"
+                      placeholder="03-1234-1234"
+                    />
+                  </div>
+                </div>
+              </div> -->
+              <div class="form-group">
+                <label
+                  >お問い合わせ内容 <span class="icon-danger">*</span></label
+                >
+                <textarea
+                  formControlName="msg"
+                  type="text"
+                  class="form-control"
+                  rows="4"
+                  placeholder="お問い合わせ内容を入力してください."
+                  required
+                >
+                </textarea>
+              </div>
+              <div *ngIf="isInvalidForm('username')" class="alert alert-danger">
+                <div
+                  *ngIf="contactusForm.controls['username'].errors?.['required']"
+                >
+                  お名前を入力してください.
+                </div>
+              </div>
+              <div *ngIf="isInvalidForm('email')" class="alert alert-danger">
+                <div
+                  *ngIf="contactusForm.controls['email'].errors?.['required']"
+                >
+                  返信先メールアドレスを入力してください.
+                </div>
+                <div
+                  *ngIf="contactusForm.controls['email'].errors?.['pattern']"
+                >
+                  返信先メールアドレスを正しく入力してください.
+                </div>
+              </div>
+              <!-- <div *ngIf="isInvalidForm('company')" class="alert alert-danger">
+                <div
+                  *ngIf="contactusForm.controls['company'].errors?.['required']"
+                >
+                  貴社名を入力してください.
+                </div>
+              </div> -->
+              <div *ngIf="isInvalidForm('msg')" class="alert alert-danger">
+                <div *ngIf="contactusForm.controls['msg'].errors?.['required']">
+                  お問い合わせ内容を入力してください.
+                </div>
+              </div>
+              <div *ngIf="errorResponse" class="alert alert-danger">
+                ネットワークエラー。しばらく経ってからもう一度お試しください。
+              </div>
+              <div class="text-center">
+                <button
+                  [disabled]="!contactusForm.valid"
+                  type="submit"
+                  class="btn btn-primary btn-lg"
+                >
+                  この内容で送信
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

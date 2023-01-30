@@ -5,7 +5,7 @@ import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
 import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
 import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
 import Swal from 'sweetalert2';
-import * as moment from 'moment-timezone';
+import * as moment from 'moment';
 import { UserService } from 'src/app/shared/services/user.service';
 import { User } from 'src/app/shared/services/user.model';
 
@@ -15,18 +15,16 @@ import { User } from 'src/app/shared/services/user.model';
   styleUrls: ['./student-change-booking.component.scss'],
 })
 export class StudentChangeBookingComponent implements OnInit {
-  timeTables: any = [];
-  studentData!: User;
-  teacherData!: User;
-  newBooking!: Booking;
-  isDateBlock_flg: boolean = false;
-  isClicked: boolean = false;
-  errors: any[] = [];
-
-  // Date picker params
+  // isSelectedDateTime: boolean = false;
   selectedDate!: Date;
   minDate!: Date;
   maxDate!: Date;
+  timeTables: any = [];
+  isClicked: boolean = false;
+  newBooking!: Booking;
+  errors: any[] = [];
+  studentData!: User;
+  teacherData!: User;
 
   constructor(
     private router: Router,
@@ -54,8 +52,7 @@ export class StudentChangeBookingComponent implements OnInit {
         this.minDate = new Date(
           this.selectedDate.getFullYear(),
           this.selectedDate.getMonth(),
-          this.selectedDate.getDate(),
-          0
+          1
         );
         this.maxDate = new Date(
           this.selectedDate.getFullYear(),
@@ -95,20 +92,33 @@ export class StudentChangeBookingComponent implements OnInit {
 
   dayOffFilter = (date: Date | null): any => {
     const selectedDay = date!.getDay();
+    const isDateBlock_flg = this.isDateBlock(date!);
+
     return (
-      (selectedDay === 0 && this.teacherData.sun_enabled) ||
-      (selectedDay === 1 && this.teacherData.mon_enabled) ||
-      (selectedDay === 2 && this.teacherData.tue_enabled) ||
-      (selectedDay === 3 && this.teacherData.wed_enabled) ||
-      (selectedDay === 4 && this.teacherData.thu_enabled) ||
-      (selectedDay === 5 && this.teacherData.fri_enabled) ||
-      (selectedDay === 6 && this.teacherData.sat_enabled)
+      (selectedDay === 0 && this.teacherData.sun_enabled && !isDateBlock_flg) ||
+      (selectedDay === 1 && this.teacherData.mon_enabled && !isDateBlock_flg) ||
+      (selectedDay === 2 && this.teacherData.tue_enabled && !isDateBlock_flg) ||
+      (selectedDay === 3 && this.teacherData.wed_enabled && !isDateBlock_flg) ||
+      (selectedDay === 4 && this.teacherData.thu_enabled && !isDateBlock_flg) ||
+      (selectedDay === 5 && this.teacherData.fri_enabled && !isDateBlock_flg) ||
+      (selectedDay === 6 && this.teacherData.sat_enabled && !isDateBlock_flg)
     );
   };
 
+  isDateBlock(selectedDate: Date) {
+    const selected_date = moment(selectedDate).format('YYYY-MM-DD');
+
+    for (let booking of this.teacherData.bookings) {
+      if (booking.status === 'block') {
+        if (selected_date === moment(booking.start).format('YYYY-MM-DD')) {
+          return booking.allDay;
+        }
+      }
+    }
+    return false;
+  }
+
   onDateSelect(date: Date) {
-    this.isDateBlock_flg = false;
-    this.isDateBlock(date);
     const selectedDay = date.getDay();
     let mTimeTables = [];
     let mEndAt = null;
@@ -213,51 +223,33 @@ export class StudentChangeBookingComponent implements OnInit {
     this.timeTables = mTimeTables;
   }
 
-  isDateBlock(selectedDate: Date) {
-    const selected_date = moment(selectedDate)
-      .subtract(1, 'month')
-      .format('YYYY-MM-DD'); // Subtract 1 month to adapt NgbDateStruct to moment()
-
-    for (let booking of this.teacherData.bookings) {
-      if (booking.status === 'block') {
-        if (selected_date === moment(booking.start).format('YYYY-MM-DD')) {
-          this.isDateBlock_flg = true;
-        }
-      }
-    }
-  }
-
   private isPastDateTime(start: any) {
     return moment(start).diff(moment()) < 0; // Attention: just "moment()" is already applied timezone!
   }
 
   isValidBooking(start: any) {
     let isValid = false;
-    const teacherBookings = this.teacherData.bookings;
     const reqStart = moment(start);
     const reqEnd = moment(start)
       .add(this.newBooking.courseTime, 'minute')
       .subtract(1, 'minute');
 
+    const teacherBookings = this.teacherData.bookings;
     if (teacherBookings && teacherBookings.length === 0) {
       return true;
     }
 
     isValid = teacherBookings.every((booking) => {
       const existingStart = moment(booking.start);
-      const existingEnd = moment(booking.start)
-        .add(booking.courseTime)
-        .subtract(1, 'minute');
-      return (
-        (existingStart < reqStart && existingEnd < reqStart) ||
-        (reqEnd < existingStart && reqEnd < existingEnd)
-      );
+      const existingEnd = moment(booking.end).subtract(1, 'minute');
+      return existingEnd < reqStart || reqEnd < existingEnd;
     });
 
     return isValid;
   }
 
   selectDateTime(start: Date) {
+    // this.isSelectedDateTime = true;s
     this.isClicked = false;
     this.newBooking.start = start;
     this.newBooking.end = moment(start).add(
