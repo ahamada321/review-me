@@ -20,8 +20,9 @@ export class TeacherMypageComponent implements OnInit {
     businessHours: true,
     dayMaxEventRows: true,
     views: {
-      list: { buttonText: 'list' },
+      list: { buttonText: '一覧' },
       dayGridMonth: {
+        buttonText: '月別',
         dayMaxEventRows: 3, // adjust to 3 only for dayGridMonth
       },
     },
@@ -30,7 +31,9 @@ export class TeacherMypageComponent implements OnInit {
       center: 'title',
       right: 'listMonth,dayGridMonth',
     },
+
     events: [],
+    eventClick: this.handleEventClick.bind(this),
   };
 
   constructor(
@@ -51,5 +54,13 @@ export class TeacherMypageComponent implements OnInit {
       },
       (error) => {}
     );
+  }
+
+  handleEventClick(clickInfo: any) {
+    if (clickInfo.event.title === '休み') {
+      return;
+    }
+    const studentId = clickInfo.event.extendedProps.student;
+    this.router.navigate(['/teacher/student-bookings/' + studentId]);
   }
 }

@@ -70,4 +70,60 @@
       </div>
     </div>
   </div>
+  <div class="container">
+    <div class="faq">
+      <h2 class="card-title text-center"><small>よくある質問</small></h2>
+      <br />
+      <ngb-accordion #acc="ngbAccordion">
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <h5 class="mb-0 panel-title">
+              <a class="collapsed">
+                レッスンカレンダーの使い方を教えてください
+                <i class="nc-icon nc-minimal-down"></i>
+              </a>
+            </h5>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            レッスンカレンダーは毎月のレッスンを管理するカレンダーです。<br />
+            生徒側/先生側で使い方が変わってきますが、基本は以下の流れです。<br />
+            <br />
+            ①先生が生徒を探す(右上のメニューから生徒管理→生徒を通過するで生徒の名前を検索してください)<br /><br />
+            ②探している生徒が見つかったら右の＋ボタンを押してリクエストを送る<br /><br />
+            ③生徒が右上のメニューから通知ページに行き、リクエスト承認ボタンを押す。<br /><br />
+            ここまでが最初に必ず行っていただく初期設定のようなものです。<br />
+            その後は④⑤で毎月簡単にレッスン予約が行えます。<br /><br />
+            ④生徒が予約するボタンから予約したい日にちを決める。<br /><br />
+            ⑤予約が確定し生徒/先生側の両方から見れる<br /><br />
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <h5 class="mb-0 panel-title">
+              <a class="collapsed">
+                利用にお金がかかりますか？
+                <i class="nc-icon nc-minimal-down"></i>
+              </a>
+            </h5>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            現時点では無料でお使いいただけます。
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <h5 class="mb-0 panel-title">
+              <a class="collapsed">
+                googleカレンダーと連携はできますか
+                <i class="nc-icon nc-minimal-down"></i>
+              </a>
+            </h5>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            今後要望が多い場合は対応していく予定です。是非皆様のお声をお聞かせください。
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+  </div>
 </div>

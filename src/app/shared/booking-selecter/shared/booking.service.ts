@@ -34,12 +34,12 @@ export class BookingService {
     return this.http.get('/api/v1/bookings/expired');
   }
 
-  public getUpcomingBookings(): Observable<any> {
-    return this.http.get('/api/v1/bookings/upcoming');
+  public getUpcomingBookings(userId?: any): Observable<any> {
+    return this.http.get('/api/v1/bookings/upcoming/' + userId);
   }
 
-  public getFinishedBookings(): Observable<any> {
-    return this.http.get('/api/v1/bookings/finished');
+  public getFinishedBookings(userId?: any): Observable<any> {
+    return this.http.get('/api/v1/bookings/finished/' + userId);
   }
 
   public createBooking(bookingData: any): Observable<any> {

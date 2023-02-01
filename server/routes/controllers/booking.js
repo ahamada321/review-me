@@ -1,45 +1,36 @@
 const { normalizeErrors } = require("./helpers/mongoose");
 const Booking = require("./models/booking");
-const Payment = require("./models/payment");
-const Rental = require("./models/rental");
 const User = require("./models/user");
 const Notification = require("./models/notification");
 const moment = require("moment-timezone");
 
-const config = require("../../config");
-
 function isValidBooking(requestBooking, existingBookings) {
-  let isValid = false;
-  const reqStart = moment(requestBooking.start);
-  const reqEnd = moment(requestBooking.start)
-    .add(requestBooking.courseTime, "minute")
-    .subtract(1, "minute");
   if (existingBookings && existingBookings.length === 0) {
     return true;
   }
 
-  isValid = existingBookings.every(function (booking) {
+  const reqStart = moment(requestBooking.start);
+  const reqEnd = moment(requestBooking.start)
+    .add(requestBooking.courseTime, "minute")
+    .subtract(1, "minute");
+
+  return existingBookings.every(function (booking) {
     const existingStart = moment(booking.start);
     const existingEnd = moment(booking.end).subtract(1, "minute");
-    return (
-      (existingStart < reqStart && existingEnd < reqStart) ||
-      (reqEnd < existingStart && reqEnd < existingEnd)
-    );
+    // return (
+    //   (existingStart < reqStart && existingEnd < reqStart) ||
+    //   (reqEnd < existingStart && reqEnd < existingEnd)
+    // );
+    return existingEnd < reqStart || reqEnd < existingStart;
   });
-
-  return isValid;
 }
 
-exports.createBooking = function (req, res) {
-  const { teacher, student } = req.body;
+exports.createBooking = async (req, res) => {
+  try {
+    const { teacher, student } = req.body;
+    const booking = new Booking(req.body);
 
-  const booking = new Booking(req.body);
-
-  Booking.find({ teacher }).exec(function (err, foundBookings) {
-    if (err) {
-      return res.status(422).send({ errors: normalizeErrors(err.errors) });
-    }
-
+    const foundBookings = await Booking.find({ teacher });
     if (!isValidBooking(booking, foundBookings)) {
       return res.status(422).send({
         errors: [
@@ -50,82 +41,52 @@ exports.createBooking = function (req, res) {
         ],
       });
     }
+    await booking.save();
+    await User.findOneAndUpdate(
+      { _id: teacher },
+      { $push: { bookings: booking } }
+    );
+    if (student) {
+      User.findOneAndUpdate({ _id: student }, { $push: { bookings: booking } });
+    }
 
-    booking.save(function (err) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-
-      User.findOneAndUpdate(
-        { _id: teacher },
-        { $push: { bookings: booking } },
-        { returnOriginal: false },
-        function () {}
-      );
-
-      if (student) {
-        User.findOneAndUpdate(
-          { _id: student },
-          { $push: { bookings: booking } },
-          { returnOriginal: false },
-          function () {}
-        );
-      }
-
-      return res.json({ status: "success" });
-    });
-  });
+    return res.json({ status: "success" });
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
-exports.updateBooking = function (req, res) {
-  const bookingData = req.body;
+exports.updateBooking = async (req, res) => {
+  try {
+    const bookingData = req.body;
+    await Booking.findOneAndUpdate({ _id: bookingData._id }, bookingData);
+    const newNotification = new Notification({
+      title: bookingData.title + "さんのレッスン予約が変更されました",
+      description:
+        moment(bookingData.oldStart)
+          .tz("Asia/Tokyo")
+          .format("MM月DD日 HH:mm〜") +
+        " → " +
+        moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜"),
+      user: bookingData.teacher,
+    });
 
-  Booking.findOneAndUpdate(
-    { _id: bookingData._id },
-    bookingData,
-    { returnOriginal: false },
-    function (err) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-
-      const newNotification = new Notification({
-        title: bookingData.title + "さんのレッスン予約が変更されました",
-        description:
-          moment(bookingData.oldStart)
-            .tz("Asia/Tokyo")
-            .format("MM月DD日 HH:mm〜") +
-          " → " +
-          moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜"),
-        user: bookingData.teacher,
-      });
-
-      newNotification.save(function (err, savedNotification) {
-        if (err) {
-          return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
-        User.findOneAndUpdate(
-          { _id: bookingData.teacher },
-          { $push: { notifications: savedNotification } },
-          { returnOriginal: false },
-          function (err) {
-            if (err) {
-              return res
-                .status(422)
-                .send({ errors: normalizeErrors(err.errors) });
-            }
-            // sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
-            return res.json({ status: "updated" });
-          }
-        );
-      });
-    }
-  );
+    const savedNotification = await newNotification.save();
+    await User.findOneAndUpdate(
+      { _id: bookingData.teacher },
+      { $push: { notifications: savedNotification } },
+      { returnOriginal: false }
+    );
+    // await sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
+    return res.json({ status: "updated" });
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
 exports.getBookingById = function (req, res) {
   const bookingId = req.params.id;
-  Booking.findById(bookingId, function (err, foundBooking) {
+  Booking.findById(bookingId, (err, foundBooking) => {
     if (err) {
       return res.status(422).send({
         errors: {
@@ -177,77 +138,82 @@ exports.deleteBooking = function (req, res) {
   });
 };
 
-exports.getUpcomingBookings = function (req, res) {
-  const student = res.locals.user;
+exports.getUpcomingBookings = async (req, res) => {
+  try {
+    const userId = res.locals.user;
+    const student = req.params.id !== "undefined" ? req.params.id : userId;
 
-  Booking.find({
-    student,
-    start: { $gt: moment().tz("Asia/Tokyo") },
-  })
-    .sort({ start: 1 })
-    .exec(function (err, foundBookings) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundBookings);
-    });
+    const foundBookings = await Booking.find({
+      student,
+      start: { $gt: moment().tz("Asia/Tokyo") },
+    }).sort({ start: 1 });
+    return res.json(foundBookings);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
-exports.getFinishedBookings = function (req, res) {
-  const student = res.locals.user;
+exports.getFinishedBookings = async (req, res) => {
+  try {
+    const userId = res.locals.user;
+    const student = req.params.id !== "undefined" ? req.params.id : userId;
 
-  Booking.find({
-    student,
-    start: { $lte: moment().tz("Asia/Tokyo") },
-  })
-    .sort({ start: -1 })
-    .exec(function (err, foundBookings) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundBookings);
-    });
+    const foundBookings = await Booking.find({
+      student,
+      start: { $lte: moment().tz("Asia/Tokyo") },
+    }).sort({ start: -1 });
+    return res.json(foundBookings);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
-exports.countUserBookings = function (req, res) {
-  const userId = req.params.id;
+exports.countUserBookings = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const monthStart = moment()
+      .tz("Asia/Tokyo")
+      .add(1, "month")
+      .startOf("month");
+    const nextMonthStart = moment()
+      .tz("Asia/Tokyo")
+      .add(2, "month")
+      .startOf("month");
 
-  Booking.count({
-    student: userId,
-    start: {
-      $gte: moment().tz("Asia/Tokyo").add(1, "month").startOf("month"),
-      $lt: moment().tz("Asia/Tokyo").add(2, "month").startOf("month"),
-    },
-  }).exec(function (err, foundBookingsCounts) {
-    if (err) {
-      return res.status(422).send({ errors: normalizeErrors(err.errors) });
-    }
+    const foundBookingsCounts = await Booking.count({
+      student: userId,
+      start: { $gte: monthStart, $lt: nextMonthStart },
+    });
+
     return res.json(foundBookingsCounts);
-  });
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
-exports.getUserBookings = function (req, res) {
-  const userId = req.params.id;
+exports.getUserBookings = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const foundBookings = await Booking.find({
+      $or: [{ teacher: userId }, { student: userId }],
+    }).sort({ start: -1 });
 
-  Booking.find({ $or: [{ teacher: userId }, { student: userId }] })
-    .sort({ start: -1 })
-    .exec(function (err, foundBookings) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundBookings);
-    });
+    return res.json(foundBookings);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
-exports.getUserDateBlockBookings = function (req, res) {
-  const userId = req.params.id;
+exports.getUserDateBlockBookings = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const foundBookings = await Booking.find({
+      teacher: userId,
+      title: "休み",
+    }).sort({ start: 1 });
 
-  Booking.find({ teacher: userId, title: "休み" })
-    .sort({ start: 1 })
-    .exec(function (err, foundBookings) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundBookings);
-    });
+    return res.json(foundBookings);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
