@@ -57,6 +57,9 @@ export class TeacherMypageComponent implements OnInit {
   }
 
   handleEventClick(clickInfo: any) {
+    if (clickInfo.event.title === '休み') {
+      return;
+    }
     const studentId = clickInfo.event.extendedProps.student;
     this.router.navigate(['/teacher/student-bookings/' + studentId]);
   }
