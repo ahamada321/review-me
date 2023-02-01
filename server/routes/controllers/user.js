@@ -319,7 +319,7 @@ exports.auth = function (req, res) {
         errors: [
           {
             title: "Not active user!",
-            detail: "事務局に講師活動再開連絡をしてください",
+            detail: "アカウントが無効です。サポートからお問い合わせください",
           },
         ],
       });
