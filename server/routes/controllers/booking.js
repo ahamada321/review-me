@@ -1,12 +1,8 @@
 const { normalizeErrors } = require("./helpers/mongoose");
 const Booking = require("./models/booking");
-const Payment = require("./models/payment");
-const Rental = require("./models/rental");
 const User = require("./models/user");
 const Notification = require("./models/notification");
 const moment = require("moment-timezone");
-
-const config = require("../../config");
 
 function isValidBooking(requestBooking, existingBookings) {
   if (existingBookings && existingBookings.length === 0) {
@@ -29,16 +25,12 @@ function isValidBooking(requestBooking, existingBookings) {
   });
 }
 
-exports.createBooking = function (req, res) {
-  const { teacher, student } = req.body;
+exports.createBooking = async (req, res) => {
+  try {
+    const { teacher, student } = req.body;
+    const booking = new Booking(req.body);
 
-  const booking = new Booking(req.body);
-
-  Booking.find({ teacher }).exec(function (err, foundBookings) {
-    if (err) {
-      return res.status(422).send({ errors: normalizeErrors(err.errors) });
-    }
-
+    const foundBookings = await Booking.find({ teacher });
     if (!isValidBooking(booking, foundBookings)) {
       return res.status(422).send({
         errors: [
@@ -49,70 +41,47 @@ exports.createBooking = function (req, res) {
         ],
       });
     }
+    await booking.save();
+    await User.findOneAndUpdate(
+      { _id: teacher },
+      { $push: { bookings: booking } }
+    );
+    if (student) {
+      User.findOneAndUpdate({ _id: student }, { $push: { bookings: booking } });
+    }
 
-    booking.save(function (err) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-
-      User.findOneAndUpdate(
-        { _id: teacher },
-        { $push: { bookings: booking } },
-        { returnOriginal: false },
-        function () {}
-      );
-
-      if (student) {
-        User.findOneAndUpdate(
-          { _id: student },
-          { $push: { bookings: booking } },
-          { returnOriginal: false },
-          function () {}
-        );
-      }
-
-      return res.json({ status: "success" });
-    });
-  });
+    return res.json({ status: "success" });
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
 exports.updateBooking = async (req, res) => {
-  const bookingData = req.body;
+  try {
+    const bookingData = req.body;
+    await Booking.findOneAndUpdate({ _id: bookingData._id }, bookingData);
+    const newNotification = new Notification({
+      title: bookingData.title + "さんのレッスン予約が変更されました",
+      description:
+        moment(bookingData.oldStart)
+          .tz("Asia/Tokyo")
+          .format("MM月DD日 HH:mm〜") +
+        " → " +
+        moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜"),
+      user: bookingData.teacher,
+    });
 
-  Booking.findOneAndUpdate(
-    { _id: bookingData._id },
-    bookingData,
-    { returnOriginal: false },
-    async (err) => {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-
-      const newNotification = new Notification({
-        title: bookingData.title + "さんのレッスン予約が変更されました",
-        description:
-          moment(bookingData.oldStart)
-            .tz("Asia/Tokyo")
-            .format("MM月DD日 HH:mm〜") +
-          " → " +
-          moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜"),
-        user: bookingData.teacher,
-      });
-
-      try {
-        const savedNotification = await newNotification.save();
-        await User.findOneAndUpdate(
-          { _id: bookingData.teacher },
-          { $push: { notifications: savedNotification } },
-          { returnOriginal: false }
-        );
-        // await sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
-        return res.json({ status: "updated" });
-      } catch (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-    }
-  );
+    const savedNotification = await newNotification.save();
+    await User.findOneAndUpdate(
+      { _id: bookingData.teacher },
+      { $push: { notifications: savedNotification } },
+      { returnOriginal: false }
+    );
+    // await sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
+    return res.json({ status: "updated" });
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
 exports.getBookingById = function (req, res) {
@@ -171,7 +140,9 @@ exports.deleteBooking = function (req, res) {
 
 exports.getUpcomingBookings = async (req, res) => {
   try {
-    const student = res.locals.user;
+    const userId = res.locals.user;
+    const student = req.params.id !== "undefined" ? req.params.id : userId;
+
     const foundBookings = await Booking.find({
       student,
       start: { $gt: moment().tz("Asia/Tokyo") },
@@ -182,20 +153,19 @@ exports.getUpcomingBookings = async (req, res) => {
   }
 };
 
-exports.getFinishedBookings = function (req, res) {
-  const student = res.locals.user;
+exports.getFinishedBookings = async (req, res) => {
+  try {
+    const userId = res.locals.user;
+    const student = req.params.id !== "undefined" ? req.params.id : userId;
 
-  Booking.find({
-    student,
-    start: { $lte: moment().tz("Asia/Tokyo") },
-  })
-    .sort({ start: -1 })
-    .exec((err, foundBookings) => {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundBookings);
-    });
+    const foundBookings = await Booking.find({
+      student,
+      start: { $lte: moment().tz("Asia/Tokyo") },
+    }).sort({ start: -1 });
+    return res.json(foundBookings);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
 exports.countUserBookings = async (req, res) => {

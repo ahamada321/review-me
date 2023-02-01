@@ -1,0 +1,115 @@
+<div *ngIf="studentData">
+  <div class="text-center">
+    <h2>
+      <small>{{ studentData.username }}さんの予約一覧</small>
+    </h2>
+  </div>
+  <div class="space-top"></div>
+  <div class="row">
+    <div class="col-md-12 ml-auto mr-auto">
+      <div class="nav-tabs-navigation">
+        <div class="nav-tabs-wrapper">
+          <ul
+            ngbNav
+            #nav="ngbNav"
+            [(activeId)]="active"
+            class="nav nav-tabs justify-content-center"
+            type="pills"
+          >
+            <li class="nav-item" [ngbNavItem]="1">
+              <a class="nav-link" ngbNavLink> 履歴</a>
+              <ng-template ngbNavContent>
+                <div class="tab-pane" id="home" role="tabpanel">
+                  <ng-container
+                    *ngIf="finishedBookings && finishedBookings.length > 0"
+                  >
+                    <div class="row">
+                      <div class="col-md ml-auto mr-auto">
+                        <div class="table-responsive ml-auto mr-auto">
+                          <table class="table table-hover table-shopping">
+                            <thead>
+                              <tr>
+                                <th>日時</th>
+                                <!-- <th>詳細</th> -->
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr
+                                *ngFor="let finishedBooking of finishedBookings"
+                              >
+                                <td>
+                                  {{ convertJST(finishedBooking.start) }}
+                                </td>
+                                <!-- <td>
+                                  <a class="btn btn-link btn-primary">詳細 </a>
+                                </td> -->
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="finishedBookings && finishedBookings.length === 0"
+                  >
+                    <div class="row">
+                      <div class="col-12 ml-auto mr-auto">
+                        <h3>まだデータがありません</h3>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-template>
+            </li>
+            <li class="nav-item" [ngbNavItem]="2">
+              <a class="nav-link" ngbNavLink> 予約一覧 </a>
+              <ng-template ngbNavContent>
+                <ng-container
+                  *ngIf="upcomingBookings && upcomingBookings.length > 0"
+                >
+                  <div class="row">
+                    <div class="col-md ml-auto mr-auto">
+                      <div class="table-responsive">
+                        <table class="table table-hover table-shopping">
+                          <thead>
+                            <tr>
+                              <th>予約日時</th>
+                              <!-- <th>詳細</th> -->
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              *ngFor="let upcomingBooking of upcomingBookings"
+                            >
+                              <td>{{ convertJST(upcomingBooking.start) }}</td>
+                              <!-- <td>
+                                <a class="btn btn-link btn-primary">詳細 </a>
+                              </td> -->
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container
+                  *ngIf="upcomingBookings && upcomingBookings.length === 0"
+                >
+                  <div class="row">
+                    <div class="col-12 ml-auto mr-auto">
+                      <h3>まだ予約がありません</h3>
+                      <div class="space-top"></div>
+                    </div>
+                  </div>
+                </ng-container>
+                <div class="space-top"></div>
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,13 +5,13 @@ const UserCtrl = require("./controllers/user");
 const BookingCtrl = require("./controllers/booking");
 
 router.get(
-  "/upcoming",
+  "/upcoming/:id",
   UserCtrl.authMiddleware,
   BookingCtrl.getUpcomingBookings
 );
 
 router.get(
-  "/finished",
+  "/finished/:id",
   UserCtrl.authMiddleware,
   BookingCtrl.getFinishedBookings
 );

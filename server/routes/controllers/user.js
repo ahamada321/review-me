@@ -110,63 +110,43 @@ exports.searchUsers = function (req, res) {
   );
 };
 
-exports.addUserRequest = async function (req, res) {
-  const teacherId = res.locals.user.id;
-  const studentId = req.body._id;
-  const studentEmail = req.body.email;
-
-  User.findOne(
-    {
+exports.addUserRequest = async (req, res) => {
+  try {
+    const teacherId = res.locals.user.id;
+    const studentId = req.body._id;
+    const studentEmail = req.body.email;
+    const foundTeacher = await User.findOne({
       _id: teacherId,
       $or: [
         { pendingStudents: { $in: [studentId] } },
         { students: { $in: [studentId] } },
       ],
-    },
-    function (err, foundTeacher) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      if (foundTeacher) {
-        return res.status(422).send({
-          errors: [
-            {
-              title: "申請済みです",
-              detail:
-                "既にこの生徒に申請済みです。生徒登録されない場合は生徒が承認ボタンを押すのをお待ちください。",
-            },
-          ],
-        });
-      } else {
-        // sendEmailTo(studentEmail, REQUEST_RECIEVED, req.hostname);
-        User.findOneAndUpdate(
-          { _id: teacherId },
-          { $push: { pendingStudents: studentId } },
-          { returnOriginal: false },
-          function (err) {
-            if (err) {
-              return res
-                .status(422)
-                .send({ errors: normalizeErrors(err.errors) });
-            }
-          }
-        );
-        User.findOneAndUpdate(
-          { _id: studentId },
-          { $push: { pendingTeachers: teacherId } },
-          { returnOriginal: false },
-          function (err) {
-            if (err) {
-              return res
-                .status(422)
-                .send({ errors: normalizeErrors(err.errors) });
-            }
-          }
-        );
-        return res.json({ status: "success" });
-      }
+    });
+    if (foundTeacher) {
+      return res.status(422).send({
+        errors: [
+          {
+            title: "申請済みです",
+            detail:
+              "既にこの生徒に申請済みです。生徒登録されない場合は生徒が承認ボタンを押すのをお待ちください。",
+          },
+        ],
+      });
     }
-  );
+    await User.findOneAndUpdate(
+      { _id: teacherId },
+      { $push: { pendingStudents: studentId } }
+    );
+    await User.findOneAndUpdate(
+      { _id: studentId },
+      { $push: { pendingTeachers: teacherId } }
+    );
+    // await sendEmailTo(studentEmail, REQUEST_RECIEVED, req.hostname);
+
+    return res.json({ status: "success" });
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
 exports.acceptAddUserRequest = async (req, res) => {
@@ -194,7 +174,6 @@ exports.acceptAddUserRequest = async (req, res) => {
         });
       }
       try {
-        // sendEmailTo(teacherEmail, REQUEST_ACCEPTED, req.hostname);
         await User.findOneAndUpdate(
           { _id: teacherId },
           {
@@ -210,6 +189,7 @@ exports.acceptAddUserRequest = async (req, res) => {
           }
         );
 
+        // await sendEmailTo(teacherEmail, REQUEST_ACCEPTED, req.hostname);
         return res.json({ status: "success" });
       } catch (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
@@ -271,8 +251,8 @@ exports.getUserById = function (req, res) {
   const user = res.locals.user;
 
   User.findOne({ _id: reqUserId })
-    .populate("pendingTeachers teachers bookings notifications")
-    .sort({ notifications: -1 })
+    .populate("pendingTeachers teachers bookings")
+    .populate({ path: "notifications", options: { sort: { createdAt: -1 } } })
     .exec(function (err, foundUser) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
