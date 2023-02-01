@@ -169,7 +169,7 @@ exports.addUserRequest = async function (req, res) {
   );
 };
 
-exports.acceptAddUserRequest = async function (req, res) {
+exports.acceptAddUserRequest = async (req, res) => {
   const studentId = res.locals.user.id;
   const teacherId = req.body._id;
   const teacherEmail = req.body.email;
@@ -179,7 +179,7 @@ exports.acceptAddUserRequest = async function (req, res) {
       _id: teacherId,
       students: { $in: [studentId] },
     },
-    function (err, foundTeacher) {
+    async (err, foundTeacher) => {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
@@ -187,97 +187,53 @@ exports.acceptAddUserRequest = async function (req, res) {
         return res.status(422).send({
           errors: [
             {
-              title: "承諾済みです",
-              detail: "既にこの先生を承諾済みです。",
+              title: "承認済みです",
+              detail: "既にこの先生を承認済みです。",
             },
           ],
         });
-      } else {
+      }
+      try {
         // sendEmailTo(teacherEmail, REQUEST_ACCEPTED, req.hostname);
-        User.findOneAndUpdate(
+        await User.findOneAndUpdate(
           { _id: teacherId },
-          { $pull: { pendingStudents: studentId } },
-          { returnOriginal: false },
-          function (err) {
-            if (err) {
-              return res
-                .status(422)
-                .send({ errors: normalizeErrors(err.errors) });
-            }
+          {
+            $pull: { pendingStudents: studentId },
+            $push: { students: studentId },
           }
         );
-        User.findOneAndUpdate(
-          { _id: teacherId },
-          { $push: { students: studentId } },
-          { returnOriginal: false },
-          function (err) {
-            if (err) {
-              return res
-                .status(422)
-                .send({ errors: normalizeErrors(err.errors) });
-            }
-          }
-        );
-        User.findOneAndUpdate(
+        await User.findOneAndUpdate(
           { _id: studentId },
-          { $pull: { pendingTeachers: teacherId } },
-          { returnOriginal: false },
-          function (err) {
-            if (err) {
-              return res
-                .status(422)
-                .send({ errors: normalizeErrors(err.errors) });
-            }
+          {
+            $pull: { pendingTeachers: teacherId },
+            $push: { teachers: teacherId },
           }
         );
-        User.findOneAndUpdate(
-          { _id: studentId },
-          { $push: { teachers: teacherId } },
-          { returnOriginal: false },
-          function (err) {
-            if (err) {
-              return res
-                .status(422)
-                .send({ errors: normalizeErrors(err.errors) });
-            }
-          }
-        );
+
         return res.json({ status: "success" });
+      } catch (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
     }
   );
 };
 
-exports.removeUserRequest = async function (req, res) {
+exports.removeUserRequest = async (req, res) => {
   const teacherId = res.locals.user.id;
   const studentId = req.body._id;
   const studentEmail = req.body.email;
 
-  User.findOneAndUpdate(
-    { _id: teacherId },
-    { $pull: { students: studentId } },
-    { returnOriginal: false },
-    function (err) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-    }
-  );
-  User.findOneAndUpdate(
-    { _id: studentId },
-    { $pull: { teachers: teacherId } },
-    { returnOriginal: false },
-    function (err) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-    }
-  );
+  try {
+    await User.findOneAndUpdate(
+      { _id: teacherId },
+      { $pull: { students: studentId } }
+    );
+    await User.findOneAndUpdate(
+      { _id: studentId },
+      { $pull: { teachers: teacherId } }
+    );
 
-  User.findById(teacherId, function (err, foundTeacher) {
-    if (err) {
-      return res.status(422).send({ errors: normalizeErrors(err.errors) });
-    }
+    const foundTeacher = await User.findById(teacherId);
 
     const newNotification = new Notification({
       title: foundTeacher.username + "先生が担当から外れました",
@@ -285,26 +241,17 @@ exports.removeUserRequest = async function (req, res) {
       user: studentId,
     });
 
-    newNotification.save(function (err, savedNotification) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      User.findOneAndUpdate(
-        { _id: studentId },
-        { $push: { notifications: savedNotification } },
-        { returnOriginal: false },
-        function (err) {
-          if (err) {
-            return res
-              .status(422)
-              .send({ errors: normalizeErrors(err.errors) });
-          }
-          // sendEmailTo(studentEmail, REMOVED_RECIEVED, req.hostname);
-          return res.json({ status: "success" });
-        }
-      );
-    });
-  });
+    const savedNotification = await newNotification.save();
+
+    await User.findOneAndUpdate(
+      { _id: studentId },
+      { $push: { notifications: savedNotification } }
+    );
+    // sendEmailTo(studentEmail, REMOVED_RECIEVED, req.hostname);
+    return res.json({ status: "success" });
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
 exports.getMyStudents = function (req, res) {
