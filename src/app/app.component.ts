@@ -34,37 +34,6 @@ export class AppComponent implements OnInit {
     public location: Location
   ) {}
 
-  @HostListener('window:scroll', ['$event'])
-  hasScrolled() {
-    var st = window.pageYOffset;
-    // Make sure they scroll more than delta
-    if (Math.abs(lastScrollTop - st) <= delta) return;
-
-    var navbar = document.getElementsByTagName('nav')[0];
-
-    // If they scrolled down and are past the navbar, add class .nav-up.
-    // This is necessary so you never see what is "behind" the navbar.
-    if (st > lastScrollTop && st > navbarHeight) {
-      // Scroll Down
-      if (navbar.classList.contains('nav-down')) {
-        navbar.classList.remove('nav-down');
-        navbar.classList.add('nav-up');
-      }
-      // $('.navbar.nav-down').removeClass('nav-down').addClass('nav-up');
-    } else {
-      // Scroll Up
-      //  $(window).height()
-      if (st + window.innerHeight < document.body.scrollHeight) {
-        // $('.navbar.nav-up').removeClass('nav-up').addClass('nav-down');
-        if (navbar.classList.contains('nav-up')) {
-          navbar.classList.remove('nav-up');
-          navbar.classList.add('nav-down');
-        }
-      }
-    }
-
-    lastScrollTop = st;
-  }
   ngOnInit() {
     var navbar: HTMLElement =
       this.element.nativeElement.children[0].children[0];
@@ -90,27 +59,27 @@ export class AppComponent implements OnInit {
       .subscribe((event) => {
         this.navbar.sidebarClose();
 
-        this.renderer.listen('window', 'scroll', (event) => {
-          const number = window.scrollY;
-          var _locationSections = this.location.path();
-          _locationSections = _locationSections.split('#')[0];
-          if (_locationSections !== '/sections') {
-            var _locationExamples = this.location.path();
-            _locationExamples = _locationExamples.split('/')[2];
-            if (number > 150 || window.pageYOffset > 150) {
-              // add logic
-              navbar.classList.remove('navbar-transparent');
-            } else if (
-              _locationExamples !== 'login' &&
-              _locationExamples !== 'register' &&
-              _locationExamples !== 'contactus' &&
-              this.location.path() !== '/nucleoicons'
-            ) {
-              // remove logic
-              // navbar.classList.add('navbar-transparent');
-            }
-          }
-        });
+        // this.renderer.listen('window', 'scroll', (event) => {
+        //   const number = window.scrollY;
+        //   var _locationSections = this.location.path();
+        //   _locationSections = _locationSections.split('#')[0];
+        //   if (_locationSections !== '/sections') {
+        //     var _locationExamples = this.location.path();
+        //     _locationExamples = _locationExamples.split('/')[2];
+        //     if (number > 150 || window.pageYOffset > 150) {
+        //       // add logic
+        //       navbar.classList.remove('navbar-transparent');
+        //     } else if (
+        //       _locationExamples !== 'login' &&
+        //       _locationExamples !== 'register' &&
+        //       _locationExamples !== 'contactus' &&
+        //       this.location.path() !== '/nucleoicons'
+        //     ) {
+        //       // remove logic
+        //       navbar.classList.add('navbar-transparent');
+        //     }
+        //   }
+        // });
       });
 
     var ua = window.navigator.userAgent;
@@ -124,8 +93,41 @@ export class AppComponent implements OnInit {
       var body = document.getElementsByTagName('body')[0];
       body.classList.add('ie-background');
     }
-    this.hasScrolled();
+    // this.hasScrolled();
   }
+
+  // @HostListener('window:scroll', ['$event'])
+  // hasScrolled() {
+  //   var st = window.pageYOffset;
+  //   // Make sure they scroll more than delta
+  //   if (Math.abs(lastScrollTop - st) <= delta) return;
+
+  //   var navbar = document.getElementsByTagName('nav')[0];
+
+  //   // If they scrolled down and are past the navbar, add class .nav-up.
+  //   // This is necessary so you never see what is "behind" the navbar.
+  //   if (st > lastScrollTop && st > navbarHeight) {
+  //     // Scroll Down
+  //     if (navbar.classList.contains('nav-down')) {
+  //       navbar.classList.remove('nav-down');
+  //       navbar.classList.add('nav-up');
+  //     }
+  //     // $('.navbar.nav-down').removeClass('nav-down').addClass('nav-up');
+  //   } else {
+  //     // Scroll Up
+  //     //  $(window).height()
+  //     if (st + window.innerHeight < document.body.scrollHeight) {
+  //       // $('.navbar.nav-up').removeClass('nav-up').addClass('nav-down');
+  //       if (navbar.classList.contains('nav-up')) {
+  //         navbar.classList.remove('nav-up');
+  //         navbar.classList.add('nav-down');
+  //       }
+  //     }
+  //   }
+
+  //   lastScrollTop = st;
+  // }
+
   removeFooter() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
     titlee = titlee.slice(1);
