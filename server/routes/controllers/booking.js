@@ -9,25 +9,24 @@ const moment = require("moment-timezone");
 const config = require("../../config");
 
 function isValidBooking(requestBooking, existingBookings) {
-  let isValid = false;
-  const reqStart = moment(requestBooking.start);
-  const reqEnd = moment(requestBooking.start)
-    .add(requestBooking.courseTime, "minute")
-    .subtract(1, "minute");
   if (existingBookings && existingBookings.length === 0) {
     return true;
   }
 
-  isValid = existingBookings.every(function (booking) {
+  const reqStart = moment(requestBooking.start);
+  const reqEnd = moment(requestBooking.start)
+    .add(requestBooking.courseTime, "minute")
+    .subtract(1, "minute");
+
+  return existingBookings.every(function (booking) {
     const existingStart = moment(booking.start);
     const existingEnd = moment(booking.end).subtract(1, "minute");
-    return (
-      (existingStart < reqStart && existingEnd < reqStart) ||
-      (reqEnd < existingStart && reqEnd < existingEnd)
-    );
+    // return (
+    //   (existingStart < reqStart && existingEnd < reqStart) ||
+    //   (reqEnd < existingStart && reqEnd < existingEnd)
+    // );
+    return existingEnd < reqStart || reqEnd < existingStart;
   });
-
-  return isValid;
 }
 
 exports.createBooking = function (req, res) {
@@ -77,14 +76,14 @@ exports.createBooking = function (req, res) {
   });
 };
 
-exports.updateBooking = function (req, res) {
+exports.updateBooking = async (req, res) => {
   const bookingData = req.body;
 
   Booking.findOneAndUpdate(
     { _id: bookingData._id },
     bookingData,
     { returnOriginal: false },
-    function (err) {
+    async (err) => {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
@@ -100,32 +99,25 @@ exports.updateBooking = function (req, res) {
         user: bookingData.teacher,
       });
 
-      newNotification.save(function (err, savedNotification) {
-        if (err) {
-          return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
-        User.findOneAndUpdate(
+      try {
+        const savedNotification = await newNotification.save();
+        await User.findOneAndUpdate(
           { _id: bookingData.teacher },
           { $push: { notifications: savedNotification } },
-          { returnOriginal: false },
-          function (err) {
-            if (err) {
-              return res
-                .status(422)
-                .send({ errors: normalizeErrors(err.errors) });
-            }
-            // sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
-            return res.json({ status: "updated" });
-          }
+          { returnOriginal: false }
         );
-      });
+        // await sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
+        return res.json({ status: "updated" });
+      } catch (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
     }
   );
 };
 
 exports.getBookingById = function (req, res) {
   const bookingId = req.params.id;
-  Booking.findById(bookingId, function (err, foundBooking) {
+  Booking.findById(bookingId, (err, foundBooking) => {
     if (err) {
       return res.status(422).send({
         errors: {
@@ -177,20 +169,17 @@ exports.deleteBooking = function (req, res) {
   });
 };
 
-exports.getUpcomingBookings = function (req, res) {
-  const student = res.locals.user;
-
-  Booking.find({
-    student,
-    start: { $gt: moment().tz("Asia/Tokyo") },
-  })
-    .sort({ start: 1 })
-    .exec(function (err, foundBookings) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundBookings);
-    });
+exports.getUpcomingBookings = async (req, res) => {
+  try {
+    const student = res.locals.user;
+    const foundBookings = await Booking.find({
+      student,
+      start: { $gt: moment().tz("Asia/Tokyo") },
+    }).sort({ start: 1 });
+    return res.json(foundBookings);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
 exports.getFinishedBookings = function (req, res) {
@@ -201,7 +190,7 @@ exports.getFinishedBookings = function (req, res) {
     start: { $lte: moment().tz("Asia/Tokyo") },
   })
     .sort({ start: -1 })
-    .exec(function (err, foundBookings) {
+    .exec((err, foundBookings) => {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
@@ -209,45 +198,52 @@ exports.getFinishedBookings = function (req, res) {
     });
 };
 
-exports.countUserBookings = function (req, res) {
-  const userId = req.params.id;
+exports.countUserBookings = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const monthStart = moment()
+      .tz("Asia/Tokyo")
+      .add(1, "month")
+      .startOf("month");
+    const nextMonthStart = moment()
+      .tz("Asia/Tokyo")
+      .add(2, "month")
+      .startOf("month");
 
-  Booking.count({
-    student: userId,
-    start: {
-      $gte: moment().tz("Asia/Tokyo").add(1, "month").startOf("month"),
-      $lt: moment().tz("Asia/Tokyo").add(2, "month").startOf("month"),
-    },
-  }).exec(function (err, foundBookingsCounts) {
-    if (err) {
-      return res.status(422).send({ errors: normalizeErrors(err.errors) });
-    }
+    const foundBookingsCounts = await Booking.count({
+      student: userId,
+      start: { $gte: monthStart, $lt: nextMonthStart },
+    });
+
     return res.json(foundBookingsCounts);
-  });
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
-exports.getUserBookings = function (req, res) {
-  const userId = req.params.id;
+exports.getUserBookings = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const foundBookings = await Booking.find({
+      $or: [{ teacher: userId }, { student: userId }],
+    }).sort({ start: -1 });
 
-  Booking.find({ $or: [{ teacher: userId }, { student: userId }] })
-    .sort({ start: -1 })
-    .exec(function (err, foundBookings) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundBookings);
-    });
+    return res.json(foundBookings);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
-exports.getUserDateBlockBookings = function (req, res) {
-  const userId = req.params.id;
+exports.getUserDateBlockBookings = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const foundBookings = await Booking.find({
+      teacher: userId,
+      title: "休み",
+    }).sort({ start: 1 });
 
-  Booking.find({ teacher: userId, title: "休み" })
-    .sort({ start: 1 })
-    .exec(function (err, foundBookings) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundBookings);
-    });
+    return res.json(foundBookings);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };

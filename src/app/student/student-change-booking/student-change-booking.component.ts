@@ -242,7 +242,7 @@ export class StudentChangeBookingComponent implements OnInit {
     isValid = teacherBookings.every((booking) => {
       const existingStart = moment(booking.start);
       const existingEnd = moment(booking.end).subtract(1, 'minute');
-      return existingEnd < reqStart || reqEnd < existingEnd;
+      return existingEnd < reqStart || reqEnd < existingStart;
     });
 
     return isValid;
