@@ -250,7 +250,7 @@ export class StudentChangeBookingComponent implements OnInit {
 
   selectDateTime(start: Date) {
     // this.isSelectedDateTime = true;s
-    this.isClicked = false;
+    this.isClicked = true;
     this.newBooking.start = start;
     this.newBooking.end = moment(start).add(
       this.newBooking.courseTime,
@@ -279,12 +279,13 @@ export class StudentChangeBookingComponent implements OnInit {
     }).then((result) => {
       if (!result.dismiss) {
         this.updateBooking();
+      } else {
+        this.isClicked = false;
       }
     });
   }
 
   updateBooking() {
-    this.isClicked = true;
     this.bookingService.updateBooking(this.newBooking).subscribe(
       (Message) => {
         this.isClicked = false;

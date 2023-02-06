@@ -48,7 +48,7 @@
               <div class="line r"></div>
             </div> -->
 
-            <div *ngIf="errors.length > 0" class="alert alert-danger">
+            <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
               <p *ngFor="let error of errors">{{ error.detail }}</p>
             </div>
 
@@ -154,7 +154,7 @@
               </ul>
 
               <button
-                [disabled]="!registerForm.valid || !isTermsAgreed"
+                [disabled]="!registerForm.valid || !isTermsAgreed || isClicked"
                 type="submit"
                 class="btn btn-block btn-round btn-primary"
               >
@@ -162,12 +162,9 @@
               </button>
             </form>
             <div class="text-center">
-              <button
-                class="btn btn-link btn-primary"
-                (click)="modalLoginOpen()"
-              >
+              <a class="btn btn-link btn-primary" [routerLink]="['/login']">
                 ログインはこちら
-              </button>
+              </a>
             </div>
           </div>
         </div>
