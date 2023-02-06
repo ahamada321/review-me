@@ -101,6 +101,7 @@ exports.searchUsers = function (req, res) {
             $regex: searchWords,
             $options: "i",
           },
+          userRole: "Student",
         },
       },
     ],
