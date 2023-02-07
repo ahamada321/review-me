@@ -40,8 +40,8 @@ export class SubscriptionFormComponent implements OnInit {
   showSwalSuccess() {
     Swal.fire({
       icon: 'success',
-      title: '登録完了しました',
-      text: 'メールアドレス宛に承認メールを送信しました。承認を押してください',
+      title: 'Thank you for registering',
+      text: 'We are now add you to the waiting list',
       customClass: {
         confirmButton: 'btn btn-primary btn-lg',
       },
@@ -52,8 +52,8 @@ export class SubscriptionFormComponent implements OnInit {
   showSwalError() {
     Swal.fire({
       icon: 'error',
-      title: '登録に失敗しました',
-      text: 'メールアドレスが半角文字で正しく入力できているかをご確認ください。',
+      title: 'Something wrong',
+      text: 'Please try again',
       customClass: {
         confirmButton: 'btn btn-primary btn-lg',
       },

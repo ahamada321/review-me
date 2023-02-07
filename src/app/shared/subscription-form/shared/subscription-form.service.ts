@@ -8,7 +8,7 @@ export class SubscriptionFormService {
 
   public subscribe(formData: any): Observable<any> {
     return this.http.get(
-      'https://assets.mailerlite.com/jsonp/258165/forms/74517805478708820/subscribe',
+      'https://assets.mailerlite.com/jsonp/258165/forms/79438285814892063/subscribe',
       { params: formData }
     );
   }
