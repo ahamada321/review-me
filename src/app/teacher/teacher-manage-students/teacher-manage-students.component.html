@@ -28,7 +28,11 @@
           </thead>
           <tbody>
             <tr *ngFor="let myStudent of myStudents">
-              <td>{{ myStudent.username }}</td>
+              <td>
+                <a [routerLink]="['../student-bookings', myStudent._id]">
+                  {{ myStudent.username }}
+                </a>
+              </td>
               <td>
                 <a [routerLink]="['edit-student', myStudent._id]">
                   {{ myStudent.courseTime }}分 / {{ myStudent.perMonth }}回
