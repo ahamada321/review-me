@@ -28,6 +28,7 @@ import { UserService } from '../shared/services/user.service';
 import { TeacherBlockComponent } from './teacher-block/teacher-block.component';
 import { TeacherManageBlocksComponent } from './teacher-manage-blocks/teacher-manage-blocks.component';
 import { TeacherStudentBookingsComponent } from './teacher-student-bookings/teacher-student-bookings.component';
+import { TeacherStudentBookingMemoComponent } from './teacher-student-booking-memo/teacher-student-booking-memo.component';
 
 // source　https://www.npmjs.com/package/ng2-adsense
 
@@ -44,6 +45,11 @@ const routes: Routes = [
       {
         path: 'student-bookings/:studentId',
         component: TeacherStudentBookingsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'student-bookings/edit-memo/:bookingId',
+        component: TeacherStudentBookingMemoComponent,
         canActivate: [AuthGuard],
       },
       {
@@ -100,6 +106,7 @@ const routes: Routes = [
     TeacherComponent,
     TeacherMypageComponent,
     TeacherStudentBookingsComponent,
+    TeacherStudentBookingMemoComponent,
     TeacherBlockComponent,
     TeacherManageBlocksComponent,
     TeacherNotificationComponent,

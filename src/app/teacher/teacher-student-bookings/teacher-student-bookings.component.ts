@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Booking } from 'src/app/shared/booking-selecter/shared/booking.model';
 import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-teacher-student-bookings',
@@ -51,7 +52,7 @@ export class TeacherStudentBookingsComponent implements OnInit {
       (foundUpcomingBookings: any) => {
         this.upcomingBookings = foundUpcomingBookings;
       },
-      (err: any) => {}
+      (err) => {}
     );
   }
 
@@ -62,6 +63,31 @@ export class TeacherStudentBookingsComponent implements OnInit {
       },
       (err) => {}
     );
+  }
+
+  editMemo(booking: Booking) {
+    Swal.fire({
+      title: '詳細',
+      html: `
+      <h6>生徒名:${booking.title} </h6>
+      <h6>レッスン日時:${moment(booking.start).format(' MM月 DD日 HH:mm')} </h6>
+      <h6>メモ:${booking.memo ? booking.memo : 'メモが入っていません'} </h6>`,
+
+      showCancelButton: true,
+      confirmButtonColor: '#51cbce',
+      cancelButtonColor: '#9A9A9A',
+      confirmButtonText: 'メモを編集する',
+      cancelButtonText: '戻る',
+      reverseButtons: true,
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (!result.dismiss) {
+        const bookingId = booking._id;
+        this.router.navigate([
+          '/teacher/student-bookings/edit-memo/' + bookingId,
+        ]);
+      }
+    });
   }
 
   convertJST(time: any) {
