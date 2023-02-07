@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 export class RegisterComponent implements OnInit, OnDestroy {
   date: Date = new Date();
   isTermsAgreed: boolean = false;
+  isClicked: boolean = false;
 
   focus: any;
   focus1: any;
@@ -58,6 +59,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   register() {
+    this.isClicked = true;
     this.auth.register(this.formData).subscribe(
       (newUser) => {
         if (newUser.isVerified) {
@@ -67,6 +69,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       },
       (errorResponse: HttpErrorResponse) => {
+        this.isClicked = false;
         console.error(errorResponse);
         this.errors = errorResponse.error.errors;
       }
@@ -84,7 +87,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       buttonsStyling: false,
       allowOutsideClick: false,
     }).then(() => {
-      this.modalLoginOpen();
+      this.router.navigate(['/login']);
     });
   }
 
@@ -97,10 +100,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       },
       buttonsStyling: false,
     });
-  }
-
-  modalLoginOpen() {
-    this.router.navigate(['/login']);
   }
 
   termsOpen(content: any) {

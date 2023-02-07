@@ -73,7 +73,7 @@
                 </div>
               </div>
               <button
-                *ngIf="!loginForm.valid"
+                *ngIf="!loginForm.valid || isClicked"
                 disabled
                 type="submit"
                 class="btn btn-block btn-round btn-lg"
@@ -81,7 +81,7 @@
                 ログイン
               </button>
               <button
-                *ngIf="loginForm.valid"
+                *ngIf="loginForm.valid && !isClicked"
                 type="submit"
                 class="btn btn-primary btn-block btn-round btn-lg"
               >

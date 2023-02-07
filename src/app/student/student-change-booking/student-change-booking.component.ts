@@ -23,7 +23,6 @@ export class StudentChangeBookingComponent implements OnInit {
   isClicked: boolean = false;
   newBooking!: Booking;
   errors: any[] = [];
-  studentData!: User;
   teacherData!: User;
 
   constructor(
@@ -59,26 +58,13 @@ export class StudentChangeBookingComponent implements OnInit {
           this.selectedDate.getMonth() + 1,
           0
         );
-        this.getMe();
+        this.getTeacher(foundBooking.teacher);
       },
       (err) => {}
     );
   }
 
-  getMe() {
-    const studentId = this.auth.getUserId();
-    this.userService.getUserById(studentId).subscribe(
-      (foundUser) => {
-        this.studentData = foundUser;
-        this.getMyTeacher(foundUser.teachers[0]._id);
-      },
-      (errorResponse: HttpErrorResponse) => {
-        this.errors = errorResponse.error.errors;
-      }
-    );
-  }
-
-  getMyTeacher(teacherId: any) {
+  getTeacher(teacherId: any) {
     this.userService.getUserById(teacherId).subscribe(
       (foundUser) => {
         this.teacherData = foundUser;
@@ -250,7 +236,7 @@ export class StudentChangeBookingComponent implements OnInit {
 
   selectDateTime(start: Date) {
     // this.isSelectedDateTime = true;s
-    this.isClicked = false;
+    this.isClicked = true;
     this.newBooking.start = start;
     this.newBooking.end = moment(start).add(
       this.newBooking.courseTime,
@@ -279,15 +265,15 @@ export class StudentChangeBookingComponent implements OnInit {
     }).then((result) => {
       if (!result.dismiss) {
         this.updateBooking();
+      } else {
+        this.isClicked = false;
       }
     });
   }
 
   updateBooking() {
-    this.isClicked = true;
     this.bookingService.updateBooking(this.newBooking).subscribe(
       (Message) => {
-        this.isClicked = false;
         this.showSwalSuccess();
       },
       (errorResponse: HttpErrorResponse) => {

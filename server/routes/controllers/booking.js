@@ -47,7 +47,10 @@ exports.createBooking = async (req, res) => {
       { $push: { bookings: booking } }
     );
     if (student) {
-      User.findOneAndUpdate({ _id: student }, { $push: { bookings: booking } });
+      await User.findOneAndUpdate(
+        { _id: student },
+        { $push: { bookings: booking } }
+      );
     }
 
     return res.json({ status: "success" });
@@ -74,8 +77,7 @@ exports.updateBooking = async (req, res) => {
     const savedNotification = await newNotification.save();
     await User.findOneAndUpdate(
       { _id: bookingData.teacher },
-      { $push: { notifications: savedNotification } },
-      { returnOriginal: false }
+      { $push: { notifications: savedNotification } }
     );
     // await sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
     return res.json({ status: "updated" });

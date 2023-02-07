@@ -41,6 +41,7 @@
           *ngIf="isValidBooking(timeTable)"
           class="btn btn-primary"
           (click)="selectDateTime(timeTable)"
+          [disabled]="isClicked"
         >
           {{ timeTable.format("HH:mm") }} 〜
         </button>

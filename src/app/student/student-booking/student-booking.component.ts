@@ -237,7 +237,7 @@ export class StudentBookingComponent implements OnInit {
 
   selectDateTime(start: any) {
     // this.isSelectedDateTime = true;
-    this.isClicked = false;
+    this.isClicked = true;
     this.newBooking.start = start;
     this.newBooking.end = moment(start).add(
       this.newBooking.courseTime,
@@ -262,12 +262,13 @@ export class StudentBookingComponent implements OnInit {
     }).then((result) => {
       if (!result.dismiss) {
         this.createBooking();
+      } else {
+        this.isClicked = false;
       }
     });
   }
 
   createBooking() {
-    this.isClicked = true;
     this.bookingService.createBooking(this.newBooking).subscribe(
       (newBooking) => {
         this.newBooking = new Booking();

@@ -19,6 +19,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit, OnDestroy {
   date: Date = new Date();
   errors: any[] = [];
+  isClicked: boolean = false;
   footer: Date = new Date();
   user: any;
 
@@ -70,6 +71,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
+    this.isClicked = true;
     this.auth.login(this.loginForm.value).subscribe(
       (token) => {
         if (this.auth.getUserRole() === 'Student') {
@@ -81,6 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       (errorResponse: HttpErrorResponse) => {
         this.errors = errorResponse.error.errors;
         console.error(this.errors);
+        this.isClicked = false;
       }
     );
   }
