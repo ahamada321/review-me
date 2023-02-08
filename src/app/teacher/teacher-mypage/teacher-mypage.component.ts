@@ -1,41 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { MyOriginAuthService } from 'src/app/auth/shared/auth.service';
-import listPlugin from '@fullcalendar/list';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import { BookingService } from 'src/app/shared/booking-selecter/shared/booking.service';
-import { User } from 'src/app/shared/services/user.model';
-import { UserService } from 'src/app/shared/services/user.service';
-import Swal from 'sweetalert2';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
+import { MyOriginAuthService } from "src/app/auth/shared/auth.service";
+import listPlugin from "@fullcalendar/list";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import { BookingService } from "src/app/shared/booking-selecter/shared/booking.service";
+import { User } from "src/app/shared/services/user.model";
+import { UserService } from "src/app/shared/services/user.service";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-teacher-mypage',
-  templateUrl: './teacher-mypage.component.html',
-  styleUrls: ['./teacher-mypage.component.scss'],
+  selector: "app-teacher-mypage",
+  templateUrl: "./teacher-mypage.component.html",
+  styleUrls: ["./teacher-mypage.component.scss"],
 })
 export class TeacherMypageComponent implements OnInit {
   active = 2;
   myStudents!: User[];
   calendarOptions: any = {
-    initialView: 'dayGridMonth',
+    initialView: "dayGridMonth",
     plugins: [listPlugin, dayGridPlugin],
-    locale: 'ja',
-    timezone: 'Asia/Tokyo',
+    locale: "ja",
+    timezone: "Asia/Tokyo",
     navLinks: true,
     businessHours: true,
     dayMaxEventRows: true,
     views: {
-      list: { buttonText: '一覧' },
+      list: { buttonText: "一覧" },
       dayGridMonth: {
-        buttonText: '月別',
+        buttonText: "月別",
         dayMaxEventRows: 3, // adjust to 3 only for dayGridMonth
       },
     },
     headerToolbar: {
-      left: 'prev,next',
-      center: 'title',
-      right: 'listMonth,dayGridMonth',
+      left: "prev,next",
+      center: "title",
+      right: "listMonth,dayGridMonth",
     },
 
     events: [],
@@ -74,14 +74,14 @@ export class TeacherMypageComponent implements OnInit {
   removeUserRequest(student: any) {
     Swal.fire({
       html: `<h5>${student.username}さん</h5>
-          をリストから削除しますか？
+          を担当から外しますか？
          `,
-      icon: 'info',
+      icon: "info",
       showCancelButton: true,
-      confirmButtonColor: '#51cbce',
-      cancelButtonColor: '#9A9A9A',
-      confirmButtonText: '削除する',
-      cancelButtonText: 'キャンセル',
+      confirmButtonColor: "#f5593d",
+      cancelButtonColor: "#9A9A9A",
+      confirmButtonText: "外す",
+      cancelButtonText: "キャンセル",
       reverseButtons: true,
       allowOutsideClick: false,
     }).then((result) => {
@@ -89,15 +89,15 @@ export class TeacherMypageComponent implements OnInit {
         this.userService.removeUserRequest(student).subscribe(
           (success: any) => {
             Swal.fire({
-              title: '削除しました',
+              title: "担当から外しました",
               // text: '生徒が承認ボタンを押すまでお待ちください',
-              icon: 'success',
+              icon: "success",
               customClass: {
-                confirmButton: 'btn btn-primary btn-lg',
+                confirmButton: "btn btn-primary btn-lg",
               },
               buttonsStyling: false,
             }).then((result) => {
-              this.router.navigate(['/teacher']);
+              this.router.navigate(["/teacher"]);
             });
           },
           (errorResponse: HttpErrorResponse) => {
@@ -106,9 +106,9 @@ export class TeacherMypageComponent implements OnInit {
             Swal.fire({
               title: `${error.title}`,
               text: `${error.detail}`,
-              icon: 'error',
+              icon: "error",
               customClass: {
-                confirmButton: 'btn btn-primary btn-lg',
+                confirmButton: "btn btn-primary btn-lg",
               },
               buttonsStyling: false,
             });
@@ -118,10 +118,10 @@ export class TeacherMypageComponent implements OnInit {
     });
   }
   handleEventClick(clickInfo: any) {
-    if (clickInfo.event.title === '休み') {
+    if (clickInfo.event.title === "休み") {
       return;
     }
     const studentId = clickInfo.event.extendedProps.student;
-    this.router.navigate(['/teacher/student-bookings/' + studentId]);
+    this.router.navigate(["/teacher/student-bookings/" + studentId]);
   }
 }
