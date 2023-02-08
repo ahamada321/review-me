@@ -12,24 +12,21 @@
   [height]="108"
 >
 </ng2-adsense> -->
-<br />
-<div class="row">
-  <div class="col-md mr-auto ml-auto text-center">
-    <a class="btn btn-primary btn-round" [routerLink]="['block']">
-      <i class="nc-icon nc-calendar-60"></i> &nbsp;
-      来月の予約ブロック日時を設定する
-    </a>
-  </div>
-</div>
-<br />
-<div class="col-md mr-auto ml-auto text-center">
+<div class="text-center">
+  <br />
+  <a class="btn btn-primary btn-round" [routerLink]="['block']">
+    <i class="nc-icon nc-calendar-60"></i> &nbsp;
+    来月の予約ブロック日時を設定する
+  </a>
+  <br />
+  <br />
   <a [routerLink]="['manage-block']" class="btn btn-link btn-danger"
     >来月の予約ブロック日時を削除する</a
   >
 </div>
 <div class="space-top"></div>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md">
     <div class="nav-tabs-navigation">
       <div class="nav-tabs-wrapper">
         <ul
@@ -98,7 +95,7 @@
           </div>
         </div>
       </div>
-      <div class="container" *ngIf="active === 2">
+      <div class="" *ngIf="active === 2">
         <full-calendar [options]="calendarOptions"></full-calendar>
       </div>
     </div>
