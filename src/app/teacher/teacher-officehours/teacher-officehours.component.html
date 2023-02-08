@@ -1,10 +1,20 @@
-<div class="text-center">
+<div *ngIf="userData" class="text-center">
   <h1>
     <small>営業時間設定</small>
   </h1>
-  <p>曜日ごとに営業時間設定ができます</p>
+  <br />
+  <a class="btn btn-primary btn-round" [routerLink]="['../block']">
+    <i class="nc-icon nc-calendar-60"></i> &nbsp;
+    来月の予約ブロック日時を設定する
+  </a>
+  <br />
+  <br />
+  <a [routerLink]="['../manage-block']" class="btn btn-link btn-danger"
+    >来月の予約ブロック日時を削除する</a
+  >
   <div class="space-top"></div>
-  <form *ngIf="userData" #UserForm="ngForm" (ngSubmit)="updateUser(UserForm)">
+  <p>毎週の営業時間設定ができます</p>
+  <form #UserForm="ngForm" (ngSubmit)="updateUser(UserForm)">
     <div class="table-responsive">
       <table class="table">
         <thead>
