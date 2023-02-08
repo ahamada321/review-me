@@ -1,0 +1,70 @@
+<div class="bottom_nav">
+  <ul
+    *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Teacher'"
+    class="bottom_nav_ul row"
+    (click)="onClick()"
+  >
+    <li class="col-3 text-center">
+      <a
+        class="bottom_nav_link"
+        [ngClass]="{ 'link-primary': titlee === '/teacher' }"
+        [routerLink]="['/teacher']"
+        ><i class="bottom_nav_icon nc-icon nc-bank"></i> ホーム</a
+      >
+    </li>
+    <li class="col-3 text-center">
+      <a
+        class="bottom_nav_link"
+        [ngClass]="{ 'link-primary': titlee === '/teacher/notification' }"
+        [routerLink]="['/teacher/notification']"
+        ><i class="bottom_nav_icon nc-icon nc-bell-55"></i> 通知</a
+      >
+    </li>
+    <li class="col-3 text-center">
+      <a
+        class="bottom_nav_link"
+        [ngClass]="{ 'link-primary': titlee === '/teacher/officehours' }"
+        [routerLink]="['/teacher/officehours']"
+        ><i class="bottom_nav_icon nc-icon nc-calendar-60"></i> 営業時間</a
+      >
+    </li>
+    <li class="col-3 text-center">
+      <a
+        class="bottom_nav_link"
+        [ngClass]="{ 'link-primary': titlee === '/teacher/edit' }"
+        [routerLink]="['/teacher/edit']"
+        ><i class="bottom_nav_icon nc-icon nc-settings-gear-65"></i> 設定</a
+      >
+    </li>
+  </ul>
+  <ul
+    *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Student'"
+    class="bottom_nav_ul row"
+    (click)="onClick()"
+  >
+    <li class="col-4 text-center">
+      <a
+        class="bottom_nav_link"
+        [ngClass]="{ 'link-primary': titlee === '/student' }"
+        [routerLink]="['/student']"
+        ><i class="bottom_nav_icon nc-icon nc-bank"></i> ホーム</a
+      >
+    </li>
+    <li class="col-4 text-center">
+      <a
+        class="bottom_nav_link"
+        [ngClass]="{ 'link-primary': titlee === '/student/notification' }"
+        [routerLink]="['/student/notification']"
+        ><i class="bottom_nav_icon nc-icon nc-bell-55"></i> 通知</a
+      >
+    </li>
+    <li class="col-4 text-center">
+      <a
+        class="bottom_nav_link"
+        [ngClass]="{ 'link-primary': titlee === '/student/edit' }"
+        [routerLink]="['/student/edit']"
+        ><i class="bottom_nav_icon nc-icon nc-settings-gear-65"></i> 設定</a
+      >
+    </li>
+  </ul>
+</div>
