@@ -30,7 +30,7 @@
                             <thead>
                               <tr>
                                 <th>日時</th>
-                                <!-- <th>詳細</th> -->
+                                <th>詳細</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -40,9 +40,13 @@
                                 <td>
                                   {{ convertJST(finishedBooking.start) }}
                                 </td>
-                                <!-- <td>
-                                  <a class="btn btn-link btn-primary">詳細 </a>
-                                </td> -->
+                                <td>
+                                  <a
+                                    class="btn btn-link btn-primary"
+                                    (click)="editMemo(finishedBooking)"
+                                    >詳細
+                                  </a>
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -75,7 +79,7 @@
                           <thead>
                             <tr>
                               <th>予約日時</th>
-                              <!-- <th>詳細</th> -->
+                              <th>詳細</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -83,9 +87,13 @@
                               *ngFor="let upcomingBooking of upcomingBookings"
                             >
                               <td>{{ convertJST(upcomingBooking.start) }}</td>
-                              <!-- <td>
-                                <a class="btn btn-link btn-primary">詳細 </a>
-                              </td> -->
+                              <td>
+                                <a
+                                  class="btn btn-link btn-primary"
+                                  (click)="editMemo(upcomingBooking)"
+                                  >詳細
+                                </a>
+                              </td>
                             </tr>
                           </tbody>
                         </table>

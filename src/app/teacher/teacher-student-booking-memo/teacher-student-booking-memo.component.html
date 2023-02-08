@@ -1,0 +1,76 @@
+<div class="container" *ngIf="bookingData">
+  <div class="text-center">
+    <h1>
+      <small>メモを編集する</small>
+    </h1>
+  </div>
+  <div class="space-top"></div>
+  <div class="row">
+    <div class="col-md-6 mr-auto ml-auto">
+      <form
+        class="settings-form"
+        #updateBookingMemoForm="ngForm"
+        (ngSubmit)="updateBookingMemo(updateBookingMemoForm)"
+      >
+        <div class="form-group">
+          <label>生徒名</label>
+          <input
+            [ngModel]="bookingData.title"
+            name="title"
+            type="text"
+            class="form-control border-input"
+            disabled
+          />
+        </div>
+
+        <div class="form-group">
+          <label>レッスン日時 </label>
+          <input
+            [ngModel]="bookingData.start | date : 'yyyy/MM/dd HH:mm'"
+            name="start"
+            type="text"
+            class="form-control border-input"
+            disabled
+          />
+        </div>
+
+        <div class="form-group">
+          <label>メモ</label>
+          <textarea
+            [(ngModel)]="bookingData.memo"
+            name="memo"
+            type="text"
+            rows="10"
+            cols="50"
+            class="form-control border-input"
+            placeholder="生徒からも見えるメモです。宿題や連絡事項をご記入ください。※生徒が必ず見るとは限りませんので、重要な連絡などは直接お伝えください。"
+          ></textarea>
+        </div>
+        <div class="space-top"></div>
+        <button
+          *ngIf="
+            updateBookingMemoForm.pristine ||
+            !updateBookingMemoForm.valid ||
+            isClicked
+          "
+          disabled
+          type="submit"
+          class="btn btn-block btn-round btn-lg"
+        >
+          更新
+        </button>
+        <button
+          *ngIf="
+            !updateBookingMemoForm.pristine &&
+            updateBookingMemoForm.valid &&
+            !isClicked
+          "
+          type="submit"
+          class="btn btn-block btn-primary btn-round btn-lg"
+        >
+          更新
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

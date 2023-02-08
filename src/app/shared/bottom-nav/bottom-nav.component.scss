@@ -1,0 +1,25 @@
+.bottom_nav {
+  //   width: 100%;
+  position: relative;
+}
+
+.bottom_nav_ul {
+  position: absolute;
+  bottom: 0;
+  position: fixed;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+  z-index: 4;
+}
+.bottom_nav_link {
+  display: block;
+  padding: 12px 0px;
+  color: #444444;
+}
+.bottom_nav_icon {
+  display: block;
+  margin: 0 0 8px 0;
+}

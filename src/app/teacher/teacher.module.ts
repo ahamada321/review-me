@@ -18,7 +18,6 @@ import { ChangePasswordModule } from '../shared/change-password/change-password.
 import { TeacherComponent } from '../teacher/teacher.component';
 import { TeacherMypageComponent } from './teacher-mypage/teacher-mypage.component';
 import { TeacherNotificationComponent } from './teacher-notification/teacher-notification.component';
-import { TeacherManageStudentsComponent } from './teacher-manage-students/teacher-manage-students.component';
 import { TeacherSearchComponent } from './teacher-search/teacher-search.component';
 import { TeacherEditStudentComponent } from './teacher-edit-student/teacher-edit-student.component';
 import { TeacherOfficehoursComponent } from './teacher-officehours/teacher-officehours.component';
@@ -28,6 +27,7 @@ import { UserService } from '../shared/services/user.service';
 import { TeacherBlockComponent } from './teacher-block/teacher-block.component';
 import { TeacherManageBlocksComponent } from './teacher-manage-blocks/teacher-manage-blocks.component';
 import { TeacherStudentBookingsComponent } from './teacher-student-bookings/teacher-student-bookings.component';
+import { TeacherStudentBookingMemoComponent } from './teacher-student-booking-memo/teacher-student-booking-memo.component';
 
 // source　https://www.npmjs.com/package/ng2-adsense
 
@@ -47,6 +47,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'student-bookings/edit-memo/:bookingId',
+        component: TeacherStudentBookingMemoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'block',
         component: TeacherBlockComponent,
         canActivate: [AuthGuard],
@@ -61,11 +66,7 @@ const routes: Routes = [
         component: TeacherNotificationComponent,
         canActivate: [AuthGuard],
       },
-      {
-        path: 'manage',
-        component: TeacherManageStudentsComponent,
-        canActivate: [AuthGuard],
-      },
+
       {
         path: 'search',
         component: TeacherSearchComponent,
@@ -100,10 +101,10 @@ const routes: Routes = [
     TeacherComponent,
     TeacherMypageComponent,
     TeacherStudentBookingsComponent,
+    TeacherStudentBookingMemoComponent,
     TeacherBlockComponent,
     TeacherManageBlocksComponent,
     TeacherNotificationComponent,
-    TeacherManageStudentsComponent,
     TeacherSearchComponent,
     TeacherEditStudentComponent,
     TeacherOfficehoursComponent,

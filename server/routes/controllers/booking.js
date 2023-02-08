@@ -61,25 +61,28 @@ exports.createBooking = async (req, res) => {
 
 exports.updateBooking = async (req, res) => {
   try {
+    const userId = res.locals.user.id;
     const bookingData = req.body;
     await Booking.findOneAndUpdate({ _id: bookingData._id }, bookingData);
-    const newNotification = new Notification({
-      title: bookingData.title + "さんのレッスン予約が変更されました",
-      description:
-        moment(bookingData.oldStart)
-          .tz("Asia/Tokyo")
-          .format("MM月DD日 HH:mm〜") +
-        " → " +
-        moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜"),
-      user: bookingData.teacher,
-    });
+    if (userId == bookingData.student) {
+      const newNotification = new Notification({
+        title: bookingData.title + "さんのレッスン予約が変更されました",
+        description:
+          moment(bookingData.oldStart)
+            .tz("Asia/Tokyo")
+            .format("MM月DD日 HH:mm〜") +
+          " → " +
+          moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜"),
+        user: bookingData.teacher,
+      });
 
-    const savedNotification = await newNotification.save();
-    await User.findOneAndUpdate(
-      { _id: bookingData.teacher },
-      { $push: { notifications: savedNotification } }
-    );
-    // await sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
+      const savedNotification = await newNotification.save();
+      await User.findOneAndUpdate(
+        { _id: bookingData.teacher },
+        { $push: { notifications: savedNotification } }
+      );
+      // await sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
+    }
     return res.json({ status: "updated" });
   } catch (err) {
     return res.status(422).send({ errors: normalizeErrors(err.errors) });

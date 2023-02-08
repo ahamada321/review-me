@@ -19,7 +19,7 @@ export class Booking {
   color?: string;
 
   perMonth?: number;
-  memo?: string;
+  memo?: string = '';
 
   teacher!: User;
   student!: User;
