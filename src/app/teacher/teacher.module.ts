@@ -18,7 +18,6 @@ import { ChangePasswordModule } from '../shared/change-password/change-password.
 import { TeacherComponent } from '../teacher/teacher.component';
 import { TeacherMypageComponent } from './teacher-mypage/teacher-mypage.component';
 import { TeacherNotificationComponent } from './teacher-notification/teacher-notification.component';
-import { TeacherManageStudentsComponent } from './teacher-manage-students/teacher-manage-students.component';
 import { TeacherSearchComponent } from './teacher-search/teacher-search.component';
 import { TeacherEditStudentComponent } from './teacher-edit-student/teacher-edit-student.component';
 import { TeacherOfficehoursComponent } from './teacher-officehours/teacher-officehours.component';
@@ -67,11 +66,7 @@ const routes: Routes = [
         component: TeacherNotificationComponent,
         canActivate: [AuthGuard],
       },
-      {
-        path: 'manage',
-        component: TeacherManageStudentsComponent,
-        canActivate: [AuthGuard],
-      },
+
       {
         path: 'search',
         component: TeacherSearchComponent,
@@ -110,7 +105,6 @@ const routes: Routes = [
     TeacherBlockComponent,
     TeacherManageBlocksComponent,
     TeacherNotificationComponent,
-    TeacherManageStudentsComponent,
     TeacherSearchComponent,
     TeacherEditStudentComponent,
     TeacherOfficehoursComponent,
