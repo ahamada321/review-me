@@ -17,7 +17,7 @@ router.get(
 );
 
 router.get(
-  "/count/user/:id",
+  "/count/user",
   UserCtrl.authMiddleware,
   BookingCtrl.countUserBookings
 ); // All bookings

@@ -23,6 +23,7 @@ import { ImageUploadModule } from '../shared/image-upload/image-upload.module';
 import { ChangePasswordModule } from '../shared/change-password/change-password.module';
 import { ChangeEmailModule } from '../shared/change-email/change-email.module';
 import { StudentChangeEmailComponent } from './student-change-email/student-change-email.component';
+import { StudentBookingThismonthComponent } from './student-booking-thismonth/student-booking-thismonth.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,11 @@ const routes: Routes = [
       {
         path: 'booking',
         component: StudentBookingComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'booking/thismonth',
+        component: StudentBookingThismonthComponent,
         canActivate: [AuthGuard],
       },
       {
@@ -72,6 +78,7 @@ const routes: Routes = [
   declarations: [
     StudentComponent,
     StudentBookingComponent,
+    StudentBookingThismonthComponent,
     StudentChangeBookingComponent,
     StudentEditComponent,
     StudentChangePasswordComponent,
