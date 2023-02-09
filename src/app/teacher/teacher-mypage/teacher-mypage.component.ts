@@ -97,7 +97,8 @@ export class TeacherMypageComponent implements OnInit {
               },
               buttonsStyling: false,
             }).then((result) => {
-              this.router.navigate(["/teacher"]);
+              const index = this.myStudents.findIndex((x) => x._id === student._id);
+              this.myStudents.splice(index, 1); // Delete event from array.
             });
           },
           (errorResponse: HttpErrorResponse) => {
