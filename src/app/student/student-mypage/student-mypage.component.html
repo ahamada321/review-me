@@ -46,7 +46,19 @@
                       <tbody>
                         <tr *ngFor="let finishedBooking of finishedBookings">
                           <td>
-                            {{ convertJST(finishedBooking.start) }}
+                            <button
+                              *ngIf="finishedBooking.memo"
+                              (click)="teacherMemo(finishedBooking)"
+                              class="btn btn-link btn-primary btn-lg"
+                            >
+                              {{ convertJST(finishedBooking.start) }}
+                            </button>
+                            <button
+                              *ngIf="!finishedBooking.memo"
+                              class="btn btn-link btn-lg"
+                            >
+                              {{ convertJST(finishedBooking.start) }}
+                            </button>
                           </td>
                           <td>
                             <a class="btn btn-link"> 変更不可 </a>
@@ -81,7 +93,21 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let upcomingBooking of upcomingBookings">
-                        <td>{{ convertJST(upcomingBooking.start) }}</td>
+                        <td>
+                          <button
+                            *ngIf="upcomingBooking.memo"
+                            (click)="teacherMemo(upcomingBooking)"
+                            class="btn btn-link btn-primary btn-lg"
+                          >
+                            {{ convertJST(upcomingBooking.start) }}
+                          </button>
+                          <button
+                            *ngIf="!upcomingBooking.memo"
+                            class="btn btn-link btn-lg"
+                          >
+                            {{ convertJST(upcomingBooking.start) }}
+                          </button>
+                        </td>
                         <td>
                           <a
                             *ngIf="!isLess24Hours(upcomingBooking.start)"
