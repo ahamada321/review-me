@@ -112,36 +112,71 @@
                 <div class="space-top"></div>
               </ng-container>
 
-              <div *ngIf="userData.perMonth">
+              <div
+                *ngIf="userData.perMonth  && (userCreatedMonth.getTime() === thisMonth.getTime())"
+              >
+                <div *ngIf="userData.perMonth - countThisMonthBookings > 0">
+                  <i class="nc-icon nc-alert-circle-i"></i>
+                  アカウント作成月の必要予約回数：あと
+                  <span class="link-primary font-lg"
+                    >{{ userData.perMonth - countThisMonthBookings }}</span
+                  >
+                  <span
+                    *ngIf="userData.perMonth - countThisMonthBookings <= 0"
+                    class="link-other-medium-gray font-lg"
+                    >{{ userData.perMonth - countThisMonthBookings }}</span
+                  >
+                  回 / {{ userData.perMonth }}回中
+                  <div>
+                    <p class="link-danger">
+                      アカウント作成月は今月分の予約をした後に<br />来月の予約も行ってください
+                    </p>
+
+                    <a
+                      *ngIf="userData.perMonth - countThisMonthBookings > 0"
+                      class="btn btn-magnify btn-primary btn-round btn-lg btn-margin"
+                      [routerLink]="['booking/thismonth']"
+                    >
+                      <i class="nc-icon nc-calendar-60"></i> &nbsp;
+                      レッスンを予約する
+                    </a>
+                  </div>
+
+                  <br />
+                </div>
+              </div>
+              <div *ngIf="userData.perMonth ">
                 <i class="nc-icon nc-alert-circle-i"></i>
                 来月の必要予約回数：あと
                 <span
-                  *ngIf="userData.perMonth - countBookings > 0"
+                  *ngIf="userData.perMonth - countNextMonthBookings > 0"
                   class="link-primary font-lg"
-                  >{{ userData.perMonth - countBookings }}</span
+                  >{{ userData.perMonth - countNextMonthBookings }}</span
                 >
                 <span
-                  *ngIf="userData.perMonth - countBookings <= 0"
+                  *ngIf="userData.perMonth - countNextMonthBookings <= 0"
                   class="link-other-medium-gray font-lg"
-                  >{{ userData.perMonth - countBookings }}</span
+                  >{{ userData.perMonth - countNextMonthBookings }}</span
                 >
                 回 / {{ userData.perMonth }}回中
-                <a
-                  *ngIf="userData.perMonth - countBookings > 0"
-                  class="btn btn-magnify btn-primary btn-round btn-lg btn-margin"
-                  [routerLink]="['booking']"
-                >
-                  <i class="nc-icon nc-calendar-60"></i> &nbsp;
-                  レッスンを予約する
-                </a>
-                <a
-                  *ngIf="userData.perMonth - countBookings <= 0"
-                  class="btn btn-round btn-lg btn-margin"
-                  disabled
-                >
-                  <i class="nc-icon nc-calendar-60"></i> &nbsp;
-                  レッスンを予約する
-                </a>
+                <div>
+                  <a
+                    *ngIf="userData.perMonth - countNextMonthBookings > 0"
+                    class="btn btn-magnify btn-primary btn-round btn-lg btn-margin"
+                    [routerLink]="['booking']"
+                  >
+                    <i class="nc-icon nc-calendar-60"></i> &nbsp;
+                    レッスンを予約する
+                  </a>
+                  <a
+                    *ngIf="userData.perMonth - countNextMonthBookings <= 0"
+                    class="btn btn-round btn-lg btn-margin"
+                    disabled
+                  >
+                    <i class="nc-icon nc-calendar-60"></i> &nbsp;
+                    レッスンを予約する
+                  </a>
+                </div>
               </div>
               <div class="space-top"></div>
             </ng-template>

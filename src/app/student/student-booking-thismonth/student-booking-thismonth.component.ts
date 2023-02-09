@@ -10,11 +10,11 @@ import { UserService } from "src/app/shared/services/user.service";
 import { User } from "src/app/shared/services/user.model";
 
 @Component({
-  selector: "app-student-booking",
-  templateUrl: "./student-booking.component.html",
-  styleUrls: ["./student-booking.component.scss"],
+  selector: "app-student-booking-thismonth",
+  templateUrl: "./student-booking-thismonth.component.html",
+  styleUrls: ["./student-booking-thismonth.component.scss"],
 })
-export class StudentBookingComponent implements OnInit {
+export class StudentBookingThismonthComponent implements OnInit {
   // isSelectedDateTime: boolean = false;
   selectedDate!: Date;
   minDate!: Date;
@@ -37,9 +37,17 @@ export class StudentBookingComponent implements OnInit {
 
   ngOnInit() {
     const now = new Date();
-    this.selectedDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-    this.minDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-    this.maxDate = new Date(now.getFullYear(), now.getMonth() + 2, 0);
+    this.selectedDate = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1
+    );
+    this.minDate = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1
+    );
+    this.maxDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
     this.getMe();
   }

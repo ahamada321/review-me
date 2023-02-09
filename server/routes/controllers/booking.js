@@ -175,14 +175,15 @@ exports.getFinishedBookings = async (req, res) => {
 
 exports.countUserBookings = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const { userId, addMonth } = req.query;
+    // const userId = req.params.id;
     const monthStart = moment()
       .tz("Asia/Tokyo")
-      .add(1, "month")
+      .add(addMonth, "month")
       .startOf("month");
-    const nextMonthStart = moment()
+    const nextMonthStart = moment(monthStart)
       .tz("Asia/Tokyo")
-      .add(2, "month")
+      .add(1, "month")
       .startOf("month");
 
     const foundBookingsCounts = await Booking.count({
