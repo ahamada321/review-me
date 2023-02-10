@@ -6,6 +6,7 @@ import { Booking } from "src/app/shared/booking-selecter/shared/booking.model";
 import { BookingService } from "src/app/shared/booking-selecter/shared/booking.service";
 import { User } from "src/app/shared/services/user.model";
 import { UserService } from "src/app/shared/services/user.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-student-mypage",
@@ -94,13 +95,26 @@ export class StudentMypageComponent implements OnInit {
 
   onEdit(booking: any) {}
 
-  convertJST(time: any) {
-    // return moment(time).subtract(9, 'hour').format('MM月 DD日 HH:mm 〜');
-    return moment(time).format("MM月 DD日 HH:mm 〜");
+  teacherMemo(booking: Booking) {
+    Swal.fire({
+      title: "先生からのメモ",
+      html: `
+      <h6>${booking.memo} </h6>`,
+      allowOutsideClick: false,
+      customClass: {
+        confirmButton: "btn btn-primary btn-lg",
+      },
+      buttonsStyling: false,
+    });
   }
 
   isLess24Hours(startAt: any) {
     const timeNow = moment(); // Attention: just "moment()" is already applied timezone!
     return moment(startAt).diff(timeNow.add(1, "day")) < 0;
+  }
+
+  convertJST(time: any) {
+    // return moment(time).subtract(9, 'hour').format('MM月 DD日 HH:mm 〜');
+    return moment(time).format("MM月 DD日 HH:mm 〜");
   }
 }
