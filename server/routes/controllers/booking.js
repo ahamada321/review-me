@@ -2,7 +2,51 @@ const { normalizeErrors } = require("./helpers/mongoose");
 const Booking = require("./models/booking");
 const User = require("./models/user");
 const Notification = require("./models/notification");
+const config = require("../../config");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(config.SENDGRID_API_KEY);
 const moment = require("moment-timezone");
+
+const LESSON_CHANGED = "lesson_changed";
+
+function sendEmailTo(sendTo, sendMsg, bookingData) {
+  let msg = {};
+
+  if (sendMsg === LESSON_CHANGED) {
+    msg = {
+      to: sendTo,
+      from: "info@aeru.me",
+      subject: bookingData.title + "さんのレッスン予約が変更されました",
+      text:
+        moment(bookingData.oldStart)
+          .tz("Asia/Tokyo")
+          .format("MM月DD日 HH:mm〜") +
+        " → " +
+        moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜") +
+        "\n\n" +
+        "に予約が変更されました。\n" +
+        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+    };
+  } else {
+    return res.status(422).send({
+      errors: [
+        {
+          title: "Could not send email!",
+          detail: "Please select appropriate email content!",
+        },
+      ],
+    });
+  }
+
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
 function isValidBooking(requestBooking, existingBookings) {
   if (existingBookings && existingBookings.length === 0) {
@@ -81,7 +125,8 @@ exports.updateBooking = async (req, res) => {
         { _id: bookingData.teacher },
         { $push: { notifications: savedNotification } }
       );
-      // await sendEmailTo(teacherEmail, LESSON_CHANGED, req.hostname);
+      const foundTeacher = await User.findOne({ _id: bookingData.teacher });
+      sendEmailTo(foundTeacher.email, LESSON_CHANGED, bookingData);
     }
     return res.json({ status: "updated" });
   } catch (err) {
