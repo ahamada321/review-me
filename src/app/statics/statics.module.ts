@@ -11,6 +11,7 @@ import { MembershipComponent } from "./membership/membership.component";
 import { LandingComponent } from "./landing/landing.component";
 import { MyBestTeacherComponent } from "./my-best-teacher/my-best-teacher.component";
 import { TermsComponent } from "./terms/terms.component";
+import { TermsTextModule } from "./terms/helpers/terms-text/terms-text.module";
 
 const routes: Routes = [
   { path: "landing", component: LandingComponent },
@@ -35,6 +36,8 @@ const routes: Routes = [
     MyBestTeacherComponent,
     TermsComponent,
   ],
+  exports: [],
+  providers: [],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -42,8 +45,7 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     SubscriptionFormModule,
+    TermsTextModule,
   ],
-  exports: [],
-  providers: [],
 })
 export class StaticModule {}
