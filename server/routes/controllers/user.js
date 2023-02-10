@@ -7,34 +7,46 @@ const config = require("../../config");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(config.SENDGRID_API_KEY);
 
-const REQUEST_SEND = "request_send";
-const REQUEST_RECIEVED = "request_recieved";
+const REQUEST_RECEIVED = "request_received";
+const REQUEST_ACCEPTED = "request_accepted";
+const REMOVED_RECEIVED = "removed_received";
 
-function sendEmailTo(sendTo, sendMsg, hostname) {
+function sendEmailTo(sendTo, sendMsg, hostname, userData) {
   let msg = {};
 
-  if (sendMsg === REQUEST_SEND) {
+  if (sendMsg === REQUEST_RECEIVED) {
     msg = {
       to: sendTo,
-      from: "noreply@aeru.me",
-      subject: "[生徒登録申請完了]リクエストを送信しました！",
-      text:
-        "現時点では生徒登録は完了していません。" +
-        "生徒がリクエストを承認したタイミングで生徒登録が完了します。\n\n" +
-        "このメッセージは「レッスンカレンダー」自動配信メールです。",
-    };
-  } else if (sendMsg === REQUEST_RECIEVED) {
-    msg = {
-      to: sendTo,
-      from: "noreply@aeru.me",
-      subject: "先生から登録承認リクエストが来ています！",
+      from: "info@aeru.me",
+      subject: "先生から登録承認リクエストが来ています",
       text:
         "先生から登録承認リクエストが来ています。\n" +
         "以下のURLからログインして、承認ボタンを押してください。\n\n" +
-        "URL：" +
+        "URL:" +
         "https://" +
         hostname +
-        "/rentals/requests" +
+        "/student/notificaton" +
+        "\n\n\n\n" +
+        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+    };
+  } else if (sendMsg === REQUEST_ACCEPTED) {
+    msg = {
+      to: sendTo,
+      from: "info@aeru.me",
+      subject: "生徒がリクエストを承認しました",
+      text:
+        "生徒がリクエストを承認され生徒からの予約を受けられるようになりました。\n\n" +
+        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+    };
+  } else if (sendMsg === REMOVED_RECEIVED) {
+    msg = {
+      to: sendTo,
+      from: "info@aeru.me",
+      subject: "先生が担当から外れました",
+      text:
+        userData.username +
+        "先生が担当から外れました。\n" +
+        "何かの間違いの場合は先生に確認をお願いします。\n\n" +
         "\n\n\n\n" +
         "このメッセージは「レッスンカレンダー」自動配信メールです。",
     };
@@ -142,7 +154,7 @@ exports.addUserRequest = async (req, res) => {
       { _id: studentId },
       { $push: { pendingTeachers: teacherId } }
     );
-    // await sendEmailTo(studentEmail, REQUEST_RECIEVED, req.hostname);
+    await sendEmailTo(studentEmail, REQUEST_RECEIVED, req.hostname);
 
     return res.json({ status: "success" });
   } catch (err) {
@@ -190,7 +202,7 @@ exports.acceptAddUserRequest = async (req, res) => {
           }
         );
 
-        // await sendEmailTo(teacherEmail, REQUEST_ACCEPTED, req.hostname);
+        await sendEmailTo(teacherEmail, REQUEST_ACCEPTED, req.hostname);
         return res.json({ status: "success" });
       } catch (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
@@ -228,7 +240,7 @@ exports.removeUserRequest = async (req, res) => {
       { _id: studentId },
       { $push: { notifications: savedNotification } }
     );
-    // sendEmailTo(studentEmail, REMOVED_RECIEVED, req.hostname);
+    sendEmailTo(studentEmail, REMOVED_RECEIVED, req.hostname, foundTeacher);
     return res.json({ status: "success" });
   } catch (err) {
     return res.status(422).send({ errors: normalizeErrors(err.errors) });
@@ -335,8 +347,13 @@ exports.auth = function (req, res) {
 };
 
 exports.register = function (req, res) {
-  const { username, email, password, passwordConfirmation, userRole } =
-    req.body;
+  const {
+    username,
+    email,
+    password,
+    passwordConfirmation,
+    userRole,
+  } = req.body;
 
   if (!username) {
     return res.status(422).send({
