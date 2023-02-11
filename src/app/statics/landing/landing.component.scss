@@ -56,6 +56,13 @@ img.icon_step {
 ._ngcontent-ewt-c380 {
   gap: 16px;
 }
+.lc_landing_app_image {
+  border-radius: 16px 16px 0 0;
+  border: 1px solid #f0eae1;
+}
+.lc_landing_app_sp {
+  display: flex;
+}
 
 @media screen and (max-width: 768px) {
   .landing_top_iphone_img {
@@ -81,5 +88,10 @@ img.icon_step {
   .landing_hero_button {
     width: 92%;
     padding: 11px 0;
+  }
+  .lc_landing_app_sp {
+    display: flex;
+    overflow-x: scroll;
+    width: 100%;
   }
 }
