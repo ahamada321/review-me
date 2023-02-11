@@ -7,9 +7,15 @@ import { AppComponent } from "./app.component";
 import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { BottomNavComponent } from "./shared/bottom-nav/bottom-nav.component";
+import { FooterComponent } from "./shared/footer/footer.component";
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, BottomNavComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    BottomNavComponent,
+    FooterComponent,
+  ],
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
