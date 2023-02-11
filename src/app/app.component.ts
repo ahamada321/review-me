@@ -5,20 +5,20 @@ import {
   ElementRef,
   ViewChild,
   HostListener,
-} from '@angular/core';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { Location, PopStateEvent } from '@angular/common';
-import { NavbarComponent } from './shared/navbar/navbar.component';
-import { filter, Subscription } from 'rxjs';
+} from "@angular/core";
+import { Router, NavigationEnd, NavigationStart } from "@angular/router";
+import { Location, PopStateEvent } from "@angular/common";
+import { NavbarComponent } from "./shared/navbar/navbar.component";
+import { filter, Subscription } from "rxjs";
 
 var lastScrollTop = 0;
 var delta = 5;
 var navbarHeight = 0;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
   private _router!: Subscription;
@@ -35,9 +35,9 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    var navbar: HTMLElement =
-      this.element.nativeElement.children[0].children[0];
-    if (this.location.path() !== '/sections') {
+    var navbar: HTMLElement = this.element.nativeElement.children[0]
+      .children[0];
+    if (this.location.path() !== "/sections") {
       this.location.subscribe((ev: PopStateEvent) => {
         this.lastPoppedUrl = ev.url;
       });
@@ -83,15 +83,15 @@ export class AppComponent implements OnInit {
       });
 
     var ua = window.navigator.userAgent;
-    var trident = ua.indexOf('Trident/');
+    var trident = ua.indexOf("Trident/");
     if (trident > 0) {
       // IE 11 => return version number
-      var rv = ua.indexOf('rv:');
-      var version = parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+      var rv = ua.indexOf("rv:");
+      var version = parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
     }
     if (version!) {
-      var body = document.getElementsByTagName('body')[0];
-      body.classList.add('ie-background');
+      var body = document.getElementsByTagName("body")[0];
+      body.classList.add("ie-background");
     }
     // this.hasScrolled();
   }
@@ -130,11 +130,11 @@ export class AppComponent implements OnInit {
 
   removeFooter() {
     var titlee = this.location.prepareExternalUrl(this.location.path());
-    titlee = titlee.slice(1);
+    titlee = titlee.slice(2);
     if (
-      titlee === 'login' ||
-      titlee === 'register' ||
-      titlee === 'maintenance'
+      titlee === "login" ||
+      titlee === "register" ||
+      titlee === "maintenance"
     ) {
       return false;
     } else {
