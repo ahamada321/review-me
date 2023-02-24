@@ -129,13 +129,10 @@ export class AppComponent implements OnInit {
   // }
 
   removeFooter() {
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    titlee = titlee.slice(2);
-    if (
-      titlee === "login" ||
-      titlee === "register" ||
-      titlee === "maintenance"
-    ) {
+    const page = this.location
+      .prepareExternalUrl(this.location.path())
+      .slice(2);
+    if (page === "login" || page === "register" || page === "maintenance") {
       return false;
     } else {
       return true;
@@ -143,11 +140,6 @@ export class AppComponent implements OnInit {
   }
 
   isMobile() {
-    let innerWidth = window.innerWidth;
-    if (innerWidth < 560) {
-      return true;
-    } else {
-      return false;
-    }
+    return window.innerWidth < 560;
   }
 }
