@@ -22,15 +22,14 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
         email: "info@aeru.me",
       },
       subject: "先生から担当承認リクエストが来ています",
-      text:
-        "先生から担当承認リクエストが来ています。\n" +
-        "以下のURLからログインして、承認ボタンを押してください。\n\n" +
-        "URL:" +
-        "https://" +
+      html:
+        "<p>先生から担当承認リクエストが来ています。</p>" +
+        "<p><a href=https://" +
         hostname +
-        "/student/notificaton" +
-        "\n\n\n\n" +
-        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+        "/#/student/notificaton" +
+        ">こちらからログイン</a>して承認ボタンを押してください。</p>" +
+        "<br>" +
+        "<p>このメッセージは「レッスンカレンダー」自動配信メールです。</p>",
     };
   } else if (sendMsg === REQUEST_ACCEPTED) {
     msg = {
@@ -41,7 +40,7 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
       },
       subject: "生徒がリクエストを承認しました",
       text:
-        "リクエストを送った生徒からの予約が受けられるようになりました。\n\n" +
+        "リクエストを送った生徒から予約を受けられるようになりました。\n\n" +
         "このメッセージは「レッスンカレンダー」自動配信メールです。",
     };
   } else if (sendMsg === REMOVED_RECEIVED) {
