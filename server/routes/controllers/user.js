@@ -17,10 +17,13 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
   if (sendMsg === REQUEST_RECEIVED) {
     msg = {
       to: sendTo,
-      from: "info@aeru.me",
-      subject: "先生から登録承認リクエストが来ています",
+      from: {
+        name: "レッスンカレンダー",
+        email: "info@aeru.me",
+      },
+      subject: "先生から担当承認リクエストが来ています",
       text:
-        "先生から登録承認リクエストが来ています。\n" +
+        "先生から担当承認リクエストが来ています。\n" +
         "以下のURLからログインして、承認ボタンを押してください。\n\n" +
         "URL:" +
         "https://" +
@@ -32,22 +35,27 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
   } else if (sendMsg === REQUEST_ACCEPTED) {
     msg = {
       to: sendTo,
-      from: "info@aeru.me",
+      from: {
+        name: "レッスンカレンダー",
+        email: "info@aeru.me",
+      },
       subject: "生徒がリクエストを承認しました",
       text:
-        "生徒がリクエストを承認され生徒からの予約を受けられるようになりました。\n\n" +
+        "リクエストを送った生徒からの予約が受けられるようになりました。\n\n" +
         "このメッセージは「レッスンカレンダー」自動配信メールです。",
     };
   } else if (sendMsg === REMOVED_RECEIVED) {
     msg = {
       to: sendTo,
-      from: "info@aeru.me",
-      subject: "先生が担当から外れました",
+      from: {
+        name: "レッスンカレンダー",
+        email: "info@aeru.me",
+      },
+      subject: userData.username + "先生が担当から外れました",
       text:
         userData.username +
         "先生が担当から外れました。\n" +
-        "何かの間違いの場合は先生に確認をお願いします。\n\n" +
-        "\n\n\n\n" +
+        "何かの間違いの場合は先生に直接ご確認ください。\n\n" +
         "このメッセージは「レッスンカレンダー」自動配信メールです。",
     };
   } else {
@@ -61,7 +69,14 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
     });
   }
 
-  sgMail.send(msg);
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 exports.getUsers = function (req, res) {

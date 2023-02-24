@@ -16,7 +16,10 @@ exports.sendFormMessage = function (req, res) {
 
   const sendMsg = {
     to: "info@aeru.me",
-    from: "info@aeru.me",
+    from: {
+      name: "レッスンカレンダー問い合わせフォーム",
+      email: "info@aeru.me",
+    },
     subject: "[" + username + " 様]から以下の問い合わせがきました",
     text:
       "氏名：" +

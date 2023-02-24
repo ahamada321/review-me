@@ -3,9 +3,9 @@ const Booking = require("./models/booking");
 const User = require("./models/user");
 const Notification = require("./models/notification");
 const config = require("../../config");
+const moment = require("moment-timezone");
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(config.SENDGRID_API_KEY);
-const moment = require("moment-timezone");
 
 const LESSON_CHANGED = "lesson_changed";
 
@@ -15,9 +15,14 @@ function sendEmailTo(sendTo, sendMsg, bookingData) {
   if (sendMsg === LESSON_CHANGED) {
     msg = {
       to: sendTo,
-      from: "info@aeru.me",
-      subject: bookingData.title + "さんのレッスン予約が変更されました",
+      from: {
+        name: "レッスンカレンダー",
+        email: "info@aeru.me",
+      },
+      subject: bookingData.title + "さんの予約が変更されました",
       text:
+        bookingData.title +
+        "さんのレッスン予約が\n\n" +
         moment(bookingData.oldStart)
           .tz("Asia/Tokyo")
           .format("MM月DD日 HH:mm〜") +
