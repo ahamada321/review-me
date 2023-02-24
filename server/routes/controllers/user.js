@@ -26,7 +26,7 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
         "<p>先生から担当承認リクエストが来ています。</p>" +
         "<p><a href=https://" +
         hostname +
-        "/#/student/notificaton" +
+        "/#/student/notification" +
         ">こちらからログイン</a>して承認ボタンを押してください。</p>" +
         "<br>" +
         "<p>このメッセージは「レッスンカレンダー」自動配信メールです。</p>",
