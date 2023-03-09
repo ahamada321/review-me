@@ -4,20 +4,13 @@ import { RouterModule, Routes } from "@angular/router";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { LpBiritacoComponent } from "./lp-biritaco/lp-biritaco.component";
-import { LpHamadalabComponent } from "./lp-hamadalab/lp-hamadalab.component";
 import { SubscriptionFormModule } from "../shared/subscription-form/subscription-form.module";
-import { MembershipComponent } from "./membership/membership.component";
 import { LandingComponent } from "./landing/landing.component";
-import { MyBestTeacherComponent } from "./my-best-teacher/my-best-teacher.component";
 import { TermsComponent } from "./terms/terms.component";
 import { TermsTextModule } from "./terms/helpers/terms-text/terms-text.module";
 
 const routes: Routes = [
   { path: "landing", component: LandingComponent },
-  { path: "hamadalab", component: LpHamadalabComponent },
-  { path: "membership", component: MembershipComponent },
-  { path: "my-best-teacher", component: MyBestTeacherComponent },
   //   { path: 'aboutus', component: AboutusComponent },
   { path: "terms", component: TermsComponent },
   //   { path: 'privacy', component: PrivacyComponent },
@@ -28,14 +21,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    LandingComponent,
-    LpBiritacoComponent,
-    LpHamadalabComponent,
-    MembershipComponent,
-    MyBestTeacherComponent,
-    TermsComponent,
-  ],
+  declarations: [LandingComponent, TermsComponent],
   exports: [],
   providers: [],
   imports: [
