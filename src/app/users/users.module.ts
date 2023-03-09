@@ -19,16 +19,17 @@ import { UsersMypageComponent } from "./users-mypage/users-mypage.component";
 import { UsersRevenuesComponent } from "./users-revenues/users-revenues.component";
 import { UsersSettingsComponent } from "./users-settings/users-settings.component";
 import { UsersSubscriptionsComponent } from "./users-subscriptions/users-subscriptions.component";
+import { UsersComponent } from "./users.component";
 
 const routes: Routes = [
   {
     path: "users",
-    // component: StudentComponent,
+    component: UsersComponent,
     children: [
       {
         path: "",
-        // component: StudentMypageComponent,
-        canActivate: [AuthGuard],
+        component: UsersMypageComponent,
+        // canActivate: [AuthGuard],
       },
     ],
   },
@@ -36,6 +37,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
+    UsersComponent,
     UsersMypageComponent,
     UsersRevenuesComponent,
     UsersSettingsComponent,

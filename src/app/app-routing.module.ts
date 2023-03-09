@@ -4,6 +4,7 @@ import { AuthModule } from "./auth/auth.module";
 import { ContactFormModule } from "./contact-form/contact-form.module";
 import { PostsModule } from "./posts/posts.module";
 import { StaticModule } from "./statics/statics.module";
+import { UsersModule } from "./users/users.module";
 
 const routes: Routes = [];
 
@@ -17,6 +18,7 @@ const routes: Routes = [];
     AuthModule,
     ContactFormModule,
     PostsModule,
+    UsersModule,
   ],
   exports: [RouterModule],
 })

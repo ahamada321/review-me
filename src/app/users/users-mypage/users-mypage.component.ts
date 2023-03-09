@@ -12,71 +12,62 @@ import Swal from "sweetalert2";
   styleUrls: ["./users-mypage.component.scss"],
 })
 export class UsersMypageComponent implements OnInit {
-  isClicked: boolean = false;
-  errors: any = [];
-  userData: any;
-  userId = this.auth.getUserId();
-
-  constructor(
-    private auth: MyOriginAuthService,
-    private router: Router,
-    private userService: UserService
-  ) {}
+  constructor() {}
 
   ngOnInit() {
-    this.getMe();
+    // this.getMe();
   }
 
-  getMe() {
-    this.userService.getUserById(this.userId).subscribe(
-      (foundUser) => {
-        this.userData = foundUser;
-      },
-      (errorResponse: HttpErrorResponse) => {
-        this.errors = errorResponse.error.errors;
-      }
-    );
-  }
+  // getMe() {
+  //   this.userService.getUserById(this.userId).subscribe(
+  //     (foundUser) => {
+  //       this.userData = foundUser;
+  //     },
+  //     (errorResponse: HttpErrorResponse) => {
+  //       this.errors = errorResponse.error.errors;
+  //     }
+  //   );
+  // }
 
-  updateUser(UserForm: NgForm) {
-    this.isClicked = true;
-    UserForm.value.oldEmail = this.userData.email;
+  // updateUser(UserForm: NgForm) {
+  //   this.isClicked = true;
+  //   UserForm.value.oldEmail = this.userData.email;
 
-    this.auth.updateUser(this.userId, UserForm.value).subscribe(
-      (Updated) => {
-        this.isClicked = false;
-        this.showSwalSuccess();
-      },
-      (errorResponse: HttpErrorResponse) => {
-        this.isClicked = false;
-        this.showSwalError();
-        this.errors = errorResponse.error.errors;
-      }
-    );
-  }
+  //   this.auth.updateUser(this.userId, UserForm.value).subscribe(
+  //     (Updated) => {
+  //       this.isClicked = false;
+  //       this.showSwalSuccess();
+  //     },
+  //     (errorResponse: HttpErrorResponse) => {
+  //       this.isClicked = false;
+  //       this.showSwalError();
+  //       this.errors = errorResponse.error.errors;
+  //     }
+  //   );
+  // }
 
-  private showSwalSuccess() {
-    Swal.fire({
-      // title: 'User infomation has been updated!',
-      icon: "success",
-      title: "設定が変更されました",
-      customClass: {
-        confirmButton: "btn btn-primary btn-lg",
-      },
-      buttonsStyling: false,
-    }).then(() => {
-      this.router.navigate(["/teacher"]);
-    });
-  }
-  private showSwalError() {
-    Swal.fire({
-      title: "通信エラー",
-      text: "もう一度変更ボタンを押しなおしてください",
-      icon: "error",
-      customClass: {
-        confirmButton: "btn btn-danger btn-lg",
-      },
-      buttonsStyling: false,
-    });
-  }
+  // private showSwalSuccess() {
+  //   Swal.fire({
+  //     // title: 'User infomation has been updated!',
+  //     icon: "success",
+  //     title: "設定が変更されました",
+  //     customClass: {
+  //       confirmButton: "btn btn-primary btn-lg",
+  //     },
+  //     buttonsStyling: false,
+  //   }).then(() => {
+  //     this.router.navigate(["/teacher"]);
+  //   });
+  // }
+  // private showSwalError() {
+  //   Swal.fire({
+  //     title: "通信エラー",
+  //     text: "もう一度変更ボタンを押しなおしてください",
+  //     icon: "error",
+  //     customClass: {
+  //       confirmButton: "btn btn-danger btn-lg",
+  //     },
+  //     buttonsStyling: false,
+  //   });
+  // }
 }
