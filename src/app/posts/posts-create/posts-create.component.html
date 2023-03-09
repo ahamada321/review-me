@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="text-center">
+    <h1>
+      <small>レビュー依頼を作成する</small>
+    </h1>
+  </div>
+  <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+    <p *ngFor="let error of errors">{{ error.detail }}</p>
+  </div>
+  <div class="space-top"></div>
+  <div class="row">
+    <div class="col-md-6 mr-auto ml-auto">
+      <form>
+        <div class="form-group">
+          <label>タイトル</label>
+          <input
+            name="title"
+            type="text"
+            class="form-control border-input"
+            placeholder="タイトル"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>本文</label>
+
+          <textarea
+            type="text"
+            class="form-control"
+            rows="4"
+            placeholder="本文を入力してください."
+            required
+          >
+          </textarea>
+        </div>
+        <div class="form-group">
+          <label>自分が思う一番の問題点</label>
+          <input
+            name=""
+            type=""
+            class="form-control border-input"
+            placeholder=""
+            required
+          />
+        </div>
+        <div class="forgot space-top"></div>
+        <div class="space-top"></div>
+        <div class="space-top"></div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+.card {
+  &[data-background="image"] {
+    &:hover::after,
+    &:active::after,
+    &:focus::after {
+      background-color: transparent;
+      transition-duration: 0.2s;
+    }
+  }
+}
+
+.video-responsive {
+  overflow: hidden;
+  padding-bottom: 66.66%;
+  position: relative;
+  height: 0;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+.video-responsive iframe {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.line-icon-img img {
+  border-radius: 22%;
+  width: 100%;
+  padding: 10%;
+}
+
+.pre-wrap {
+  white-space: pre-wrap;
+}
