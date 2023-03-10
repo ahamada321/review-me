@@ -26,11 +26,11 @@ const routes: Routes = [
     path: "posts",
     component: PostsComponent,
     children: [
-      // {
-      //   path: "",
-      //   component: StudentMypageComponent,
-      //   canActivate: [AuthGuard],
-      // },
+      {
+        path: "",
+        component: PostsListsComponent,
+        // canActivate: [AuthGuard],
+      },
       {
         path: "create",
         component: PostsCreateComponent,

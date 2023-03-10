@@ -11,16 +11,9 @@ import { HttpErrorResponse } from "@angular/common/http";
   styleUrls: ["./posts-lists.component.scss"],
 })
 export class PostsListsComponent implements OnInit {
-  isClicked: boolean = false;
   errors: any = [];
-  userData: any;
-  userId = this.auth.getUserId();
 
-  constructor(
-    private auth: MyOriginAuthService,
-    private router: Router,
-    private userService: UserService
-  ) {}
+  constructor() {}
 
   ngOnInit() {}
 }
