@@ -36,6 +36,16 @@ const routes: Routes = [
         component: PostsCreateComponent,
         // canActivate: [AuthGuard],
       },
+      {
+        path: "detail",
+        component: PostsDetailComponent,
+        // canActivate: [AuthGuard],
+      },
+      {
+        path: "edit",
+        component: PostsEditComponent,
+        // canActivate: [AuthGuard],
+      },
     ],
   },
 ];

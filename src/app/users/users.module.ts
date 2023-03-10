@@ -27,7 +27,7 @@ const routes: Routes = [
     component: UsersComponent,
     children: [
       {
-        path: "",
+        path: "mypage",
         component: UsersMypageComponent,
         // canActivate: [AuthGuard],
       },
