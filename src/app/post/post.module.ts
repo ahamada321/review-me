@@ -15,35 +15,35 @@ import { JwBootstrapSwitchNg2Module } from "jw-bootstrap-switch-ng2";
 import { ImageUploadModule } from "../shared/image-upload/image-upload.module";
 import { ChangePasswordModule } from "../shared/change-password/change-password.module";
 import { ChangeEmailModule } from "../shared/change-email/change-email.module";
-import { PostsCreateComponent } from "./posts-create/posts-create.component";
-import { PostsDetailComponent } from "./posts-detail/posts-detail.component";
-import { PostsEditComponent } from "./posts-edit/posts-edit.component";
-import { PostsListsComponent } from "./posts-lists/posts-lists.component";
-import { PostsComponent } from "./posts.component";
+import { PostCreateComponent } from "./post-create/post-create.component";
+import { PostDetailComponent } from "./post-detail/post-detail.component";
+import { PostEditComponent } from "./post-edit/post-edit.component";
+import { PostListComponent } from "./post-list/post-list.component";
+import { PostComponent } from "./post.component";
 
 const routes: Routes = [
   {
-    path: "posts",
-    component: PostsComponent,
+    path: "post",
+    component: PostComponent,
     children: [
       {
         path: "",
-        component: PostsListsComponent,
+        component: PostListComponent,
         // canActivate: [AuthGuard],
       },
       {
         path: "create",
-        component: PostsCreateComponent,
+        component: PostCreateComponent,
         // canActivate: [AuthGuard],
       },
       {
         path: "detail",
-        component: PostsDetailComponent,
+        component: PostDetailComponent,
         // canActivate: [AuthGuard],
       },
       {
         path: "edit",
-        component: PostsEditComponent,
+        component: PostEditComponent,
         // canActivate: [AuthGuard],
       },
     ],
@@ -52,11 +52,11 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    PostsComponent,
-    PostsCreateComponent,
-    PostsDetailComponent,
-    PostsEditComponent,
-    PostsListsComponent,
+    PostComponent,
+    PostCreateComponent,
+    PostDetailComponent,
+    PostEditComponent,
+    PostListComponent,
   ],
   imports: [
     CommonModule,
@@ -76,4 +76,4 @@ const routes: Routes = [
   exports: [],
   providers: [],
 })
-export class PostsModule {}
+export class PostModule {}

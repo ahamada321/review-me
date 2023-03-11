@@ -6,19 +6,19 @@
           *ngIf="!auth.isAuthenticated()"
           class="navbar-brand"
           [routerLink]="['/']"
-          >Lesson Calendar</a
+          >本音レビュー</a
         >
         <a
           *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Teacher'"
           class="navbar-brand"
           [routerLink]="['/teacher']"
-          >Lesson Calendar</a
+          >本音レビュー</a
         >
         <a
           *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Student'"
           class="navbar-brand"
           [routerLink]="['/student']"
-          >Lesson Calendar</a
+          >本音レビュー</a
         >
       </div>
       <button

@@ -16,7 +16,7 @@ function sendEmailTo(sendTo, sendMsg, bookingData) {
     msg = {
       to: sendTo,
       from: {
-        name: "レッスンカレンダー",
+        name: "本音レビュー",
         email: "info@aeru.me",
       },
       subject: bookingData.title + "さんの予約が変更されました",
@@ -30,7 +30,7 @@ function sendEmailTo(sendTo, sendMsg, bookingData) {
         moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜") +
         "\n\n" +
         "に予約が変更されました。\n" +
-        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+        "このメッセージは「本音レビュー」自動配信メールです。",
     };
   } else {
     return res.status(422).send({

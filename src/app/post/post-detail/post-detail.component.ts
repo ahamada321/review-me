@@ -14,11 +14,11 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "app-posts-detail",
-  templateUrl: "./posts-detail.component.html",
-  styleUrls: ["./posts-detail.component.scss"],
+  selector: "app-post-detail",
+  templateUrl: "./post-detail.component.html",
+  styleUrls: ["./post-detail.component.scss"],
 })
-export class PostsDetailComponent implements OnInit {
+export class PostDetailComponent implements OnInit {
   calendarPlugins = [timeGridPlugin]; // important!
   calendarEvents: EventInput[] = [];
   calendarBusinessHours: EventInput[] = [];

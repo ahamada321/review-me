@@ -7,19 +7,17 @@ import { HttpErrorResponse } from "@angular/common/http";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: "app-posts-create",
-  templateUrl: "./posts-create.component.html",
-  styleUrls: ["./posts-create.component.scss"],
+  selector: "app-post-create",
+  templateUrl: "./post-create.component.html",
+  styleUrls: ["./post-create.component.scss"],
 })
-export class PostsCreateComponent implements OnInit {
+export class PostCreateComponent implements OnInit {
   // isClicked: boolean = false;
   errors: any = [];
   // userData: any;
   // userId = this.auth.getUserId();
 
-  constructor() // private router: Router, // private auth: MyOriginAuthService,
-  // private userService: UserService
-  {}
+  constructor() {} // private userService: UserService // private router: Router, // private auth: MyOriginAuthService,
 
   ngOnInit() {
     // this.getMe();

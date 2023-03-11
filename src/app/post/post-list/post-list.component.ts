@@ -4,14 +4,13 @@ import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 import { UserService } from "src/app/shared/services/user.service";
 import { HttpErrorResponse } from "@angular/common/http";
-import Swal from "sweetalert2";
 
 @Component({
-  selector: "app-posts-edit",
-  templateUrl: "./posts-edit.component.html",
-  styleUrls: ["./posts-edit.component.scss"],
+  selector: "app-post-list",
+  templateUrl: "./post-list.component.html",
+  styleUrls: ["./post-list.component.scss"],
 })
-export class PostsEditComponent implements OnInit {
+export class PostListComponent implements OnInit {
   errors: any = [];
 
   constructor() {}
