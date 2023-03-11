@@ -36,7 +36,7 @@ const userSchema = new Schema({
   perMonth: { type: Number, default: 4 },
   courseTime: { type: Number, default: 60 },
   bookings: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
-  rentals: [{ type: Schema.Types.ObjectId, ref: "Rental" }],
+  posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
 
   affiliateCode: String,
   stripe: String,

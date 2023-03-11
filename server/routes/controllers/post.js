@@ -1,32 +1,32 @@
-const Rental = require("./models/rental");
+const Post = require("./models/post");
 const Booking = require("./models/booking");
 const User = require("./models/user");
 const { normalizeErrors } = require("./helpers/mongoose");
 const moment = require("moment-timezone");
 
-exports.getRentalById = function (req, res) {
+exports.getPostById = function (req, res) {
   const studentId = req.params.id;
 
-  Rental.findById(studentId)
+  Post.findById(studentId)
     //.populate('user', 'username -_id')
     .populate("user") // Need to consider security in future.
     //.populate('bookings', 'start end status -_id')
     .populate("bookings", "start end status _id") // Need to consider security in future.
-    .exec(function (err, foundRental) {
+    .exec(function (err, foundPost) {
       if (err) {
         return res.status(422).send({
           errors: {
-            title: "Rental error!",
-            detail: "Could not find Rental!",
+            title: "Post error!",
+            detail: "Could not find Post!",
           },
         });
       }
-      return res.json(foundRental);
+      return res.json(foundPost);
     });
 };
 
-exports.getRentalsTotal = function (req, res) {
-  Rental.countDocuments({}, function (err, total) {
+exports.getPostsTotal = function (req, res) {
+  Post.countDocuments({}, function (err, total) {
     if (err) {
       return res.status(422).send({ errors: normalizeErrors(err.errors) });
     }
@@ -34,7 +34,7 @@ exports.getRentalsTotal = function (req, res) {
   });
 };
 
-exports.getRentals = function (req, res) {
+exports.getPosts = function (req, res) {
   const { page, limit } = req.query;
   const monthStart = moment()
     .tz("Asia/Tokyo")
@@ -42,7 +42,7 @@ exports.getRentals = function (req, res) {
     .subtract(1, "month");
 
   if (page && limit) {
-    Rental.find({})
+    Post.find({})
       .populate("user") // Need to consider security in future.
       .populate({
         path: "bookings",
@@ -51,38 +51,38 @@ exports.getRentals = function (req, res) {
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(Number(limit))
-      .exec(function (err, foundRentals) {
+      .exec(function (err, foundPosts) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
-        return res.json(foundRentals);
+        return res.json(foundPosts);
       });
   } else {
-    Rental.find({})
-      // Rental.find({shared: true})
+    Post.find({})
+      // Post.find({shared: true})
       .populate("user") // Need to consider security in future.
       .populate({
         path: "bookings",
         match: { createdAt: { $gte: monthStart } },
       })
       .sort({ createdAt: -1 })
-      .exec(function (err, foundRentals) {
+      .exec(function (err, foundPosts) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
-        return res.json(foundRentals);
+        return res.json(foundPosts);
       });
   }
 };
 
-exports.searchRentals = function (req, res) {
+exports.searchPosts = function (req, res) {
   const { searchWords } = req.params;
 
-  Rental.aggregate(
+  Post.aggregate(
     [
       {
         $match: {
-          rentalname: {
+          postname: {
             $regex: searchWords,
             $options: "i",
           },
@@ -90,38 +90,38 @@ exports.searchRentals = function (req, res) {
       },
       { $sort: { createdAt: -1 } },
     ],
-    function (err, foundRentals) {
-      return res.json(foundRentals);
+    function (err, foundPosts) {
+      return res.json(foundPosts);
     }
   );
 };
 
-exports.getOwnerRentals = function (req, res) {
+exports.getOwnerPosts = function (req, res) {
   const user = res.locals.user;
   const monthStart = moment()
     .tz("Asia/Tokyo")
     .startOf("month")
     .subtract(1, "month");
 
-  Rental.find({ user, isShared: true })
+  Post.find({ user, isShared: true })
     .populate({
       path: "bookings",
       match: { createdAt: { $gte: monthStart } },
     })
     .sort({ createdAt: -1 })
-    .exec(function (err, foundRentals) {
+    .exec(function (err, foundPosts) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
-      return res.json(foundRentals);
+      return res.json(foundPosts);
     });
 };
 
-exports.deleteRental = async function (req, res) {
-  const rentalId = req.params.id;
+exports.deletePost = async function (req, res) {
+  const postId = req.params.id;
   const user = res.locals.user;
 
-  Rental.findById(rentalId)
+  Post.findById(postId)
     .populate({
       path: "bookings",
       select: "start",
@@ -131,7 +131,7 @@ exports.deleteRental = async function (req, res) {
         },
       }, // &gt: greater than. <- Pick up 1 year reports.
     })
-    .exec(async function (err, foundRental) {
+    .exec(async function (err, foundPost) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
@@ -144,7 +144,7 @@ exports.deleteRental = async function (req, res) {
           },
         });
       }
-      if (foundRental.bookings.length > 0) {
+      if (foundPost.bookings.length > 0) {
         return res.status(422).send({
           errors: {
             title: "Active reports!",
@@ -154,8 +154,8 @@ exports.deleteRental = async function (req, res) {
       }
 
       try {
-        foundRental.remove();
-        await Booking.deleteMany({ rental: rentalId });
+        foundPost.remove();
+        await Booking.deleteMany({ post: postId });
         return res.json({ status: "deleted" });
       } catch (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
@@ -163,20 +163,20 @@ exports.deleteRental = async function (req, res) {
     });
 };
 
-exports.updateRental = function (req, res) {
-  const rentalData = req.body;
+exports.updatePost = function (req, res) {
+  const postData = req.body;
   const { patientId } = req.body;
-  const rentalId = req.params.id;
+  const postId = req.params.id;
   const user = res.locals.user;
 
-  Rental.findById(rentalId)
+  Post.findById(postId)
     // .populate('user', '_id')
-    .exec(function (err, foundRental) {
+    .exec(function (err, foundPost) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
-      // if(foundRental.user.id !== user.id) {
-      //     return res.status(422).send({errors: {title: "Invalid user!", detail: "You are not rental owner!"}})
+      // if(foundPost.user.id !== user.id) {
+      //     return res.status(422).send({errors: {title: "Invalid user!", detail: "You are not post owner!"}})
       // }
       if (!patientId) {
         return res.status(422).send({
@@ -188,15 +188,15 @@ exports.updateRental = function (req, res) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
-        rentalData.user = foundUser;
+        postData.user = foundUser;
 
         try {
-          const updatedRental = Rental.updateOne(
-            { _id: foundRental.id },
-            rentalData,
+          const updatedPost = Post.updateOne(
+            { _id: foundPost.id },
+            postData,
             () => {}
           );
-          return res.json(updatedRental);
+          return res.json(updatedPost);
         } catch (err) {
           return res.json(err);
         }
@@ -204,11 +204,11 @@ exports.updateRental = function (req, res) {
     });
 };
 
-exports.createRental = function (req, res) {
+exports.createPost = function (req, res) {
   const {
     shared,
     patientId,
-    rentalname,
+    postname,
     selectedInstrument,
     selectedCourse,
     perMonth,
@@ -216,10 +216,10 @@ exports.createRental = function (req, res) {
   } = req.body;
   const user = res.locals.user;
 
-  //referring from ../models/rental.js
-  const rental = new Rental({
+  //referring from ../models/post.js
+  const post = new Post({
     shared,
-    rentalname,
+    postname,
     selectedInstrument,
     selectedCourse,
     perMonth,
@@ -236,20 +236,20 @@ exports.createRental = function (req, res) {
     if (err) {
       return res.status(422).send({ errors: normalizeErrors(err.errors) });
     }
-    rental.user = foundUser;
+    post.user = foundUser;
 
-    Rental.estimatedDocumentCount({}, function (err, count) {
+    Post.estimatedDocumentCount({}, function (err, count) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
 
-      Rental.create(rental, function (err, newRental) {
+      Post.create(post, function (err, newPost) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
 
-        foundUser.rentals.push(newRental); // This updates DB side.
-        return res.json(rental.studentId);
+        foundUser.posts.push(newPost); // This updates DB side.
+        return res.json(post.studentId);
       });
     });
   });

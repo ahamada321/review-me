@@ -25,8 +25,22 @@ export class PostCreateComponent implements OnInit {
   }
 
   saveAsDraftPost() {
-    this.newPost.isShared = false;
-    this.postService.createPostAsDraft(this.newPost).subscribe(
+    this.newPost.status = "draft";
+    this.postService.createPost(this.newPost).subscribe(
+      (post: Post) => {
+        this.showSwalSuccess();
+      },
+      (errorResponse: HttpErrorResponse) => {
+        this.showSwalError();
+        console.error(errorResponse);
+        this.errors = errorResponse.error.errors;
+      }
+    );
+  }
+
+  createPost() {
+    this.newPost.status = "pending";
+    this.postService.createPost(this.newPost).subscribe(
       (post: Post) => {
         this.showSwalSuccess();
       },

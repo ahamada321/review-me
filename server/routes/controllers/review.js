@@ -1,14 +1,14 @@
 const Review = require("./models/review");
 const User = require("./models/user");
-const Rental = require("./models/rental");
+const Post = require("./models/post");
 const Booking = require("./models/booking");
 const { normalizeErrors } = require("./helpers/mongoose");
 const moment = require("moment-timezone");
 
 exports.getReviews = function (req, res) {
-  const { rentalId } = req.query;
+  const { postId } = req.query;
 
-  Review.find({ rental: rentalId })
+  Review.find({ post: postId })
     .populate("user", "-password")
     .sort({ cretatedAt: -1 })
     .limit(3)
@@ -20,15 +20,15 @@ exports.getReviews = function (req, res) {
     });
 };
 
-exports.getRentalRating = function (req, res) {
-  const rentalId = req.query.id;
+exports.getPostRating = function (req, res) {
+  const postId = req.query.id;
 
   Review.aggregate(
     [
-      { $unwind: "$rental" },
+      { $unwind: "$post" },
       {
         $group: {
-          _id: rentalId,
+          _id: postId,
           ratingAvg: { $avg: "$rating" },
         },
       },
@@ -48,7 +48,7 @@ exports.createReview = function (req, res) {
   const user = res.locals.user;
 
   Booking.findById(bookingId)
-    .populate({ path: "rental", populate: { path: "user" } })
+    .populate({ path: "post", populate: { path: "user" } })
     .populate("review")
     .populate("user")
     .exec(async (err, foundBooking) => {
@@ -56,11 +56,11 @@ exports.createReview = function (req, res) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
 
-      if (foundBooking.rental.user.id === user.id) {
+      if (foundBooking.post.user.id === user.id) {
         return res.status(422).send({
           errors: {
             title: "Invalid user!",
-            detail: "Can not review on your rental!",
+            detail: "Can not review on your post!",
           },
         });
       }
@@ -96,7 +96,7 @@ exports.createReview = function (req, res) {
 
       const review = new Review(reviewData);
       review.user = user;
-      review.rental = foundBooking.rental;
+      review.post = foundBooking.post;
       foundBooking.review = review;
 
       try {

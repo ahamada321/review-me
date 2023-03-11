@@ -5,7 +5,7 @@ const path = require("path");
 const config = require("./config");
 const FakeDb = require("./fake-db");
 
-const rentalRoutes = require("./routes/rentals");
+const postRoutes = require("./routes/posts");
 const userRoutes = require("./routes/users");
 const bookingRoutes = require("./routes/bookings");
 const paymentRoutes = require("./routes/payments");
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(compression()); // compress middleware
 
-app.use("/api/v1/rentals", rentalRoutes);
+app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/bookings", bookingRoutes);
 app.use("/api/v1/payments", paymentRoutes);

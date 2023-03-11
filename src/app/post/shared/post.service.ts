@@ -7,47 +7,47 @@ import { HttpClient } from "@angular/common/http";
 export class PostService {
   constructor(private http: HttpClient) {}
 
-  // public getRentalById(rentalId: string): Observable<any> {
-  //   return this.http.get("/api/v1/rentals/" + rentalId);
+  // public getPostById(postId: string): Observable<any> {
+  //   return this.http.get("/api/v1/posts/" + postId);
   // }
 
-  // public getRentals(
+  // public getPosts(
   //   keywords: any,
   //   pageIndex: number,
   //   pageSize: number
   // ): Observable<any> {
   //   return this.http.post(
-  //     `/api/v1/rentals?page=${pageIndex}&limit=${pageSize}`,
+  //     `/api/v1/posts?page=${pageIndex}&limit=${pageSize}`,
   //     keywords
   //   );
   // }
 
-  public createPostAsDraft(postData: Post): Observable<any> {
+  public createPost(postData: Post): Observable<any> {
     return this.http.post("/api/v1/posts/create", postData);
   }
-  // public createRental(rentalData: Rental): Observable<any> {
-  //   return this.http.post("/api/v1/rentals/create", rentalData);
+  // public createPost(postData: Post): Observable<any> {
+  //   return this.http.post("/api/v1/posts/create", postData);
   // }
 
-  // public deleteRental(rentalId: string): Observable<any> {
-  //   return this.http.delete("/api/v1/rentals/" + rentalId);
+  // public deletePost(postId: string): Observable<any> {
+  //   return this.http.delete("/api/v1/posts/" + postId);
   // }
 
-  // public updateRental(rentalId: string, rentalData: Rental): Observable<any> {
-  //   return this.http.patch("/api/v1/rentals/" + rentalId, rentalData);
+  // public updatePost(postId: string, postData: Post): Observable<any> {
+  //   return this.http.patch("/api/v1/posts/" + postId, postData);
   // }
 
-  // public getOwnerRentals(pageIndex: number, pageSize: number): Observable<any> {
+  // public getOwnerPosts(pageIndex: number, pageSize: number): Observable<any> {
   //   return this.http.get(
-  //     `/api/v1/rentals/manage?page=${pageIndex}&limit=${pageSize}`
+  //     `/api/v1/posts/manage?page=${pageIndex}&limit=${pageSize}`
   //   );
   // }
 
-  // public getUserFavouriteRentals(): Observable<any> {
-  //   return this.http.get("/api/v1/rentals/favourite");
+  // public getUserFavouritePosts(): Observable<any> {
+  //   return this.http.get("/api/v1/posts/favourite");
   // }
 
-  // public toggleFavourite(rentalId: string): Observable<any> {
-  //   return this.http.get("/api/v1/rentals/favourite/" + rentalId);
+  // public toggleFavourite(postId: string): Observable<any> {
+  //   return this.http.get("/api/v1/posts/favourite/" + postId);
   // }
 }

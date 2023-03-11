@@ -3,11 +3,9 @@ import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 export class Post {
   _id!: string;
   createdAt!: string;
-  lastLogin!: string;
+  status!: string; // done, active, pending, draft
 
-  static readonly CATEGORIES = ["カテゴリ1", "カテゴリ2"];
   isShared!: boolean;
-  isApproved!: boolean;
   isBanned!: boolean;
   reasonOfBanned!: string;
 
@@ -19,7 +17,7 @@ export class Post {
   youtube!: string;
   selectedCategory!: string;
 
-  rentalname!: string;
+  postname!: string;
   email!: string;
   birthday!: Date;
 

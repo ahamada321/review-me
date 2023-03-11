@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const rentalSchema = new Schema({
+const postSchema = new Schema({
   shared: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
 
-  rentalname: {
+  postname: {
     type: String,
     max: [128, "Too long, max is 128 characters."],
     required: "Student name is required",
@@ -20,4 +20,4 @@ const rentalSchema = new Schema({
   // lastLesson: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("Rental", rentalSchema);
+module.exports = mongoose.model("Post", postSchema);
