@@ -5,13 +5,11 @@ import {
   Input,
   HostListener,
 } from "@angular/core";
-import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
-import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { EventInput } from "@fullcalendar/core";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import Swal from "sweetalert2";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
+import { Post } from "../shared/post.model";
+import { PostService } from "../shared/post.service";
 
 @Component({
   selector: "app-post-detail",
@@ -19,22 +17,31 @@ import Swal from "sweetalert2";
   styleUrls: ["./post-detail.component.scss"],
 })
 export class PostDetailComponent implements OnInit {
-  calendarPlugins = [timeGridPlugin]; // important!
-  calendarEvents: EventInput[] = [];
-  calendarBusinessHours: EventInput[] = [];
-
-  headerOffset: number = 75; // want to replace like DEFINE HEADER_OFFSET
+  isClicked: boolean = false;
+  errors: any = [];
+  post!: Post;
 
   constructor(
+    private postService: PostService,
     private route: ActivatedRoute,
-    private modalService: NgbModal,
-    public router: Router,
-    public sanitizer: DomSanitizer
+    public router: Router
   ) {}
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      // this.getPost(params["postId"]);
+      this.getPost(params["postId"]);
     });
+  }
+
+  getPost(postId: string) {
+    this.postService.getPostById(postId).subscribe(
+      (post: Post) => {
+        this.post = post;
+      },
+      (errorResponse: HttpErrorResponse) => {
+        console.error(errorResponse);
+        this.errors = errorResponse.error.errors;
+      }
+    );
   }
 }
