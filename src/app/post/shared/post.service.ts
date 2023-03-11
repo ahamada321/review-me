@@ -37,11 +37,11 @@ export class PostService {
   //   return this.http.patch("/api/v1/posts/" + postId, postData);
   // }
 
-  // public getOwnerPosts(pageIndex: number, pageSize: number): Observable<any> {
-  //   return this.http.get(
-  //     `/api/v1/posts/manage?page=${pageIndex}&limit=${pageSize}`
-  //   );
-  // }
+  public getOwnerPosts(pageIndex: number, pageSize: number): Observable<any> {
+    return this.http.get(
+      `/api/v1/posts/manage?page=${pageIndex}&limit=${pageSize}`
+    );
+  }
 
   // public getUserFavouritePosts(): Observable<any> {
   //   return this.http.get("/api/v1/posts/favourite");

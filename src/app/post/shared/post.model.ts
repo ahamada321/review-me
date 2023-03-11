@@ -10,14 +10,6 @@ export class Post {
   bottleneck!: string;
   privateOption!: boolean;
 
-  course1Img!: string;
-  course1Title!: string;
-  course1Description!: string;
-  course2Title!: string;
-  course2Img!: string;
-  course2Description!: string;
-  memo!: string;
-
   image!: string;
   gallery1!: string;
   gallery2!: string;
@@ -33,4 +25,6 @@ export class Post {
   user!: any;
   brand!: any;
   favouritesFrom!: any[];
+  length: any;
+  feedbacks!: any[];
 }

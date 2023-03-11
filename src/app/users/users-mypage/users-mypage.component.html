@@ -16,91 +16,33 @@
           </div>
 
           <div class="space-top"></div>
-          <div class="row">
-            <div class="col-12 col-md-6 ml-auto mr-auto">
-              <div class="card card-blog">
+
+          <div class="row" *ngIf="posts && posts.length > 0">
+            <div
+              class="col-12 col-md-6 ml-auto mr-auto"
+              *ngFor="let post of posts; let i = index"
+            >
+              <a href="/" class="card card-blog">
                 <div class="card-body">
                   <div class="author">
-                    <span class="badge badge-pill badge-primary mr-1"
+                    <span
+                      *ngIf="post.status === 'active'"
+                      class="badge badge-pill badge-primary mr-1"
                       >レビュー募集中</span
                     >
-                  </div>
-                  <div class="stats">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                    2023/03/09
-                  </div>
-
-                  <h5 class="card-title">
-                    <a href="javascript:void(0)"
-                      >マッチングアプリでなかなかマッチしません</a
-                    >
-                  </h5>
-                  <p class="card-description">
-                    思い切ってマッチングアプリを始めましたが、そもそもマッチができないです。何がいけないのかをレビューお願いします。...
-                    <br />
-                  </p>
-                  <hr />
-                  <div class="card-footer text-right">
-                    <span> レビュー3件/5件</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 ml-auto mr-auto">
-              <div class="card card-blog">
-                <div class="card-body">
-                  <div class="author">
-                    <span class="badge badge-pill badge-warning mr-1"
+                    <span
+                      *ngIf="post.status === 'pending'"
+                      class="badge badge-pill badge-warning mr-1"
                       >公開申請中</span
                     >
-                  </div>
-                  <div class="stats">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                    2023/03/09
-                  </div>
-
-                  <h5 class="card-title">
-                    <a href="javascript:void(0)"
-                      >マッチングアプリでなかなかマッチしません</a
-                    >
-                  </h5>
-                  <p class="card-description">
-                    思い切ってマッチングアプリを始めましたが、そもそもマッチができないです。何がいけないのかをレビューお願いします。...
-                    <br />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 ml-auto mr-auto">
-              <div class="card card-blog">
-                <div class="card-body">
-                  <div class="author">
-                    <span class="badge badge-pill badge-default mr-1"
+                    <span
+                      *ngIf="post.status === 'draft'"
+                      class="badge badge-pill badge-default mr-1"
                       >下書き</span
                     >
-                  </div>
-                  <div class="stats">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                    2023/03/09
-                  </div>
-
-                  <h5 class="card-title">
-                    <a href="javascript:void(0)"
-                      >マッチングアプリでなかなかマッチしません</a
-                    >
-                  </h5>
-                  <p class="card-description">
-                    思い切ってマッチングアプリを始めましたが、そもそもマッチができないです。何がいけないのかをレビューお願いします。...
-                    <br />
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-12 col-md-6 ml-auto mr-auto">
-              <div class="card card-blog">
-                <div class="card-body">
-                  <div class="author">
-                    <span class="badge badge-pill badge-success mr-1"
+                    <span
+                      *ngIf="post.status === 'done'"
+                      class="badge badge-pill badge-success mr-1"
                       >完了</span
                     >
                   </div>
@@ -110,20 +52,18 @@
                   </div>
 
                   <h5 class="card-title">
-                    <a href="javascript:void(0)"
-                      >マッチングアプリでなかなかマッチしません</a
-                    >
+                    <a href="javascript:void(0)">{{post.postname}}</a>
                   </h5>
-                  <p class="card-description">
-                    思い切ってマッチングアプリを始めましたが、そもそもマッチができないです。何がいけないのかをレビューお願いします。...
-                    <br />
-                  </p>
-                  <hr />
-                  <div class="card-footer text-right">
-                    <span> レビュー5件/5件</span>
+                  <p class="card-description">{{post.description}} <br /></p>
+                  <div
+                    *ngIf="post.status === 'active' || post.status === 'done'"
+                    class="card-footer text-right"
+                  >
+                    <hr />
+                    <span> レビュー{{post.feedbacks.length}}件/5件</span>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
           <div class="space-top"></div>
