@@ -12,27 +12,25 @@
     <div class="col-md-6 mr-auto ml-auto">
       <form>
         <div class="form-group">
-          <label>タイトル</label>
+          <label>件名</label>
           <input
             name="title"
             type="text"
             class="form-control border-input"
-            placeholder="タイトル"
+            placeholder="例）マッチングアプリで良い人とマッチできません"
             required
           />
         </div>
 
         <div class="form-group">
-          <label>本文</label>
-
+          <label>レビューしてほしい内容</label>
           <textarea
             type="text"
             class="form-control"
             rows="4"
-            placeholder="本文を入力してください."
+            placeholder="例）マッチングアプリでなかなか良い人とマッチできません。年齢が大きく上の人や、自分の好みから遠い人とはマッチします。プロフィール文章と自分の写真のレビューしていただきたいです。"
             required
-          >
-          </textarea>
+          ></textarea>
         </div>
         <div class="form-group">
           <label>自分が思う一番の問題点</label>
@@ -65,7 +63,7 @@
           <div class="col-6 mr-auto ml-auto">
             <a
               class="btn btn-outline-default btn-block btn-round btn-lg"
-              [routerLink]="['../../users/mypage']"
+              (click)="saveAsDraftPost()"
             >
               下書き保存する
             </a>

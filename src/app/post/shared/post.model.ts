@@ -1,59 +1,59 @@
 import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 
 export class Post {
-  _id: string;
-  createdAt: string;
-  lastLogin: string;
+  _id!: string;
+  createdAt!: string;
+  lastLogin!: string;
 
   static readonly CATEGORIES = ["カテゴリ1", "カテゴリ2"];
-  isShared: boolean;
-  isApproved: boolean;
-  isBanned: boolean;
-  reasonOfBanned: string;
+  isShared!: boolean;
+  isApproved!: boolean;
+  isBanned!: boolean;
+  reasonOfBanned!: string;
 
-  lineURL: string;
-  homepage: string;
-  facebook: string;
-  twitter: string;
-  instagram: string;
-  youtube: string;
-  selectedCategory: string;
+  lineURL!: string;
+  homepage!: string;
+  facebook!: string;
+  twitter!: string;
+  instagram!: string;
+  youtube!: string;
+  selectedCategory!: string;
 
-  rentalname: string;
-  email: string;
-  birthday: Date;
+  rentalname!: string;
+  email!: string;
+  birthday!: Date;
 
-  province: any[];
-  address1: string;
-  address2: string;
+  province!: any[];
+  address1!: string;
+  address2!: string;
   // hourlyPrice: number;
-  cardDescription;
-  description: string;
+  // cardDescription;
+  description!: string;
 
-  course1Img: string;
-  course1Title: string;
-  course1Description: string;
-  course2Title: string;
-  course2Img: string;
-  course2Description: string;
-  memo: string;
+  course1Img!: string;
+  course1Title!: string;
+  course1Description!: string;
+  course2Title!: string;
+  course2Img!: string;
+  course2Description!: string;
+  memo!: string;
 
-  image: string;
-  gallery1: string;
-  gallery2: string;
-  gallery3: string;
-  gallery4: string;
-  gallery5: string;
-  gallery6: string;
-  gallery7: string;
-  gallery8: string;
-  videoLink: string;
+  image!: string;
+  gallery1!: string;
+  gallery2!: string;
+  gallery3!: string;
+  gallery4!: string;
+  gallery5!: string;
+  gallery6!: string;
+  gallery7!: string;
+  gallery8!: string;
+  videoLink!: string;
 
-  rating: number;
-  user: any;
-  brand: any;
-  favouritesFrom: any[];
-  bookings: Booking[];
+  rating!: number;
+  user!: any;
+  brand!: any;
+  favouritesFrom!: any[];
+  // bookings!: Booking[];
   // businesshour_enabled_sun: boolean;
   // businesshour_startTime_sun: NgbTimeStruct;
   // businesshour_endTime_sun: NgbTimeStruct;

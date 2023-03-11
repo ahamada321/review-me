@@ -20,6 +20,7 @@ import { PostDetailComponent } from "./post-detail/post-detail.component";
 import { PostEditComponent } from "./post-edit/post-edit.component";
 import { PostListComponent } from "./post-list/post-list.component";
 import { PostComponent } from "./post.component";
+import { PostService } from "./shared/post.service";
 
 const routes: Routes = [
   {
@@ -74,6 +75,6 @@ const routes: Routes = [
     ChangeEmailModule,
   ],
   exports: [],
-  providers: [],
+  providers: [PostService],
 })
 export class PostModule {}
