@@ -5,24 +5,19 @@ const { normalizeErrors } = require("./helpers/mongoose");
 const moment = require("moment-timezone");
 
 exports.getPostById = function (req, res) {
-  const studentId = req.params.id;
+  const postId = req.params.id;
 
-  Post.findById(studentId)
-    //.populate('user', 'username -_id')
-    .populate("user") // Need to consider security in future.
-    //.populate('bookings', 'start end status -_id')
-    .populate("bookings", "start end status _id") // Need to consider security in future.
-    .exec(function (err, foundPost) {
-      if (err) {
-        return res.status(422).send({
-          errors: {
-            title: "Post error!",
-            detail: "Could not find Post!",
-          },
-        });
-      }
-      return res.json(foundPost);
-    });
+  Post.findById(postId, function (err, foundPost) {
+    if (err) {
+      return res.status(422).send({
+        errors: {
+          title: "Post error!",
+          detail: "Could not find Post!",
+        },
+      });
+    }
+    return res.json(foundPost);
+  });
 };
 
 exports.getPostsTotal = function (req, res) {
@@ -179,43 +174,16 @@ exports.deletePost = async function (req, res) {
 
 exports.updatePost = function (req, res) {
   const postData = req.body;
-  const { patientId } = req.body;
-  const postId = req.params.id;
-  const user = res.locals.user;
 
-  Post.findById(postId)
-    // .populate('user', '_id')
-    .exec(function (err, foundPost) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      // if(foundPost.user.id !== user.id) {
-      //     return res.status(422).send({errors: {title: "Invalid user!", detail: "You are not post owner!"}})
-      // }
-      if (!patientId) {
-        return res.status(422).send({
-          errors: [{ title: "Error!", detail: "講師IDを入力してください！" }],
-        });
-      }
-
-      User.findOne({ patientId }, function (err, foundUser) {
-        if (err) {
-          return res.status(422).send({ errors: normalizeErrors(err.errors) });
-        }
-        postData.user = foundUser;
-
-        try {
-          const updatedPost = Post.updateOne(
-            { _id: foundPost.id },
-            postData,
-            () => {}
-          );
-          return res.json(updatedPost);
-        } catch (err) {
-          return res.json(err);
-        }
-      });
-    });
+  Post.findOneAndUpdate({ _id: postData._id }, postData, function (
+    err,
+    updatedPost
+  ) {
+    if (err) {
+      return res.status(422).send({ errors: normalizeErrors(err.errors) });
+    }
+    return res.json(updatedPost);
+  });
 };
 
 exports.createPost = function (req, res) {

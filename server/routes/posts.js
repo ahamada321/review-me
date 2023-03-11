@@ -16,7 +16,7 @@ router.get("/:id", PostCtrl.getPostById);
 
 router.delete("/:id", UserCtrl.authMiddleware, PostCtrl.deletePost);
 
-router.patch("/:id", UserCtrl.authMiddleware, PostCtrl.updatePost);
+router.patch("", UserCtrl.authMiddleware, PostCtrl.updatePost);
 
 router.post("", UserCtrl.authMiddleware, PostCtrl.createPost);
 

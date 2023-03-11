@@ -7,9 +7,9 @@ import { HttpClient } from "@angular/common/http";
 export class PostService {
   constructor(private http: HttpClient) {}
 
-  // public getPostById(postId: string): Observable<any> {
-  //   return this.http.get("/api/v1/posts/" + postId);
-  // }
+  public getPostById(postId: string): Observable<any> {
+    return this.http.get("/api/v1/posts/" + postId);
+  }
 
   // public getPosts(
   //   keywords: any,
@@ -33,9 +33,9 @@ export class PostService {
   //   return this.http.delete("/api/v1/posts/" + postId);
   // }
 
-  // public updatePost(postId: string, postData: Post): Observable<any> {
-  //   return this.http.patch("/api/v1/posts/" + postId, postData);
-  // }
+  public updatePost(postData: Post): Observable<any> {
+    return this.http.patch("/api/v1/posts", postData);
+  }
 
   public getOwnerPosts(pageIndex: number, pageSize: number): Observable<any> {
     return this.http.get(

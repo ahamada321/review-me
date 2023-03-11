@@ -16,17 +16,15 @@ import { PostService } from "../shared/post.service";
 export class PostCreateComponent implements OnInit {
   isClicked: boolean = false;
   errors: any = [];
-  router: any;
   newPost = new Post();
 
-  constructor(private postService: PostService) {}
+  constructor(private postService: PostService, private router: Router) {}
 
   ngOnInit() {}
 
   saveAsDraftPost() {
     this.isClicked = true;
     this.newPost.status = "draft";
-    debugger;
     this.postService.createPost(this.newPost).subscribe(
       (post: Post) => {
         this.showSwalSuccess();
@@ -61,7 +59,7 @@ export class PostCreateComponent implements OnInit {
       },
       buttonsStyling: false,
     }).then(() => {
-      this.router.navigate(["../../users/mypage"]);
+      this.router.navigate(["/users/mypage"]);
     });
   }
 }
