@@ -205,52 +205,22 @@ exports.updatePost = function (req, res) {
 };
 
 exports.createPost = function (req, res) {
-  const {
-    shared,
-    patientId,
-    postname,
-    selectedInstrument,
-    selectedCourse,
-    perMonth,
-    memo,
-  } = req.body;
-  const user = res.locals.user;
+  const post = new Post(req.body);
+  post.user = res.locals.user;
 
-  //referring from ../models/post.js
-  const post = new Post({
-    shared,
-    postname,
-    selectedInstrument,
-    selectedCourse,
-    perMonth,
-    memo,
-  });
-
-  if (!patientId) {
-    return res.status(422).send({
-      errors: [{ title: "Error!", detail: "講師IDを入力してください！" }],
-    });
-  }
-
-  User.findOne({ patientId }, function (err, foundUser) {
+  Post.create(post, function (err, newPost) {
     if (err) {
       return res.status(422).send({ errors: normalizeErrors(err.errors) });
     }
-    post.user = foundUser;
-
-    Post.estimatedDocumentCount({}, function (err, count) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-
-      Post.create(post, function (err, newPost) {
+    User.updateOne(
+      { _id: post.user.id },
+      { $push: { posts: newPost } },
+      function (err, result) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
-
-        foundUser.posts.push(newPost); // This updates DB side.
-        return res.json(post.studentId);
-      });
-    });
+        return res.json(result);
+      }
+    );
   });
 };

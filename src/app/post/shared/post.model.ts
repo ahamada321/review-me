@@ -5,28 +5,10 @@ export class Post {
   createdAt!: string;
   status!: string; // done, active, pending, draft
 
-  isShared!: boolean;
-  isBanned!: boolean;
-  reasonOfBanned!: string;
-
-  lineURL!: string;
-  homepage!: string;
-  facebook!: string;
-  twitter!: string;
-  instagram!: string;
-  youtube!: string;
-  selectedCategory!: string;
-
   postname!: string;
-  email!: string;
-  birthday!: Date;
-
-  province!: any[];
-  address1!: string;
-  address2!: string;
-  // hourlyPrice: number;
-  // cardDescription;
   description!: string;
+  bottleneck!: string;
+  privateOption!: boolean;
 
   course1Img!: string;
   course1Title!: string;
@@ -51,26 +33,4 @@ export class Post {
   user!: any;
   brand!: any;
   favouritesFrom!: any[];
-  // bookings!: Booking[];
-  // businesshour_enabled_sun: boolean;
-  // businesshour_startTime_sun: NgbTimeStruct;
-  // businesshour_endTime_sun: NgbTimeStruct;
-  // businesshour_enabled_mon: boolean;
-  // businesshour_startTime_mon: NgbTimeStruct;
-  // businesshour_endTime_mon: NgbTimeStruct;
-  // businesshour_enabled_tue: boolean;
-  // businesshour_startTime_tue: NgbTimeStruct;
-  // businesshour_endTime_tue: NgbTimeStruct;
-  // businesshour_enabled_wed: boolean;
-  // businesshour_startTime_wed: NgbTimeStruct;
-  // businesshour_endTime_wed: NgbTimeStruct;
-  // businesshour_enabled_thu: boolean;
-  // businesshour_startTime_thu: NgbTimeStruct;
-  // businesshour_endTime_thu: NgbTimeStruct;
-  // businesshour_enabled_fri: boolean;
-  // businesshour_startTime_fri: NgbTimeStruct;
-  // businesshour_endTime_fri: NgbTimeStruct;
-  // businesshour_enabled_sat: boolean;
-  // businesshour_startTime_sat: NgbTimeStruct;
-  // businesshour_endTime_sat: NgbTimeStruct;
 }

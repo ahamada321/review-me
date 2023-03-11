@@ -14,24 +14,24 @@ import { PostService } from "../shared/post.service";
   styleUrls: ["./post-create.component.scss"],
 })
 export class PostCreateComponent implements OnInit {
+  isClicked: boolean = false;
   errors: any = [];
   router: any;
-  newPost!: Post;
+  newPost = new Post();
 
   constructor(private postService: PostService) {}
 
-  ngOnInit() {
-    this.newPost = new Post();
-  }
+  ngOnInit() {}
 
   saveAsDraftPost() {
+    this.isClicked = true;
     this.newPost.status = "draft";
+    debugger;
     this.postService.createPost(this.newPost).subscribe(
       (post: Post) => {
         this.showSwalSuccess();
       },
       (errorResponse: HttpErrorResponse) => {
-        this.showSwalError();
         console.error(errorResponse);
         this.errors = errorResponse.error.errors;
       }
@@ -39,13 +39,13 @@ export class PostCreateComponent implements OnInit {
   }
 
   createPost() {
+    this.isClicked = true;
     this.newPost.status = "pending";
     this.postService.createPost(this.newPost).subscribe(
       (post: Post) => {
         this.showSwalSuccess();
       },
       (errorResponse: HttpErrorResponse) => {
-        this.showSwalError();
         console.error(errorResponse);
         this.errors = errorResponse.error.errors;
       }
@@ -62,17 +62,6 @@ export class PostCreateComponent implements OnInit {
       buttonsStyling: false,
     }).then(() => {
       this.router.navigate(["../../users/mypage"]);
-    });
-  }
-  private showSwalError() {
-    Swal.fire({
-      title: "通信エラー",
-      text: "もう一度下書き保存するボタンを押しなおしてください",
-      icon: "error",
-      customClass: {
-        confirmButton: "btn btn-danger btn-lg",
-      },
-      buttonsStyling: false,
     });
   }
 }
