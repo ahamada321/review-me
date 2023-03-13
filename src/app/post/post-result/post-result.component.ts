@@ -5,7 +5,6 @@ import {
   Input,
   HostListener,
 } from "@angular/core";
-
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Post } from "../shared/post.model";
@@ -20,17 +19,18 @@ export class PostResultComponent implements OnInit {
   isClicked: boolean = false;
   errors: any = [];
   post!: Post;
-  barChartData = {
-    datasets: [
-      {
-        data: [
-          { x: "Sales", y: 20 },
-          { x: "Revenue", y: 10 },
-        ],
-      },
-    ],
-  };
-  barChartOptions!: any;
+
+  // barChartData = {
+  //   labels: ["強くそう思う", "そう思う", "そう思わない", "強くそう思わない"],
+  //   datasets: [
+  //     { data: 1, label: "強くそう思う" },
+  //     { data: 2, label: "そう思う" },
+  //     { data: 2, label: "そう思わない" },
+  //     { data: 2, label: "強くそう思わない" },
+  //   ],
+  // };
+  // barChartOptions = {
+  // };
 
   constructor(
     private postService: PostService,
