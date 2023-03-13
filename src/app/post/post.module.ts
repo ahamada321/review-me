@@ -4,7 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AuthGuard } from "../auth/shared/auth.guard";
-
+import { NgChartsModule } from "ng2-charts";
 import { MatStepperModule } from "@angular/material/stepper";
 import {
   OwlDateTimeModule,
@@ -21,6 +21,7 @@ import { PostEditComponent } from "./post-edit/post-edit.component";
 import { PostListComponent } from "./post-list/post-list.component";
 import { PostComponent } from "./post.component";
 import { PostService } from "./shared/post.service";
+import { PostResultComponent } from "./post-result/post-result.component";
 
 const routes: Routes = [
   {
@@ -47,6 +48,11 @@ const routes: Routes = [
         component: PostEditComponent,
         // canActivate: [AuthGuard],
       },
+      {
+        path: "result/:postId",
+        component: PostResultComponent,
+        // canActivate: [AuthGuard],
+      },
     ],
   },
 ];
@@ -58,6 +64,7 @@ const routes: Routes = [
     PostDetailComponent,
     PostEditComponent,
     PostListComponent,
+    PostResultComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +80,7 @@ const routes: Routes = [
     BookingSelecterModule,
     ChangePasswordModule,
     ChangeEmailModule,
+    NgChartsModule,
   ],
   exports: [],
   providers: [PostService],

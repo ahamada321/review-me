@@ -1,0 +1,170 @@
+<div class="space-50"></div>
+<div class="main">
+  <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+    <p *ngFor="let error of errors">{{ error.detail }}</p>
+  </div>
+  <div class="container" *ngIf="post">
+    <div class="author">
+      <span class="badge badge-pill badge-success mr-1">完了</span>
+    </div>
+    <h3>
+      {{ post.postname }}
+    </h3>
+    <div class="space-top"></div>
+    <div>
+      <label class="link-primary">詳細</label>
+      <h5 style="white-space: pre-line;">
+        {{ post.description }}
+      </h5>
+    </div>
+    <div class="space-top"></div>
+
+    <div>
+      <label class="link-primary">自分が思う１番の問題点</label>
+      <h5>
+        {{ post.bottleneck }}
+      </h5>
+    </div>
+    <div class="space-top"></div>
+
+    <div>
+      <label class="link-primary">レビュー数</label>
+      <h5>
+        5件/5件
+      </h5>
+    </div>
+    <!-- レビュー一覧 -->
+    <div class="space-top"></div>
+    <label class="link-primary">レビュー結果：自分が思う１番の問題点</label>
+    <div class="row">
+      <div class="col-md-6 ml-auto mr-auto">
+        <canvas
+          baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6 ml-auto mr-auto">
+        <div class="media">
+          <div class="media-body">
+            <h5 class="media-heading text-muted">20代女性　事務職</h5>
+            <div class="pull-right">
+              <a
+                href="javascript:void(0)"
+                class="btn btn-info btn-outline-default pull-right"
+              >
+                <i class="fa fa-thumbs-up"></i> ベストレビュー</a
+              >
+            </div>
+            <p>問題点</p>
+            <h5 class="card-title">髪型が今っぽくなくてダサい印象を受ける</h5>
+            <p>改善案</p>
+            <h5 class="card-title">
+              顔がキリッとしているので高良健吾のオールバックの時のような髪型にしてそれに合わせて眉毛なども整えると清潔感とワイルドさが出てかっこよくなると思う
+            </h5>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-body">
+            <h5 class="media-heading text-muted">20代女性　事務職</h5>
+            <div class="pull-right">
+              <a
+                href="javascript:void(0)"
+                class="btn btn-info btn-outline-default pull-right"
+              >
+                <i class="fa fa-thumbs-up"></i> ベストレビュー</a
+              >
+            </div>
+            <p>問題点</p>
+            <h5 class="card-title">髪型が今っぽくなくてダサい印象を受ける</h5>
+            <p>改善案</p>
+            <h5 class="card-title">
+              顔がキリッとしているので高良健吾のオールバックの時のような髪型にしてそれに合わせて眉毛なども整えると清潔感とワイルドさが出てかっこよくなると思う
+            </h5>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-body">
+            <h5 class="media-heading text-muted">カウンセラー</h5>
+            <div class="pull-right">
+              <a
+                href="javascript:void(0)"
+                class="btn btn-info btn-outline-default pull-right"
+              >
+                <i class="fa fa-thumbs-up"></i> ベストレビュー</a
+              >
+            </div>
+            <p>問題点</p>
+            <h5 class="card-title">髪型が今っぽくなくてダサい印象を受ける</h5>
+            <p>改善案</p>
+            <h5 class="card-title">
+              顔がキリッとしているので高良健吾のオールバックの時のような髪型にしてそれに合わせて眉毛なども整えると清潔感とワイルドさが出てかっこよくなると思う
+            </h5>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-body">
+            <h5 class="media-heading text-muted">20代女性　医療職</h5>
+            <div class="pull-right">
+              <a
+                href="javascript:void(0)"
+                class="btn btn-info btn-outline-default pull-right"
+              >
+                <i class="fa fa-thumbs-up"></i> ベストレビュー</a
+              >
+            </div>
+            <p>問題点</p>
+            <h5 class="card-title">髪型が今っぽくなくてダサい印象を受ける</h5>
+            <p>改善案</p>
+            <h5 class="card-title">
+              顔がキリッとしているので高良健吾のオールバックの時のような髪型にしてそれに合わせて眉毛なども整えると清潔感とワイルドさが出てかっこよくなると思う
+            </h5>
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-body">
+            <h5 class="media-heading text-muted">20代女性　営業職</h5>
+            <div class="pull-right">
+              <a
+                href="javascript:void(0)"
+                class="btn btn-info btn-outline-default pull-right"
+              >
+                <i class="fa fa-thumbs-up"></i> ベストレビュー</a
+              >
+            </div>
+            <p>問題点</p>
+            <h5 class="card-title">髪型が今っぽくなくてダサい印象を受ける</h5>
+            <p>改善案</p>
+            <h5 class="card-title">
+              顔がキリッとしているので高良健吾のオールバックの時のような髪型にしてそれに合わせて眉毛なども整えると清潔感とワイルドさが出てかっこよくなると思う
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="space-top"></div>
+    <!-- 改善報告 -->
+    <div class="text-center">
+      <h5>改善が成功したら報告をしてみましょう</h5>
+      <p>改善成功報告で次回から使える<br />無料レビュー依頼券をゲット</p>
+      <a
+        class="btn btn-magnify btn-primary btn-round btn-lg"
+        [routerLink]="['']"
+        >改善したことを報告する</a
+      >
+    </div>
+    <div class="space-top"></div>
+
+    <div class="text-center">
+      <a
+        class="btn btn-magnify btn-primary btn-round btn-lg"
+        [routerLink]="['/users/mypage']"
+        >マイページへ戻る</a
+      >
+    </div>
+  </div>
+</div>

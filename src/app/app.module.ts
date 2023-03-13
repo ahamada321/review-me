@@ -8,6 +8,7 @@ import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { BottomNavComponent } from "./shared/bottom-nav/bottom-nav.component";
 import { FooterComponent } from "./shared/footer/footer.component";
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FooterComponent } from "./shared/footer/footer.component";
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
