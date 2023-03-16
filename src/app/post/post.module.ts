@@ -22,6 +22,8 @@ import { PostListComponent } from "./post-list/post-list.component";
 import { PostComponent } from "./post.component";
 import { PostService } from "./shared/post.service";
 import { PostResultComponent } from "./post-result/post-result.component";
+import { PostReviewComponent } from "./post-review/post-review.component";
+import { ReviewModule } from "../shared/review/review.module";
 
 const routes: Routes = [
   {
@@ -44,8 +46,13 @@ const routes: Routes = [
         // canActivate: [AuthGuard],
       },
       {
+        path: "review/:postId",
+        component: PostReviewComponent,
+        // canActivate: [AuthGuard],
+      },
+      {
         path: "edit/:postId",
-        component: PostEditComponent,
+        component: PostReviewComponent,
         // canActivate: [AuthGuard],
       },
       {
@@ -62,6 +69,7 @@ const routes: Routes = [
     PostComponent,
     PostCreateComponent,
     PostDetailComponent,
+    PostReviewComponent,
     PostEditComponent,
     PostListComponent,
     PostResultComponent,
@@ -81,6 +89,7 @@ const routes: Routes = [
     ChangePasswordModule,
     ChangeEmailModule,
     NgChartsModule,
+    ReviewModule,
   ],
   exports: [],
   providers: [PostService],

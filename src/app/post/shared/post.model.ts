@@ -26,5 +26,5 @@ export class Post {
   brand!: any;
   favouritesFrom!: any[];
   length: any;
-  feedbacks!: any[];
+  reviews!: any[];
 }

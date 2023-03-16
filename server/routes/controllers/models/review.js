@@ -1,13 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ALLOWED_RATING = [1, 2, 3, 4, 5];
+const ALLOWED_RATING = [1, 2, 3, 4];
 
 const reviewSchema = new Schema({
+  cretatedAt: { type: Date, default: Date.now },
+  username: String,
+  gender: String,
+  job: String,
+  age: Number,
   rating: Number,
   comment: String,
+  problem: String,
+  improvement: String,
   approved: { type: Boolean, default: false },
-  cretatedAt: { type: Date, default: Date.now },
   user: { type: Schema.Types.ObjectId, ref: "User" },
   post: { type: Schema.Types.ObjectId, ref: "Post" },
 });

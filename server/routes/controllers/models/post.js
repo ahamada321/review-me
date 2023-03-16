@@ -17,7 +17,7 @@ const postSchema = new Schema({
   memo: String,
 
   user: { type: Schema.Types.ObjectId, ref: "User" }, // attach teacher
-  feedbacks: [{ type: Schema.Types.ObjectId, ref: "Booking" }], // reports for this user
+  reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }], // reports for this user
   // lastLesson: { type: Date, default: Date.now },
 });
 
