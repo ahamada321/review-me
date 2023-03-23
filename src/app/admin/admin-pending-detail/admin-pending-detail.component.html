@@ -1,0 +1,49 @@
+<div class="space-50"></div>
+<div class="main">
+  <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+    <p *ngFor="let error of errors">{{ error.detail }}</p>
+  </div>
+  <div class="container" *ngIf="post">
+    <div class="row">
+      <div class="col-md-7 ml-auto mr-auto">
+        <div class="author">
+          <h5>
+            <span class="badge badge-pill badge-warning mr-1">公開申請中</span>
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 ml-auto mr-auto">
+        <h3>
+          {{ post.postname }}
+        </h3>
+        <br />
+      </div>
+      <div class="col-md-7 ml-auto mr-auto">
+        <label class="link-primary">詳細</label>
+        <h5 style="white-space: pre-line;">
+          {{ post.description }}
+        </h5>
+        <br />
+      </div>
+      <div class="col-md-7 ml-auto mr-auto">
+        <label class="link-primary">自分が思う１番の問題点</label>
+        <h5>
+          {{ post.bottleneck }}
+        </h5>
+        <br />
+      </div>
+      <div class="col-md-7 ml-auto mr-auto">
+        <div class="text-center">
+          <button
+            class="btn btn-magnify btn-primary btn-round btn-lg"
+            (click)="acceptButton()"
+          >
+            申請を承認する
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

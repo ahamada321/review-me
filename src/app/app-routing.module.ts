@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AdminModule } from "./admin/admin.module";
 import { AuthModule } from "./auth/auth.module";
 import { ContactFormModule } from "./contact-form/contact-form.module";
 import { PostModule } from "./post/post.module";
@@ -19,6 +20,7 @@ const routes: Routes = [];
     ContactFormModule,
     PostModule,
     UsersModule,
+    AdminModule,
   ],
   exports: [RouterModule],
 })

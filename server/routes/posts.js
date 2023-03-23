@@ -10,6 +10,8 @@ router.get("/secret", UserCtrl.authMiddleware, function (req, res) {
 
 router.get("/manage", UserCtrl.authMiddleware, PostCtrl.getOwnerPosts);
 
+router.get("/pending", UserCtrl.authMiddleware, PostCtrl.getPendingPosts);
+
 router.get("/total", PostCtrl.getPostsTotal);
 
 router.get("/:id", PostCtrl.getPostById);

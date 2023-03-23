@@ -11,16 +11,21 @@ export class PostService {
     return this.http.get("/api/v1/posts/" + postId);
   }
 
-  // public getPosts(
-  //   keywords: any,
-  //   pageIndex: number,
-  //   pageSize: number
-  // ): Observable<any> {
-  //   return this.http.post(
-  //     `/api/v1/posts?page=${pageIndex}&limit=${pageSize}`,
-  //     keywords
-  //   );
-  // }
+  public getPosts(
+    keywords: any,
+    pageIndex: number,
+    pageSize: number
+  ): Observable<any> {
+    return this.http.post(
+      `/api/v1/posts?page=${pageIndex}&limit=${pageSize}`,
+      keywords
+    );
+  }
+  public getPendingPosts(pageIndex: number, pageSize: number): Observable<any> {
+    return this.http.get(
+      `/api/v1/posts/pending?page=${pageIndex}&limit=${pageSize}`
+    );
+  }
 
   public createPost(postData: Post): Observable<any> {
     return this.http.post("/api/v1/posts", postData);

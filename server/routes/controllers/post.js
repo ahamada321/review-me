@@ -69,6 +69,30 @@ exports.getPosts = function (req, res) {
       });
   }
 };
+exports.getPendingPosts = function (req, res) {
+  const { page, limit } = req.query;
+
+  Post.aggregate(
+    [
+      { $match: { status: "pending" } }, // Filtering to teachers
+      {
+        $facet: {
+          metadata: [{ $count: "total" }, { $addFields: { page: page } }],
+          foundPosts: [
+            { $skip: (page - 1) * limit },
+            { $limit: Number(limit) },
+          ],
+        },
+      },
+    ],
+    function (err, result) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      return res.json(result);
+    }
+  );
+};
 
 exports.searchPosts = function (req, res) {
   const { searchWords } = req.params;
