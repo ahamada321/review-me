@@ -52,7 +52,7 @@ const routes: Routes = [
       },
       {
         path: "edit/:postId",
-        component: PostReviewComponent,
+        component: PostEditComponent,
         // canActivate: [AuthGuard],
       },
       {

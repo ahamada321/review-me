@@ -9,7 +9,7 @@ const postSchema = new Schema({
   postname: {
     type: String,
     max: [128, "Too long, max is 128 characters."],
-    required: "Student name is required",
+    required: "件名を入力してください",
   },
   description: String,
   bottleneck: String,

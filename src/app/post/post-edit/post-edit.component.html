@@ -48,9 +48,9 @@
         </div>
         <div class="form-group">
           <label
-            >画像非公開オプション
+            >レビュー依頼非公開オプション
             <span
-              ><br />※レビュワー以外には画像が見れないようにするオプション</span
+              ><br />※レビュワー以外にはレビュー依頼が見れないようにするオプション</span
             >
           </label>
 
@@ -81,7 +81,7 @@
             <button
               class="btn btn-primary btn-block btn-round btn-lg"
               [disabled]="!postForm.valid || isClicked"
-              (click)="createPost()"
+              (click)="updatePost()"
             >
               公開申請する
             </button>

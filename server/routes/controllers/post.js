@@ -37,29 +37,40 @@ exports.getPosts = function (req, res) {
     .subtract(1, "month");
 
   if (page && limit) {
-    Post.find({})
-      .populate("user") // Need to consider security in future.
-      .populate({
-        path: "bookings",
-        match: { createdAt: { $gte: monthStart } },
-      })
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(Number(limit))
-      .exec(function (err, foundPosts) {
+    Post.aggregate(
+      [
+        { $match: { status: { $in: ["active", "done"] } } }, // Filtering to active and done
+        {
+          $facet: {
+            metadata: [{ $count: "total" }, { $addFields: { page: page } }],
+            foundPosts: [
+              { $skip: (page - 1) * limit },
+              { $limit: Number(limit) },
+            ],
+          },
+        },
+      ],
+      function (err, result) {
         if (err) {
           return res.status(422).send({ errors: normalizeErrors(err.errors) });
         }
-        return res.json(foundPosts);
-      });
+        return res.json(result);
+      }
+    );
+
+    // Post.find({})
+    //   .sort({ createdAt: -1 })
+    //   .skip((page - 1) * limit)
+    //   .limit(Number(limit))
+    //   .exec(function (err, foundPosts) {
+    //     if (err) {
+    //       return res.status(422).send({ errors: normalizeErrors(err.errors) });
+    //     }
+    //     return res.json(foundPosts);
+    //   });
   } else {
     Post.find({})
       // Post.find({shared: true})
-      .populate("user") // Need to consider security in future.
-      .populate({
-        path: "bookings",
-        match: { createdAt: { $gte: monthStart } },
-      })
       .sort({ createdAt: -1 })
       .exec(function (err, foundPosts) {
         if (err) {

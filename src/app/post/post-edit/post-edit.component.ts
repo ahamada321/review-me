@@ -53,7 +53,7 @@ export class PostEditComponent implements OnInit {
     );
   }
 
-  createPost() {
+  updatePost() {
     this.isClicked = true;
     this.post.status = "pending";
     this.postService.updatePost(this.post).subscribe(

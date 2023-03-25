@@ -28,7 +28,7 @@ export class PostService {
   }
 
   public createPost(postData: Post): Observable<any> {
-    return this.http.post("/api/v1/posts", postData);
+    return this.http.post("/api/v1/posts/create", postData);
   }
   // public createPost(postData: Post): Observable<any> {
   //   return this.http.post("/api/v1/posts/create", postData);

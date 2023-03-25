@@ -20,9 +20,9 @@ router.delete("/:id", UserCtrl.authMiddleware, PostCtrl.deletePost);
 
 router.patch("", UserCtrl.authMiddleware, PostCtrl.updatePost);
 
-router.post("", UserCtrl.authMiddleware, PostCtrl.createPost);
+router.post("/create", UserCtrl.authMiddleware, PostCtrl.createPost);
 
-router.get("", PostCtrl.getPosts);
+router.post("", PostCtrl.getPosts);
 
 router.get("/search/:searchWords", PostCtrl.searchPosts);
 
