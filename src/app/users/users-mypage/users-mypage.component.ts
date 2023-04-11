@@ -27,7 +27,9 @@ export class UsersMypageComponent implements OnInit {
     this.postService.getOwnerPosts(this.pageIndex, this.pageSize).subscribe(
       (result: any) => {
         this.posts = result[0].foundPosts;
-        this.pageCollectionSize = result[0].metadata[0].total;
+        if (this.posts.length > 0) {
+          this.pageCollectionSize = result[0].metadata[0].total;
+        }
       },
       (err: any) => {
         console.error(err);

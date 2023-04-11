@@ -35,7 +35,9 @@ export class PostListComponent implements OnInit {
         .subscribe(
           (result) => {
             this.posts = result[0].foundPosts;
-            this.pageCollectionSize = result[0].metadata[0].total;
+            if (this.posts.length > 0) {
+              this.pageCollectionSize = result[0].metadata[0].total;
+            }
           },
           (err) => {
             console.error(err);
