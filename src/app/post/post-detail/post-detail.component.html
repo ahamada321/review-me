@@ -5,7 +5,7 @@
   </div>
   <div class="container" *ngIf="post">
     <div class="row">
-      <div class="col-md-7 ml-auto mr-auto">
+      <div class="col-md-8 ml-auto mr-auto">
         <div class="author">
           <h5>
             <!-- レビュー募集中 -->
@@ -27,29 +27,29 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-7 ml-auto mr-auto">
+      <div class="col-md-8 ml-auto mr-auto">
         <h3>
           {{ post.postname }}
         </h3>
         <br />
       </div>
-      <div class="col-md-7 ml-auto mr-auto">
-        <label class="link-primary">詳細</label>
-        <h5 style="white-space: pre-line;">
+      <div class="col-md-8 ml-auto mr-auto">
+        <h4 class="link-primary">詳細</h4>
+        <p style="white-space: pre-line;">
           {{ post.description }}
-        </h5>
+        </p>
         <br />
       </div>
-      <div class="col-md-7 ml-auto mr-auto">
-        <label class="link-primary">自分が思う１番の問題点</label>
-        <h5>
+      <div class="col-md-8 ml-auto mr-auto">
+        <h4 class="link-primary">自分が思う１番の問題点</h4>
+        <p>
           {{ post.bottleneck }}
-        </h5>
+        </p>
         <br />
       </div>
-      <div class="col-md-7 ml-auto mr-auto">
+      <div class="col-md-8 ml-auto mr-auto">
         <div *ngIf="post.status === 'active'">
-          <label class="link-primary">現在のレビュー数</label>
+          <h4 class="link-primary">現在のレビュー数</h4>
           <h5>
             {{post.reviews.length}}件/5件
           </h5>
@@ -58,6 +58,7 @@
           </p>
         </div>
 
+        <div class="space-top"></div>
         <div class="text-center">
           <a
             class="btn btn-magnify btn-primary btn-round btn-lg"
