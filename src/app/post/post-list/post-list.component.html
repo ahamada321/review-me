@@ -35,8 +35,29 @@
                   </h5>
                   <p class="card-description">{{post.description}} <br /></p>
                   <hr />
-                  <div class="card-footer text-right">
-                    <span> レビュー3件/5件</span>
+                  <div class="card-footer">
+                    <div class="author">
+                      <a href="javascript:void(0)">
+                        <img
+                          src="assets/img/contactus.jpg"
+                          alt="..."
+                          class="avatar img-raised"
+                        />
+                        <img
+                          src="assets/img/contactus.jpg"
+                          alt="..."
+                          class="avatar img-raised"
+                        />
+                        <img
+                          src="assets/img/contactus.jpg"
+                          alt="..."
+                          class="avatar img-raised"
+                        />
+                      </a>
+                    </div>
+                    <div class="stats">
+                      レビュー{{post.reviews.length}}件/5件
+                    </div>
                   </div>
                 </div>
               </a>
