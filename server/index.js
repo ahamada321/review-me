@@ -39,7 +39,7 @@ app.use("/api/v1/contactforms", contactformRoutes);
 // app.use("/api/v1", imageUploadRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  const appPath = path.join(__dirname, "..", "dist", "lesson-calendar");
+  const appPath = path.join(__dirname, "..", "dist", "review-me");
   const https_redirect = function () {
     return function (req, res, next) {
       if (req.headers["x-forwarded-proto"] !== "https") {

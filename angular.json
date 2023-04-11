@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lesson-calendar": {
+    "review-me": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/lesson-calendar",
+            "outputPath": "dist/review-me",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "lesson-calendar:build:production"
+              "browserTarget": "review-me:build:production"
             },
             "development": {
-              "browserTarget": "lesson-calendar:build:development"
+              "browserTarget": "review-me:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lesson-calendar:build"
+            "browserTarget": "review-me:build"
           }
         },
         "test": {
