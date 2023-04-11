@@ -1,0 +1,175 @@
+<h3 class="text-muted text-center">レビューを書く</h3>
+
+<form #reviewForm="ngForm" (ngSubmit)="confirmReview()">
+  <div class="space-top"></div>
+  <div class="form-group">
+    <label>名前</label>
+    <input
+      type="text"
+      [(ngModel)]="review.username"
+      name="username"
+      class="form-control border-input"
+      placeholder="高橋太郎"
+      required
+    />
+  </div>
+  <div class="space-top"></div>
+  <div class="form-group">
+    <label>年齢</label>
+    <input
+      type="number"
+      [(ngModel)]="review.age"
+      name="age"
+      class="form-control border-input"
+      placeholder="24"
+      required
+    />
+  </div>
+  <label class="link-primary">性別</label>
+  <div class="">
+    <div class="form-check-radio">
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="gender"
+          id="gender"
+          [(ngModel)]="review.gender"
+          value="女性"
+        />
+        女性
+        <span class="form-check-sign"></span>
+      </label>
+    </div>
+    <div class="form-check-radio">
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="gender"
+          id="gender"
+          [(ngModel)]="review.gender"
+          value="男性"
+        />
+        男性
+        <span class="form-check-sign"></span>
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="link-primary">職業</label>
+    <input
+      type="text"
+      [(ngModel)]="review.job"
+      name="job"
+      class="form-control border-input"
+      placeholder="事務職"
+      required
+    />
+  </div>
+  <div class="space-top"></div>
+  <label class="link-primary">依頼者の１番の問題点についての意見</label>
+  <div class="">
+    <div class="form-check-radio">
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="rating"
+          id="rating: 1"
+          [(ngModel)]="review.rating"
+          value="1"
+        />
+        強くそう思う
+        <span class="form-check-sign"></span>
+      </label>
+    </div>
+    <div class="form-check-radio">
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="rating"
+          id="rating: 2"
+          [(ngModel)]="review.rating"
+          value="2"
+        />
+        そう思う
+        <span class="form-check-sign"></span>
+      </label>
+    </div>
+    <div class="form-check-radio">
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="rating"
+          id="rating: 3"
+          [(ngModel)]="review.rating"
+          value="3"
+        />
+        そう思わない
+        <span class="form-check-sign"></span>
+      </label>
+    </div>
+    <div class="form-check-radio">
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="rating"
+          id="rating: 4"
+          [(ngModel)]="review.rating"
+          value="4"
+        />
+        強くそう思わない
+        <span class="form-check-sign"></span>
+      </label>
+    </div>
+  </div>
+  <div class="space-top"></div>
+  <label class="link-primary">あなたが思う依頼者の問題点</label>
+  <textarea
+    type="text"
+    class="form-control textarea-limited"
+    placeholder="あなたが思う依頼者の問題点を記入してください。"
+    [(ngModel)]="review.problem"
+    id="problem"
+    name="problem"
+    rows="5"
+    maxlength="150"
+    required
+  ></textarea>
+
+  <div class="space-top"></div>
+
+  <label class="link-primary">その問題の改善案</label>
+  <textarea
+    type="text"
+    class="form-control textarea-limited"
+    placeholder="その問題点についての改善案を記入してください。"
+    [(ngModel)]="review.improvement"
+    id="improvement"
+    name="improvement"
+    rows="5"
+    maxlength="150"
+    required
+  ></textarea>
+  <div class="space-top"></div>
+  <div class="text-center">
+    <button
+      *ngIf="reviewForm.valid"
+      class="btn btn-magnify btn-primary btn-round btn-lg"
+      type="submit"
+    >
+      レビューを送信する
+    </button>
+    <button
+      *ngIf="!reviewForm.valid"
+      class="btn btn-magnify btn-primary btn-round btn-lg"
+      [disabled]="true"
+    >
+      レビューを送信する
+    </button>
+  </div>
+</form>

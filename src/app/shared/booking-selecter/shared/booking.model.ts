@@ -1,9 +1,9 @@
-// import { Rental } from "src/app/rental/service/rental.model";
+// import { Post } from "src/app/post/service/post.model";
 
-import { User } from '../../services/user.model';
+import { User } from "../../services/user.model";
 
 export class Booking {
-  static readonly DATE_FORMAT = 'Y-MM-DD';
+  static readonly DATE_FORMAT = "Y-MM-DD";
   _id!: string;
   createdAt?: Date;
 
@@ -19,9 +19,9 @@ export class Booking {
   color?: string;
 
   perMonth?: number;
-  memo?: string = '';
+  memo?: string = "";
 
   teacher!: User;
   student!: User;
-  status: string = 'Pending';
+  status: string = "Pending";
 }

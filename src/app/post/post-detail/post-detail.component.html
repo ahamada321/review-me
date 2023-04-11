@@ -1,0 +1,71 @@
+<div class="space-50"></div>
+<div class="main">
+  <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+    <p *ngFor="let error of errors">{{ error.detail }}</p>
+  </div>
+  <div class="container" *ngIf="post">
+    <div class="row">
+      <div class="col-md-7 ml-auto mr-auto">
+        <div class="author">
+          <h5>
+            <!-- レビュー募集中 -->
+            <span
+              *ngIf="post.status === 'active'"
+              class="badge badge-pill badge-primary mr-1"
+              >レビュー募集中</span
+            >
+          </h5>
+          <!-- 公開申請中 -->
+          <h5>
+            <span
+              *ngIf="post.status === 'pending'"
+              class="badge badge-pill badge-warning mr-1"
+              >公開申請中</span
+            >
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 ml-auto mr-auto">
+        <h3>
+          {{ post.postname }}
+        </h3>
+        <br />
+      </div>
+      <div class="col-md-7 ml-auto mr-auto">
+        <label class="link-primary">詳細</label>
+        <h5 style="white-space: pre-line;">
+          {{ post.description }}
+        </h5>
+        <br />
+      </div>
+      <div class="col-md-7 ml-auto mr-auto">
+        <label class="link-primary">自分が思う１番の問題点</label>
+        <h5>
+          {{ post.bottleneck }}
+        </h5>
+        <br />
+      </div>
+      <div class="col-md-7 ml-auto mr-auto">
+        <div *ngIf="post.status === 'active'">
+          <label class="link-primary">現在のレビュー数</label>
+          <h5>
+            {{post.reviews.length}}件/5件
+          </h5>
+          <p>
+            レビュー数が全て集まるとレビューを閲覧できるようになります。集まるまでしばらくお待ちください。
+          </p>
+        </div>
+
+        <div class="text-center">
+          <a
+            class="btn btn-magnify btn-primary btn-round btn-lg"
+            [routerLink]="['/users/mypage']"
+            >マイページへ戻る</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

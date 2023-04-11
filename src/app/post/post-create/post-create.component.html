@@ -1,0 +1,106 @@
+<div class="container">
+  <div class="text-center">
+    <h1>
+      <small>レビュー依頼を作成する</small>
+    </h1>
+  </div>
+  <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+    <p *ngFor="let error of errors">{{ error.detail }}</p>
+  </div>
+  <div class="space-top"></div>
+  <div class="row">
+    <div class="col-md-6 mr-auto ml-auto">
+      <form #postForm="ngForm">
+        <div class="form-group">
+          <label>件名</label>
+          <input
+            type="text"
+            [(ngModel)]="newPost.postname"
+            name="postname"
+            class="form-control border-input"
+            placeholder="例）マッチングアプリで良い人とマッチできません"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>レビューしてほしい内容</label>
+          <textarea
+            type="text"
+            [(ngModel)]="newPost.description"
+            name="description"
+            class="form-control"
+            rows="4"
+            placeholder="例）マッチングアプリでなかなか良い人とマッチできません。年齢が大きく上の人や、自分の好みから遠い人とはマッチします。プロフィール文章と自分の写真のレビューしていただきたいです。"
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label>自分が思う一番の問題点</label>
+          <input
+            type="text"
+            [(ngModel)]="newPost.bottleneck"
+            name="bottleneck"
+            class="form-control border-input"
+            placeholder="例）眉毛がボサボサなところ"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>画像を登録する</label>
+          <div class="profile-picture">
+            <app-image-upload
+              [image]="'./assets/img/faces/placeholder.jpg'"
+            ></app-image-upload>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            >レビュー依頼非公開オプション
+            <span
+              ><br />※レビュワー以外にはレビュー依頼が見れないようにするオプション</span
+            >
+          </label>
+
+          <div>
+            <label class="form-check-label">
+              <input
+                type="checkbox"
+                [(ngModel)]="newPost.privateOption"
+                name="privateOption"
+                value="true"
+              />
+              <span class="form-check-sign"> つける（+500円）</span>
+            </label>
+          </div>
+        </div>
+        <div class="space-top"></div>
+
+        <div class="row">
+          <div class="col-6 mr-auto ml-auto">
+            <button
+              class="btn btn-outline-default btn-block btn-round btn-lg"
+              (click)="saveAsDraftPost()"
+            >
+              下書き保存する
+            </button>
+          </div>
+          <div class="col-6 mr-auto ml-auto">
+            <button
+              class="btn btn-primary btn-block btn-round btn-lg"
+              [disabled]="!postForm.valid || isClicked"
+              (click)="createPost()"
+            >
+              公開申請する
+            </button>
+          </div>
+        </div>
+        <div class="forgot space-top"></div>
+      </form>
+      <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+        <p *ngFor="let error of errors">{{ error.detail }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,17 +1,16 @@
 const Review = require("./models/review");
 const User = require("./models/user");
-const Rental = require("./models/rental");
+const Post = require("./models/post");
 const Booking = require("./models/booking");
 const { normalizeErrors } = require("./helpers/mongoose");
 const moment = require("moment-timezone");
 
 exports.getReviews = function (req, res) {
-  const { rentalId } = req.query;
+  const { postId } = req.query;
 
-  Review.find({ rental: rentalId })
+  Review.find({ post: postId })
     .populate("user", "-password")
     .sort({ cretatedAt: -1 })
-    .limit(3)
     .exec((err, foundReviews) => {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
@@ -20,15 +19,15 @@ exports.getReviews = function (req, res) {
     });
 };
 
-exports.getRentalRating = function (req, res) {
-  const rentalId = req.query.id;
+exports.getPostRating = function (req, res) {
+  const postId = req.query.id;
 
   Review.aggregate(
     [
-      { $unwind: "$rental" },
+      { $unwind: "$post" },
       {
         $group: {
-          _id: rentalId,
+          _id: postId,
           ratingAvg: { $avg: "$rating" },
         },
       },
@@ -42,70 +41,20 @@ exports.getRentalRating = function (req, res) {
   );
 };
 
-exports.createReview = function (req, res) {
+exports.createReview = async function (req, res) {
   const reviewData = req.body;
-  const { bookingId } = req.query;
-  const user = res.locals.user;
+  const { postId } = req.query;
 
-  Booking.findById(bookingId)
-    .populate({ path: "rental", populate: { path: "user" } })
-    .populate("review")
-    .populate("user")
-    .exec(async (err, foundBooking) => {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
+  try {
+    const foundPost = await Post.findById(postId);
+    reviewData.post = foundPost;
+    const newReview = new Review(reviewData);
+    const savedReview = await newReview.save();
+    foundPost.reviews.push(savedReview);
+    await foundPost.save();
 
-      if (foundBooking.rental.user.id === user.id) {
-        return res.status(422).send({
-          errors: {
-            title: "Invalid user!",
-            detail: "Can not review on your rental!",
-          },
-        });
-      }
-
-      if (foundBooking.user.id !== user.id) {
-        return res.status(422).send({
-          errors: {
-            title: "Invalid user!",
-            detail: "Can not review other users booking!",
-          },
-        });
-      }
-
-      const timeNow = moment();
-      const end = moment(foundBooking.end);
-      if (!end.isBefore(timeNow)) {
-        return res.status(422).send({
-          errors: {
-            title: "Invalid date!",
-            detail: "You can review after finished service!",
-          },
-        });
-      }
-
-      if (foundBooking.review) {
-        return res.status(422).send({
-          errors: {
-            title: "Review error!",
-            detail: "You cannot review twice for same booking!",
-          },
-        });
-      }
-
-      const review = new Review(reviewData);
-      review.user = user;
-      review.rental = foundBooking.rental;
-      foundBooking.review = review;
-
-      try {
-        await foundBooking.save();
-        const savedReview = await review.save();
-
-        return res.json(savedReview);
-      } catch (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-    });
+    return res.json(savedReview);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };

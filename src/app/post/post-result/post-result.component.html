@@ -1,0 +1,173 @@
+<div class="space-50"></div>
+<div class="main">
+  <div *ngIf="errors && errors.length > 0" class="alert alert-danger">
+    <p *ngFor="let error of errors">{{ error.detail }}</p>
+  </div>
+  <div class="container" *ngIf="post">
+    <div class="row">
+      <div class="col-md-7 ml-auto mr-auto">
+        <div class="author">
+          <h5>
+            <span class="badge badge-pill badge-success mr-1">完了</span>
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 ml-auto mr-auto">
+        <h3>
+          {{ post.postname }}
+        </h3>
+        <br />
+      </div>
+      <div class="col-md-7 ml-auto mr-auto">
+        <label class="link-primary">詳細</label>
+        <h5 style="white-space: pre-line;">
+          {{ post.description }}
+        </h5>
+        <br />
+      </div>
+      <div class="col-md-7 ml-auto mr-auto">
+        <label class="link-primary">自分が思う１番の問題点</label>
+        <h5>
+          {{ post.bottleneck }}
+        </h5>
+        <br />
+      </div>
+      <div class="col-md-7 ml-auto mr-auto">
+        <label class="link-primary">レビュー数</label>
+        <h5>
+          5件/5件
+        </h5>
+        <br />
+      </div>
+    </div>
+
+    <!-- レビュー一覧 -->
+    <h3 class="text-muted text-center">レビュー結果</h3>
+    <div class="space-top"></div>
+    <div class="row">
+      <div class="col-md-7 ml-auto mr-auto">
+        <label class="link-primary">１番の問題点について</label>
+        <h5>
+          {{ post.bottleneck }}について
+        </h5>
+        <br />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-7 ml-auto mr-auto">
+        <ngb-progressbar
+          type="primary"
+          [value]="75"
+          [striped]="true"
+          [animated]="true"
+          ><i>75%</i></ngb-progressbar
+        >
+        <div class="space-top"></div>
+        <h5>
+          75%の人があなたが記入した問題点にそう思うと回答しています。
+        </h5>
+      </div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-md-7 ml-auto mr-auto">
+        <canvas
+          baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="'bar'"
+        >
+        </canvas>
+      </div>
+    </div> -->
+    <div class="row">
+      <div
+        class="col-12 col-md-7 ml-auto mr-auto"
+        *ngFor="let review of reviews"
+      >
+        <div class="media">
+          <div class="media-body">
+            <h5 class="media-heading text-muted">
+              {{review.age}}歳{{review.gender}} {{review.job}}
+            </h5>
+            <div class="pull-right">
+              <a
+                href="javascript:void(0)"
+                class="btn btn-info btn-outline-default pull-right"
+              >
+                <i class="fa fa-thumbs-up"></i> ベストレビュー</a
+              >
+            </div>
+            <p>一番の問題点について</p>
+            <div *ngIf="review.rating === 4">
+              <ngb-progressbar
+                type="primary"
+                class="progress-personal"
+                [value]="100"
+                [striped]="true"
+                [animated]="true"
+                ><i>100%</i></ngb-progressbar
+              >
+            </div>
+            <div *ngIf="review.rating === 3">
+              <ngb-progressbar
+                type="primary"
+                class="progress-personal"
+                [value]="75"
+                [striped]="true"
+                [animated]="true"
+                ><i>75%</i></ngb-progressbar
+              >
+            </div>
+            <div *ngIf="review.rating === 2">
+              <ngb-progressbar
+                type="primary"
+                class="progress-personal"
+                [value]="25"
+                [striped]="true"
+                [animated]="true"
+                ><i>25%</i></ngb-progressbar
+              >
+            </div>
+            <div *ngIf="review.rating === 1">
+              <ngb-progressbar
+                type="primary"
+                class="progress-personal"
+                [value]="0"
+                [striped]="true"
+                [animated]="true"
+                ><i>0%</i></ngb-progressbar
+              >
+            </div>
+            <p>問題点</p>
+            <h5 class="card-title">{{review.problem}}</h5>
+            <p>改善案</p>
+            <h5 class="card-title">
+              {{review.improvement}}
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="space-top"></div>
+    <!-- 改善報告 -->
+    <div class="text-center">
+      <h5>改善が成功したら報告をしてみましょう</h5>
+      <a
+        class="btn btn-magnify btn-primary btn-round btn-lg"
+        [routerLink]="['']"
+        >改善したことを報告する</a
+      >
+    </div>
+    <div class="space-top"></div>
+
+    <div class="text-center">
+      <a
+        class="btn btn-magnify btn-primary btn-round btn-lg"
+        [routerLink]="['/users/mypage']"
+        >マイページへ戻る</a
+      >
+    </div>
+  </div>
+</div>

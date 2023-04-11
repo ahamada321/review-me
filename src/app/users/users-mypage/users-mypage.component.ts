@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { MyOriginAuthService } from "src/app/auth/shared/auth.service";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
-import { UserService } from "src/app/shared/services/user.service";
 import { HttpErrorResponse } from "@angular/common/http";
-import Swal from "sweetalert2";
+import { Post } from "src/app/post/shared/post.model";
+import { PostService } from "src/app/post/shared/post.service";
 
 @Component({
   selector: "app-users-mypage",
@@ -12,62 +12,26 @@ import Swal from "sweetalert2";
   styleUrls: ["./users-mypage.component.scss"],
 })
 export class UsersMypageComponent implements OnInit {
-  constructor() {}
+  pageIndex: number = 1;
+  pageSize: number = 40; // Displaying contents per page.
+  pageCollectionSize: number = 1;
+  posts!: Post[];
+
+  constructor(private postService: PostService) {}
 
   ngOnInit() {
-    // this.getMe();
+    this.getOwnerPosts();
   }
 
-  // getMe() {
-  //   this.userService.getUserById(this.userId).subscribe(
-  //     (foundUser) => {
-  //       this.userData = foundUser;
-  //     },
-  //     (errorResponse: HttpErrorResponse) => {
-  //       this.errors = errorResponse.error.errors;
-  //     }
-  //   );
-  // }
-
-  // updateUser(UserForm: NgForm) {
-  //   this.isClicked = true;
-  //   UserForm.value.oldEmail = this.userData.email;
-
-  //   this.auth.updateUser(this.userId, UserForm.value).subscribe(
-  //     (Updated) => {
-  //       this.isClicked = false;
-  //       this.showSwalSuccess();
-  //     },
-  //     (errorResponse: HttpErrorResponse) => {
-  //       this.isClicked = false;
-  //       this.showSwalError();
-  //       this.errors = errorResponse.error.errors;
-  //     }
-  //   );
-  // }
-
-  // private showSwalSuccess() {
-  //   Swal.fire({
-  //     // title: 'User infomation has been updated!',
-  //     icon: "success",
-  //     title: "設定が変更されました",
-  //     customClass: {
-  //       confirmButton: "btn btn-primary btn-lg",
-  //     },
-  //     buttonsStyling: false,
-  //   }).then(() => {
-  //     this.router.navigate(["/teacher"]);
-  //   });
-  // }
-  // private showSwalError() {
-  //   Swal.fire({
-  //     title: "通信エラー",
-  //     text: "もう一度変更ボタンを押しなおしてください",
-  //     icon: "error",
-  //     customClass: {
-  //       confirmButton: "btn btn-danger btn-lg",
-  //     },
-  //     buttonsStyling: false,
-  //   });
-  // }
+  getOwnerPosts() {
+    this.postService.getOwnerPosts(this.pageIndex, this.pageSize).subscribe(
+      (result: any) => {
+        this.posts = result[0].foundPosts;
+        this.pageCollectionSize = result[0].metadata[0].total;
+      },
+      (err: any) => {
+        console.error(err);
+      }
+    );
+  }
 }

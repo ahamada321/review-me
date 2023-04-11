@@ -1,0 +1,49 @@
+<div class="main" *ngIf="posts">
+  <div class="container" *ngIf="posts.length>0">
+    <div class="space-top"></div>
+
+    <div class="row">
+      <div class="col-12 col-md-8 ml-auto mr-auto">
+        <div class="media-area">
+          <h3 class="text-center">承認待ちのレビュー依頼一覧</h3>
+          <hr />
+
+          <div class="row" *ngIf="posts && posts.length > 0">
+            <div
+              class="col-12 col-md-6 ml-auto mr-auto"
+              *ngFor="let post of posts; let i = index"
+            >
+              <a
+                class="card card-blog"
+                *ngIf="post"
+                routerLink="/admin/pending/{{ post._id }}"
+              >
+                <div class="card-body">
+                  <div class="author">
+                    <span class="badge badge-pill badge-warning mr-1"
+                      >公開申請中</span
+                    >
+                  </div>
+                  <div class="stats">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{post.createdAt | date : "yyyy年MM月dd日"}}
+                  </div>
+
+                  <h5 class="card-title">
+                    <a href="javascript:void(0)">{{post.postname}}</a>
+                  </h5>
+                  <p class="card-description">{{post.description}} <br /></p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="space-top"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="space-110"></div>
+  <div class="" *ngIf="posts.length===0">
+    <h5 class="text-center">未承認リクエストはありません</h5>
+  </div>
+</div>

@@ -18,7 +18,7 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
     msg = {
       to: sendTo,
       from: {
-        name: "レッスンカレンダー",
+        name: "本音レビュー",
         email: "info@aeru.me",
       },
       subject: "先生から担当承認リクエストが来ています",
@@ -29,25 +29,25 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
         "/#/student/notification" +
         ">こちらからログイン</a>して承認ボタンを押してください。</p>" +
         "<br>" +
-        "<p>このメッセージは「レッスンカレンダー」自動配信メールです。</p>",
+        "<p>このメッセージは「本音レビュー」自動配信メールです。</p>",
     };
   } else if (sendMsg === REQUEST_ACCEPTED) {
     msg = {
       to: sendTo,
       from: {
-        name: "レッスンカレンダー",
+        name: "本音レビュー",
         email: "info@aeru.me",
       },
       subject: "生徒がリクエストを承認しました",
       text:
         "リクエストを送った生徒から予約を受けられるようになりました。\n\n" +
-        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+        "このメッセージは「本音レビュー」自動配信メールです。",
     };
   } else if (sendMsg === REMOVED_RECEIVED) {
     msg = {
       to: sendTo,
       from: {
-        name: "レッスンカレンダー",
+        name: "本音レビュー",
         email: "info@aeru.me",
       },
       subject: userData.username + "先生が担当から外れました",
@@ -55,7 +55,7 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
         userData.username +
         "先生が担当から外れました。\n" +
         "何かの間違いの場合は先生に直接ご確認ください。\n\n" +
-        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+        "このメッセージは「本音レビュー」自動配信メールです。",
     };
   } else {
     return res.status(422).send({
