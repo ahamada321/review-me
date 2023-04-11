@@ -11,13 +11,13 @@
         <a
           *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Teacher'"
           class="navbar-brand"
-          [routerLink]="['/teacher']"
+          [routerLink]="['/users']"
           >本音レビュー</a
         >
         <a
           *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Student'"
           class="navbar-brand"
-          [routerLink]="['/student']"
+          [routerLink]="['/admin']"
           >本音レビュー</a
         >
       </div>
