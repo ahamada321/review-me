@@ -12,7 +12,29 @@
     <div class="col-md-6 mr-auto ml-auto">
       <form #postForm="ngForm">
         <div class="form-group">
-          <label>件名</label>
+          <label>レビュー依頼タイトル</label>
+          <input
+            type="text"
+            [(ngModel)]="newPost.postname"
+            name="postname"
+            class="form-control border-input"
+            placeholder="例）マッチングアプリで良い人とマッチできません"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>性別</label>
+          <input
+            type="text"
+            [(ngModel)]="newPost.postname"
+            name="postname"
+            class="form-control border-input"
+            placeholder="例）マッチングアプリで良い人とマッチできません"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>年代</label>
           <input
             type="text"
             [(ngModel)]="newPost.postname"
@@ -24,7 +46,19 @@
         </div>
 
         <div class="form-group">
-          <label>レビューしてほしい内容</label>
+          <label>依頼者プロフィール詳細</label>
+          <textarea
+            type="text"
+            [(ngModel)]="newPost.description"
+            name="description"
+            class="form-control"
+            rows="4"
+            placeholder="例）マッチングアプリでなかなか良い人とマッチできません。年齢が大きく上の人や、自分の好みから遠い人とはマッチします。プロフィール文章と自分の写真のレビューしていただきたいです。"
+            required
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label>レビュー依頼詳細</label>
           <textarea
             type="text"
             [(ngModel)]="newPost.description"
@@ -59,7 +93,7 @@
           <label
             >レビュー依頼非公開オプション
             <span
-              ><br />※レビュワー以外にはレビュー依頼が見れないようにするオプション</span
+              ><br />※このオプションをつけると、実際にレビューする５人のレビュワーのみが依頼を閲覧します</span
             >
           </label>
 
