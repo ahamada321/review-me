@@ -63,12 +63,33 @@
                     <a href="javascript:void(0)">{{post.postname}}</a>
                   </h5>
                   <p class="card-description">{{post.description}} <br /></p>
-                  <div
-                    *ngIf="post.status === 'active'"
-                    class="card-footer text-right"
-                  >
+                  <div *ngIf="post.status === 'active'" class="card-footer">
                     <hr />
-                    <span> レビュー{{post.reviews.length}}件/5件</span>
+
+                    <div class="card-footer">
+                      <div class="author">
+                        <a href="javascript:void(0)">
+                          <img
+                            src="assets/img/contactus.jpg"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/contactus.jpg"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/contactus.jpg"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                        </a>
+                      </div>
+                      <div class="stats">
+                        レビュー{{post.reviews.length}}件/5件
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
@@ -90,7 +111,40 @@
                   <p class="card-description">{{post.description}} <br /></p>
                   <div class="card-footer text-right">
                     <hr />
-                    <span> レビュー5件/5件</span>
+                    <div class="card-footer">
+                      <div class="author">
+                        <a href="javascript:void(0)">
+                          <img
+                            src="assets/img/contactus.jpg"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/contactus.jpg"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/contactus.jpg"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/contactus.jpg"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/contactus.jpg"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                        </a>
+                      </div>
+                      <div class="stats">
+                        レビュー5件/5件
+                      </div>
+                    </div>
                   </div>
                 </div>
               </a>
