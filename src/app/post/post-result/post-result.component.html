@@ -89,16 +89,20 @@
         <div class="media">
           <div class="media-body">
             <h5 class="media-heading text-muted">
-              {{review.age}}歳{{review.gender}} {{review.job}}
+              <a class="pull-left" href="javascript:void(0)">
+                <div class="avatar">
+                  <img
+                    class="media-object"
+                    alt="64x64"
+                    src="assets/img/faces/2.png"
+                  />
+                </div>
+              </a>
+              <span class="line36"
+                >{{review.age}}歳{{review.gender}} {{review.job}}</span
+              >
             </h5>
-            <div class="pull-right">
-              <a
-                href="javascript:void(0)"
-                class="btn btn-info btn-outline-default pull-right"
-              >
-                <i class="fa fa-thumbs-up"></i> ベストレビュー</a
-              >
-            </div>
+
             <p>一番の問題点について</p>
             <div *ngIf="review.rating === 4">
               <ngb-progressbar
@@ -146,6 +150,14 @@
             <h5 class="card-title">
               {{review.improvement}}
             </h5>
+            <div class="pull-right">
+              <a
+                href="javascript:void(0)"
+                class="btn btn-info btn-outline-default pull-right"
+              >
+                <i class="fa fa-thumbs-up"></i> ベストレビュー</a
+              >
+            </div>
           </div>
         </div>
       </div>

@@ -45,8 +45,9 @@
       </div>
     </div>
     <div class="space-top"></div>
-    <div *ngIf="post.reviews.length < 5" class="text-center">
+    <div *ngIf="post.reviews.length < 5" class="row">
       <app-review
+        class="col-md-8 ml-auto mr-auto"
         [postId]="post._id"
         (reviewSubmitted)="reviewHandler($event)"
       ></app-review>
