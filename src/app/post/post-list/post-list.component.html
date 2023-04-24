@@ -1,0 +1,92 @@
+<div class="main">
+  <div class="container">
+    <div class="space-70"></div>
+    <div class="text-center">
+      <a
+        class="btn btn-magnify btn-round btn-outline-primary btn-lg"
+        [routerLink]="['/users/mypage']"
+        >マイページへ戻る</a
+      >
+    </div>
+
+    <div class="space-top"></div>
+    <div class="row">
+      <div class="col-md-8 ml-auto mr-auto">
+        <div class="media-area">
+          <h2 class="title text-center">みんなのレビュー依頼一覧</h2>
+          <div class="space-top"></div>
+          <div class="row" *ngIf="posts && posts.length > 0">
+            <div
+              class="col-md-12 ml-auto mr-auto"
+              *ngFor="let post of posts; let i = index"
+            >
+              <a
+                class="card card-blog"
+                *ngIf="post"
+                routerLink="/post/detail/{{ post._id }}"
+              >
+                <div class="card-body">
+                  <div class="author">
+                    <span
+                      class="badge badge-pill badge-primary mr-1"
+                      *ngIf="post.status === 'active'"
+                      >レビュー募集中</span
+                    >
+                    <span
+                      class="badge badge-pill badge-success mr-1"
+                      *ngIf="post.status === 'done'"
+                      >完了</span
+                    >
+                  </div>
+
+                  <h5 class="card-title">
+                    <a href="javascript:void(0)">{{post.postname}}</a>
+                  </h5>
+                  <p class="card-description">{{post.description}} <br /></p>
+                  <hr />
+                  <div class="card-footer">
+                    <div class="author">
+                      <a href="javascript:void(0)">
+                        <img
+                          src="assets/img/contactus.jpg"
+                          alt="..."
+                          class="avatar img-raised"
+                        />
+                        <img
+                          src="assets/img/contactus.jpg"
+                          alt="..."
+                          class="avatar img-raised"
+                        />
+                        <img
+                          src="assets/img/contactus.jpg"
+                          alt="..."
+                          class="avatar img-raised"
+                        />
+                      </a>
+                    </div>
+                    <div class="stats">
+                      <div *ngIf="post.reviews && post.reviews.length>0">
+                        レビュー {{post.reviews.length}}件/5件
+                      </div>
+                      <div *ngIf="post.reviews && post.reviews.length===0">
+                        レビュー 0件/5件
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="space-top"></div>
+          <div class="text-center">
+            <a
+              class="btn btn-magnify btn-round btn-outline-primary btn-lg"
+              [routerLink]="['/users/mypage']"
+              >マイページへ戻る</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -16,7 +16,7 @@ function sendEmailTo(sendTo, sendMsg, bookingData) {
     msg = {
       to: sendTo,
       from: {
-        name: "レッスンカレンダー",
+        name: "本音レビュー",
         email: "info@aeru.me",
       },
       subject: bookingData.title + "さんの予約が変更されました",
@@ -30,7 +30,7 @@ function sendEmailTo(sendTo, sendMsg, bookingData) {
         moment(bookingData.start).tz("Asia/Tokyo").format("MM月DD日 HH:mm〜") +
         "\n\n" +
         "に予約が変更されました。\n" +
-        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+        "このメッセージは「本音レビュー」自動配信メールです。",
     };
   } else {
     return res.status(422).send({
@@ -130,8 +130,8 @@ exports.updateBooking = async (req, res) => {
         { _id: bookingData.teacher },
         { $push: { notifications: savedNotification } }
       );
-      const foundTeacher = await User.findOne({ _id: bookingData.teacher });
-      sendEmailTo(foundTeacher.email, LESSON_CHANGED, bookingData);
+      const foundWorker = await User.findOne({ _id: bookingData.teacher });
+      sendEmailTo(foundWorker.email, LESSON_CHANGED, bookingData);
     }
     return res.json({ status: "updated" });
   } catch (err) {
@@ -186,7 +186,7 @@ exports.deleteBooking = function (req, res) {
         { $pull: { bookings: bookingId } },
         { returnOriginal: false },
         () => {}
-      ); // Delete Booking from Teacher
+      ); // Delete Booking from Worker
 
       return res.json({ status: "deleted" });
     });

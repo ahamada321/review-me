@@ -18,7 +18,7 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
     msg = {
       to: sendTo,
       from: {
-        name: "レッスンカレンダー",
+        name: "本音レビュー",
         email: "info@aeru.me",
       },
       subject: "先生から担当承認リクエストが来ています",
@@ -29,25 +29,25 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
         "/#/student/notification" +
         ">こちらからログイン</a>して承認ボタンを押してください。</p>" +
         "<br>" +
-        "<p>このメッセージは「レッスンカレンダー」自動配信メールです。</p>",
+        "<p>このメッセージは「本音レビュー」自動配信メールです。</p>",
     };
   } else if (sendMsg === REQUEST_ACCEPTED) {
     msg = {
       to: sendTo,
       from: {
-        name: "レッスンカレンダー",
+        name: "本音レビュー",
         email: "info@aeru.me",
       },
       subject: "生徒がリクエストを承認しました",
       text:
         "リクエストを送った生徒から予約を受けられるようになりました。\n\n" +
-        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+        "このメッセージは「本音レビュー」自動配信メールです。",
     };
   } else if (sendMsg === REMOVED_RECEIVED) {
     msg = {
       to: sendTo,
       from: {
-        name: "レッスンカレンダー",
+        name: "本音レビュー",
         email: "info@aeru.me",
       },
       subject: userData.username + "先生が担当から外れました",
@@ -55,7 +55,7 @@ function sendEmailTo(sendTo, sendMsg, hostname, userData) {
         userData.username +
         "先生が担当から外れました。\n" +
         "何かの間違いの場合は先生に直接ご確認ください。\n\n" +
-        "このメッセージは「レッスンカレンダー」自動配信メールです。",
+        "このメッセージは「本音レビュー」自動配信メールです。",
     };
   } else {
     return res.status(422).send({
@@ -127,7 +127,7 @@ exports.searchUsers = function (req, res) {
             $regex: searchWords,
             $options: "i",
           },
-          userRole: "Student",
+          userRole: "User",
         },
       },
     ],
@@ -142,14 +142,14 @@ exports.addUserRequest = async (req, res) => {
     const teacherId = res.locals.user.id;
     const studentId = req.body._id;
     const studentEmail = req.body.email;
-    const foundTeacher = await User.findOne({
+    const foundWorker = await User.findOne({
       _id: teacherId,
       $or: [
-        { pendingStudents: { $in: [studentId] } },
+        { pendingUsers: { $in: [studentId] } },
         { students: { $in: [studentId] } },
       ],
     });
-    if (foundTeacher) {
+    if (foundWorker) {
       return res.status(422).send({
         errors: [
           {
@@ -162,11 +162,11 @@ exports.addUserRequest = async (req, res) => {
     }
     await User.findOneAndUpdate(
       { _id: teacherId },
-      { $push: { pendingStudents: studentId } }
+      { $push: { pendingUsers: studentId } }
     );
     await User.findOneAndUpdate(
       { _id: studentId },
-      { $push: { pendingTeachers: teacherId } }
+      { $push: { pendingWorkers: teacherId } }
     );
     await sendEmailTo(studentEmail, REQUEST_RECEIVED, req.hostname);
 
@@ -186,11 +186,11 @@ exports.acceptAddUserRequest = async (req, res) => {
       _id: teacherId,
       students: { $in: [studentId] },
     },
-    async (err, foundTeacher) => {
+    async (err, foundWorker) => {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
-      if (foundTeacher) {
+      if (foundWorker) {
         return res.status(422).send({
           errors: [
             {
@@ -204,14 +204,14 @@ exports.acceptAddUserRequest = async (req, res) => {
         await User.findOneAndUpdate(
           { _id: teacherId },
           {
-            $pull: { pendingStudents: studentId },
+            $pull: { pendingUsers: studentId },
             $push: { students: studentId },
           }
         );
         await User.findOneAndUpdate(
           { _id: studentId },
           {
-            $pull: { pendingTeachers: teacherId },
+            $pull: { pendingWorkers: teacherId },
             $push: { teachers: teacherId },
           }
         );
@@ -240,11 +240,11 @@ exports.removeUserRequest = async (req, res) => {
       { $pull: { teachers: teacherId } }
     );
 
-    const foundTeacher = await User.findById(teacherId);
+    const foundWorker = await User.findById(teacherId);
 
     const newNotification = new Notification({
-      title: foundTeacher.username + "先生が担当から外れました",
-      description: foundTeacher.username + "先生が担当から外れました",
+      title: foundWorker.username + "先生が担当から外れました",
+      description: foundWorker.username + "先生が担当から外れました",
       user: studentId,
     });
 
@@ -254,22 +254,22 @@ exports.removeUserRequest = async (req, res) => {
       { _id: studentId },
       { $push: { notifications: savedNotification } }
     );
-    sendEmailTo(studentEmail, REMOVED_RECEIVED, req.hostname, foundTeacher);
+    sendEmailTo(studentEmail, REMOVED_RECEIVED, req.hostname, foundWorker);
     return res.json({ status: "success" });
   } catch (err) {
     return res.status(422).send({ errors: normalizeErrors(err.errors) });
   }
 };
 
-exports.getMyStudents = function (req, res) {
+exports.getMyUsers = function (req, res) {
   const teacherId = res.locals.user.id;
   User.findById(teacherId)
     .populate("students", "-password")
-    .exec(function (err, foundTeacher) {
+    .exec(function (err, foundWorker) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });
       }
-      return res.json(foundTeacher.students);
+      return res.json(foundWorker.students);
     });
 };
 
@@ -278,7 +278,7 @@ exports.getUserById = function (req, res) {
   const user = res.locals.user;
 
   User.findOne({ _id: reqUserId })
-    .populate("pendingTeachers teachers bookings")
+    .populate("pendingWorkers teachers bookings")
     .populate({ path: "notifications", options: { sort: { createdAt: -1 } } })
     .exec(function (err, foundUser) {
       if (err) {
@@ -286,7 +286,7 @@ exports.getUserById = function (req, res) {
       }
       foundUser.password = null;
       // if (reqUserId !== user.id) {
-      //   foundUser.pendingTeachers = null;
+      //   foundUser.pendingWorkers = null;
       //   foundUser.teachers = null;
       //   foundUser.notifications = null;
       // }
@@ -463,7 +463,7 @@ exports.updateUser = function (req, res) {
   const reqUserId = req.params.id;
   const user = res.locals.user; // This is logined user infomation.
 
-  // Teacher can change their students course time and lessons per month.
+  // Worker can change their students course time and lessons per month.
   if (reqUserId !== user.id) {
     User.findOneAndUpdate(
       { _id: reqUserId },

@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthModule } from './auth/auth.module';
-import { ContactFormModule } from './contact-form/contact-form.module';
-import { StaticModule } from './statics/statics.module';
-import { StudentModule } from './student/student.module';
-import { TeacherModule } from './teacher/teacher.module';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { AdminModule } from "./admin/admin.module";
+import { AuthModule } from "./auth/auth.module";
+import { ContactFormModule } from "./contact-form/contact-form.module";
+import { PostModule } from "./post/post.module";
+import { StaticModule } from "./statics/statics.module";
+import { UsersModule } from "./users/users.module";
 
 const routes: Routes = [];
 
@@ -17,8 +18,9 @@ const routes: Routes = [];
     StaticModule,
     AuthModule,
     ContactFormModule,
-    StudentModule,
-    TeacherModule,
+    PostModule,
+    UsersModule,
+    AdminModule,
   ],
   exports: [RouterModule],
 })

@@ -1,4 +1,4 @@
-const Rental = require("./routes/controllers/models/rental");
+const Post = require("./routes/controllers/models/post");
 const Booking = require("./routes/controllers/models/booking");
 const User = require("./routes/controllers/models/user");
 const Payment = require("./routes/controllers/models/payment");
@@ -7,11 +7,11 @@ const Data = require("./template-data/db-data.json");
 
 class FakeDb {
   constructor() {
-    this.rentals = Data.rentals;
+    this.posts = Data.posts;
     this.users = Data.users;
   }
   async cleanDb() {
-    await Rental.deleteMany({});
+    await Post.deleteMany({});
     await User.deleteMany({});
     await Booking.deleteMany({});
     await Payment.deleteMany({});
@@ -21,11 +21,11 @@ class FakeDb {
     const user = new User(this.users[0]);
     const user2 = new User(this.users[1]);
     const user3 = new User(this.users[2]);
-    this.rentals.forEach((rental) => {
-      const newRental = new Rental(rental);
-      newRental.user = user3;
-      user.rentals.push(newRental);
-      newRental.save();
+    this.posts.forEach((post) => {
+      const newPost = new Post(post);
+      newPost.user = user3;
+      user.posts.push(newPost);
+      newPost.save();
     });
     user.save();
     user2.save();

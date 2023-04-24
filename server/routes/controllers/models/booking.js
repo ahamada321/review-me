@@ -19,7 +19,7 @@ const bookingSchema = new Schema({
   memo: String,
 
   student: { type: Schema.Types.ObjectId, ref: "User" }, // Patient
-  teacher: { type: Schema.Types.ObjectId, ref: "Rental" }, // Room
+  teacher: { type: Schema.Types.ObjectId, ref: "Post" }, // Room
   status: { type: String, default: "pending" },
   // review: { type: Schema.Types.ObjectId, ref: "Review" },
 });

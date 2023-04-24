@@ -1,7 +1,7 @@
 const { normalizeErrors } = require("./helpers/mongoose");
 const Booking = require("./models/booking");
 const Payment = require("./models/payment");
-const Rental = require("./models/rental");
+const Post = require("./models/post");
 const User = require("./models/user");
 const moment = require("moment-timezone");
 
@@ -28,7 +28,7 @@ exports.getPayments = function (req, res) {
     {
       $group: {
         _id: "$user", // Create document by each user.
-        thisMonthTeacherRevenue: { $sum: "$teacherRevenue" },
+        thisMonthWorkerRevenue: { $sum: "$teacherRevenue" },
       },
     },
     { $sort: { _id: -1 } },
@@ -68,7 +68,7 @@ exports.getUserPayments = function (req, res) {
     createdAt: { $gte: monthStart, $lt: monthEnd },
   })
     .sort({ createdAt: -1 })
-    .populate("user rental", "-password")
+    .populate("user post", "-password")
     .exec(function (err, foundReports) {
       if (err) {
         return res.status(422).send({ errors: normalizeErrors(err.errors) });

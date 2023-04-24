@@ -1,0 +1,168 @@
+<div class="main">
+  <div class="container">
+    <div class="space-top"></div>
+
+    <div class="row">
+      <div class="col-12 col-md-8 ml-auto mr-auto">
+        <div class="media-area">
+          <div class="text-center">
+            <h2 class="title">マイページ</h2>
+            <a
+              class="btn btn-magnify btn-primary btn-round btn-lg"
+              [routerLink]="['/post/create']"
+              >レビュー依頼を作成する</a
+            >
+          </div>
+
+          <div class="space-top"></div>
+          <div class="row" *ngIf="posts && posts.length > 0">
+            <div
+              class="col-md-12 ml-auto mr-auto"
+              *ngFor="let post of posts; let i = index"
+            >
+              <a
+                class="card card-blog"
+                *ngIf="post.status === 'draft'"
+                routerLink="/post/edit/{{ post._id }}"
+              >
+                <div class="card-body">
+                  <div class="author">
+                    <span class="badge badge-pill badge-default mr-1"
+                      >下書き</span
+                    >
+                  </div>
+
+                  <h5 class="card-title">
+                    <a href="javascript:void(0)">{{post.postname}}</a>
+                  </h5>
+                  <p class="card-description">{{post.description}} <br /></p>
+                </div>
+              </a>
+              <a
+                class="card card-blog"
+                *ngIf="post.status === 'pending' || post.status === 'active'"
+                routerLink="/post/detail/{{ post._id }}"
+              >
+                <div class="card-body">
+                  <div class="author">
+                    <span
+                      *ngIf="post.status === 'active'"
+                      class="badge badge-pill badge-primary mr-1"
+                      >レビュー募集中</span
+                    >
+                    <span
+                      *ngIf="post.status === 'pending'"
+                      class="badge badge-pill badge-warning mr-1"
+                      >公開申請中</span
+                    >
+                  </div>
+
+                  <h5 class="card-title">
+                    <a href="javascript:void(0)">{{post.postname}}</a>
+                  </h5>
+                  <p class="card-description">{{post.description}} <br /></p>
+                  <div *ngIf="post.status === 'active'" class="card-footer">
+                    <hr />
+
+                    <div class="card-footer">
+                      <div class="author">
+                        <a href="javascript:void(0)">
+                          <img
+                            src="assets/img/faces/2.png"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/faces/2.png"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/faces/2.png"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                        </a>
+                      </div>
+                      <div class="stats">
+                        <div *ngIf="post.reviews && post.reviews.length>0">
+                          レビュー {{post.reviews.length}}件/5件
+                        </div>
+                        <div *ngIf="post.reviews && post.reviews.length===0">
+                          レビュー 0件/5件
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a
+                class="card card-blog"
+                *ngIf="post.status === 'done'"
+                routerLink="/post/result/{{ post._id }}"
+              >
+                <div class="card-body">
+                  <div class="author">
+                    <span class="badge badge-pill badge-success mr-1"
+                      >完了</span
+                    >
+                  </div>
+
+                  <h5 class="card-title">
+                    <a href="javascript:void(0)">{{post.postname}}</a>
+                  </h5>
+                  <p class="card-description">{{post.description}} <br /></p>
+                  <div class="card-footer text-right">
+                    <hr />
+                    <div class="card-footer">
+                      <div class="author">
+                        <a href="javascript:void(0)">
+                          <img
+                            src="assets/img/faces/2.png"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/faces/2.png"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/faces/2.png"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/faces/2.png"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                          <img
+                            src="assets/img/faces/2.png"
+                            alt="..."
+                            class="avatar img-raised"
+                          />
+                        </a>
+                      </div>
+                      <div class="stats">
+                        レビュー5件/5件
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="space-top"></div>
+          <div class="text-center">
+            <a
+              class="btn btn-magnify btn-round btn-outline-primary btn-lg"
+              [routerLink]="['/post']"
+              >みんなのレビュー依頼を見る</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

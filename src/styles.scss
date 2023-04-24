@@ -40,3 +40,9 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+// アイコンを重ねて表示、白い縁をつける
+.card .author .avatar {
+  margin-right: -8px;
+  border: 2px solid #fff;
+}

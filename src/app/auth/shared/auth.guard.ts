@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router,
-} from '@angular/router';
-import { MyOriginAuthService } from './auth.service';
+} from "@angular/router";
+import { MyOriginAuthService } from "./auth.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -23,15 +23,15 @@ export class AuthGuard implements CanActivate {
       if (this.isLoginOrRegisterdPage()) {
         return true;
       }
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
       return false;
     }
 
     if (this.isLoginOrRegisterdPage()) {
-      if (this.auth.getUserRole() === 'Teacher') {
-        this.router.navigate(['/teacher']);
+      if (this.auth.getUserRole() === "Worker") {
+        this.router.navigate(["/teacher"]);
       } else {
-        this.router.navigate(['/student']);
+        this.router.navigate(["/student"]);
       }
       return false;
     }
@@ -39,7 +39,7 @@ export class AuthGuard implements CanActivate {
   }
 
   private isLoginOrRegisterdPage(): boolean {
-    if (this.url.includes('login') || this.url.includes('register')) {
+    if (this.url.includes("login") || this.url.includes("register")) {
       return true;
     }
     return false;

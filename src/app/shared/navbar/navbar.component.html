@@ -6,19 +6,19 @@
           *ngIf="!auth.isAuthenticated()"
           class="navbar-brand"
           [routerLink]="['/']"
-          >Lesson Calendar</a
+          >本音レビュー</a
         >
         <a
-          *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Teacher'"
+          *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'User'"
           class="navbar-brand"
-          [routerLink]="['/teacher']"
-          >Lesson Calendar</a
+          [routerLink]="['/users']"
+          >本音レビュー</a
         >
         <a
-          *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Student'"
+          *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Worker'"
           class="navbar-brand"
-          [routerLink]="['/student']"
-          >Lesson Calendar</a
+          [routerLink]="['/admin']"
+          >本音レビュー</a
         >
       </div>
       <button
@@ -51,12 +51,12 @@
       </ul>
 
       <ul
-        *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Teacher'"
+        *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Worker'"
         class="navbar-nav ml-auto"
       >
         <li class="nav-item clickable">
           <a class="nav-link" [routerLink]="['/teacher']"
-            ><i class="nc-icon nc-bank"></i> ホーム</a
+            ><i class="nc-icon nc-bank"></i> みんな</a
           >
         </li>
         <li class="nav-item clickable">
@@ -87,17 +87,17 @@
       </ul>
 
       <ul
-        *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'Student'"
+        *ngIf="auth.isAuthenticated() && auth.getUserRole() === 'User'"
         class="navbar-nav ml-auto"
       >
         <li class="nav-item clickable">
-          <a class="nav-link" [routerLink]="['/student']"
-            ><i class="nc-icon nc-bank"></i> ホーム</a
+          <a class="nav-link" [routerLink]="['/student/notification']"
+            ><i class="nc-icon nc-bell-55"></i> 通知</a
           >
         </li>
         <li class="nav-item clickable">
-          <a class="nav-link" [routerLink]="['/student/notification']"
-            ><i class="nc-icon nc-bell-55"></i> 通知</a
+          <a class="nav-link" [routerLink]="['/users/mypage']"
+            ><i class="nc-icon nc-bank"></i> マイページ</a
           >
         </li>
         <li class="nav-item clickable">
@@ -107,7 +107,7 @@
         </li>
         <li class="nav-item clickable">
           <a class="nav-link" (click)="logout()"
-            ><i class="nc-icon nc-user-run"></i> Logout</a
+            ><i class="nc-icon nc-user-run"></i> ログアウト</a
           >
         </li>
         <li class="nav-item">
