@@ -20,19 +20,19 @@
       "username": "田中太郎",
       "email": "a.hamada21@gmail.com",
       "password": "test1",
-      "userRole": "Student",
+      "userRole": "User",
       "bookings": []
     },
     {
       "username": "木村あやか",
       "email": "a.hamada.biz@gmail.com",
       "password": "test1",
-      "userRole": "Teacher",
+      "userRole": "Worker",
       "bookings": []
     },
     {
       "username": "管理者",
-      "email": "test1@gmail.com",
+      "email": "info@aeru.me",
       "password": "test1",
       "userRole": "Owner",
       "bookings": []

@@ -26,7 +26,7 @@ router.post(
   UserCtrl.removeUserRequest
 );
 
-router.get("/mystudents", UserCtrl.authMiddleware, UserCtrl.getMyStudents);
+router.get("/mystudents", UserCtrl.authMiddleware, UserCtrl.getMyUsers);
 
 router.get("/:id", UserCtrl.authMiddleware, UserCtrl.getUserById);
 

@@ -23,7 +23,7 @@ export class UserService {
     return this.http.post("/api/v1/users/remove-request", student);
   }
 
-  public getMyStudents(): Observable<any> {
+  public getMyUsers(): Observable<any> {
     return this.http.get("/api/v1/users/mystudents");
   }
 

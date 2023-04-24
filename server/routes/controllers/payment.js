@@ -28,7 +28,7 @@ exports.getPayments = function (req, res) {
     {
       $group: {
         _id: "$user", // Create document by each user.
-        thisMonthTeacherRevenue: { $sum: "$teacherRevenue" },
+        thisMonthWorkerRevenue: { $sum: "$teacherRevenue" },
       },
     },
     { $sort: { _id: -1 } },

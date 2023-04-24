@@ -1,11 +1,11 @@
 <div *ngIf="auth.isAuthenticated()">
   <div
     class="space-50"
-    *ngIf="auth.getUserRole() === 'Teacher' || auth.getUserRole() === 'Student'"
+    *ngIf="auth.getUserRole() === 'Worker' || auth.getUserRole() === 'User'"
   ></div>
   <div class="bottom_nav">
     <ul
-      *ngIf="auth.getUserRole() === 'Teacher'"
+      *ngIf="auth.getUserRole() === 'Worker'"
       class="bottom_nav_ul row"
       (click)="onClick()"
     >
@@ -43,7 +43,7 @@
       </li>
     </ul>
     <ul
-      *ngIf="auth.getUserRole() === 'Student'"
+      *ngIf="auth.getUserRole() === 'User'"
       class="bottom_nav_ul row"
       (click)="onClick()"
     >

@@ -1,12 +1,12 @@
-import { Schema } from 'mongoose';
-import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { Booking } from '../booking-selecter/shared/booking.model';
-import { Notification } from './notification.model';
+import { Schema } from "mongoose";
+import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
+import { Booking } from "../booking-selecter/shared/booking.model";
+import { Notification } from "./notification.model";
 
 export class User {
   _id?: Schema.Types.ObjectId;
   isVerified?: boolean;
-  userRole: string = 'Student';
+  userRole: string = "User";
 
   username?: string;
   email?: string;
@@ -14,8 +14,8 @@ export class User {
   password?: string;
   passwordConfirmation?: string; // Frontend only!
 
-  pendingTeachers!: User[];
-  pendingStudents!: User[];
+  pendingWorkers!: User[];
+  pendingUsers!: User[];
   notifications!: Notification[];
   teachers!: User[];
   students!: User[];
@@ -27,8 +27,8 @@ export class User {
   affiliateCode?: string;
   stripe?: string;
 
-  // bookingNotificationFromStudent?: boolean;
-  changeBookingNotificationFromStudent?: boolean;
+  // bookingNotificationFromUser?: boolean;
+  changeBookingNotificationFromUser?: boolean;
   newsLetterFromLessonCalendar?: boolean;
 
   mon_enabled?: boolean;
