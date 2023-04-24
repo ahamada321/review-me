@@ -261,42 +261,40 @@ exports.removeUserRequest = async (req, res) => {
   }
 };
 
-exports.getMyUsers = function (req, res) {
+exports.getMyUsers = async function (req, res) {
   const teacherId = res.locals.user.id;
-  User.findById(teacherId)
-    .populate("students", "-password")
-    .exec(function (err, foundWorker) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      return res.json(foundWorker.students);
-    });
+  try {
+    const foundWorker = await User.findById(teacherId).populate(
+      "students",
+      "-password"
+    );
+    return res.json(foundWorker.students);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
-exports.getUserById = function (req, res) {
+exports.getUserById = async function (req, res) {
   const reqUserId = req.params.id;
   const user = res.locals.user;
 
-  User.findOne({ _id: reqUserId })
-    .populate("pendingWorkers teachers bookings")
-    .populate({ path: "notifications", options: { sort: { createdAt: -1 } } })
-    .exec(function (err, foundUser) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-      foundUser.password = null;
-      // if (reqUserId !== user.id) {
-      //   foundUser.pendingWorkers = null;
-      //   foundUser.teachers = null;
-      //   foundUser.notifications = null;
-      // }
+  try {
+    const foundUser = await User.findOne({ _id: reqUserId })
+      .populate("pendingWorkers teachers bookings")
+      .populate({
+        path: "notifications",
+        options: { sort: { createdAt: -1 } },
+      });
 
-      return res.json(foundUser);
-    });
+    foundUser.password = null;
+    return res.json(foundUser);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
 //Reffering from ./routes/user.js
-exports.auth = function (req, res) {
+exports.auth = async function (req, res) {
   const { email, password } = req.body;
 
   if (!password || !email) {
@@ -310,10 +308,8 @@ exports.auth = function (req, res) {
     });
   }
 
-  User.findOne({ email }, function (err, foundUser) {
-    if (err) {
-      return res.status(422).send({ errors: normalizeErrors(err.errors) });
-    }
+  try {
+    const foundUser = await User.findOne({ email });
     if (!foundUser) {
       return res.status(422).send({
         errors: [
@@ -331,33 +327,30 @@ exports.auth = function (req, res) {
         ],
       });
     }
-
-    if (foundUser.hasSamePassword(password)) {
-      User.updateOne(
-        { _id: foundUser.id },
-        { lastLogin: Date.now() },
-        () => {}
-      );
-
-      const token = jwt.sign(
-        {
-          userId: foundUser.id,
-          username: foundUser.username,
-          userRole: foundUser.userRole,
-        },
-        config.SECRET,
-        { expiresIn: "12h" }
-      ); // return JWT token
-
-      return res.json(token);
-    } else {
+    if (!foundUser.hasSamePassword(password)) {
       return res.status(422).send({
         errors: [
           { title: "Invalid!", detail: "IDまたはパスワードが間違っています" },
         ],
       });
     }
-  });
+
+    await User.updateOne({ _id: foundUser.id }, { lastLogin: Date.now() });
+
+    const token = jwt.sign(
+      {
+        userId: foundUser.id,
+        username: foundUser.username,
+        userRole: foundUser.userRole,
+      },
+      config.SECRET,
+      { expiresIn: "12h" }
+    ); // return JWT token
+
+    return res.json(token);
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
+  }
 };
 
 exports.register = function (req, res) {
@@ -573,25 +566,22 @@ function notAuthorized(res) {
   });
 }
 
-exports.authMiddleware = function (req, res, next) {
+exports.authMiddleware = async function (req, res, next) {
   const token = req.headers.authorization;
 
-  if (token) {
-    const user = parseToken(token);
-
-    User.findById(user.userId, function (err, user) {
-      if (err) {
-        return res.status(422).send({ errors: normalizeErrors(err.errors) });
-      }
-
-      if (user) {
-        res.locals.user = user;
-        next();
-      } else {
-        return notAuthorized(res);
-      }
-    });
-  } else {
+  if (!token) {
     return notAuthorized(res);
+  }
+
+  const user = parseToken(token);
+  try {
+    const foundUser = await User.findById(user.userId);
+    if (!foundUser) {
+      return notAuthorized(res);
+    }
+    res.locals.user = foundUser;
+    next();
+  } catch (err) {
+    return res.status(422).send({ errors: normalizeErrors(err.errors) });
   }
 };
